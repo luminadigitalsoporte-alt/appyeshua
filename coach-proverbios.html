@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach de Proverbios · Yeshua</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f7f3ea;
+    --cream-dark: #ede8db;
+    --green-deep: #2e4a1e;
+    --green-mid: #3b6d11;
+    --green-accent: #6daa52;
+    --green-light: #eaf3de;
+    --green-text: #27500a;
+    --gold: #b8860b;
+    --text-primary: #2a2a1e;
+    --text-secondary: #5a5a42;
+    --text-muted: #8a9a70;
+    --border: #ddd8cc;
+    --white: #ffffff;
+  }
+
+  body {
+    background: #e8e4d8;
+    font-family: Georgia, 'Times New Roman', serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px 16px 40px;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 390px;
+    background: var(--cream);
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  }
+
+  /* TOP NAV */
+  .top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 12px;
+    background: var(--cream);
+    border-bottom: 0.5px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-back {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--green-light);
+    border: none;
+    color: var(--green-mid);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-center { text-align: center; }
+  .nav-title {
+    font-family: Georgia, serif;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: normal;
+    letter-spacing: 0.02em;
+  }
+  .nav-sub {
+    font-family: sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .nav-prog {
+    font-family: sans-serif;
+    font-size: 12px;
+    color: var(--green-mid);
+    font-weight: 500;
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--green-deep);
+    padding: 24px 22px 22px;
+  }
+  .hero-eyebrow {
+    font-family: sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green-accent);
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-family: Georgia, serif;
+    font-size: 24px;
+    color: #f0ece0;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    font-weight: normal;
+  }
+  .verse-block {
+    background: #1e3314;
+    border-left: 3px solid var(--green-accent);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px;
+  }
+  .verse-text {
+    font-size: 14px;
+    color: #c8ddb8;
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .verse-ref {
+    font-family: sans-serif;
+    font-size: 10px;
+    color: var(--green-accent);
+    margin-top: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* READ CTA */
+  .read-cta {
+    margin: 16px 18px 0;
+    background: var(--white);
+    border: 0.5px solid #c8ddb0;
+    border-radius: 12px;
+    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .read-cta:hover { background: #f0fae8; }
+  .read-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    color: var(--green-mid);
+    font-family: sans-serif;
+  }
+  .read-copy { flex: 1; }
+  .read-label {
+    font-family: sans-serif;
+    font-size: 10px;
+    color: var(--green-mid);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .read-text {
+    font-family: sans-serif;
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+  .read-arrow { color: var(--green-accent); font-size: 18px; font-family: sans-serif; }
+
+  /* CONTENT */
+  .content { padding: 22px 20px 0; background: var(--cream); }
+
+  .section-eyebrow {
+    font-family: sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .prose {
+    font-size: 14.5px;
+    color: var(--text-primary);
+    line-height: 1.85;
+    margin-bottom: 16px;
+  }
+  .prose p { margin-bottom: 12px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose em { font-style: italic; color: var(--green-mid); }
+
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 22px 0;
+  }
+
+  /* WRITE BLOCKS */
+  .write-block { margin-bottom: 18px; }
+  .write-prompt {
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.65;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .write-area {
+    width: 100%;
+    background: var(--white);
+    border: 0.5px solid #ccc9bc;
+    border-radius: 10px;
+    padding: 13px 15px;
+    font-size: 13.5px;
+    color: var(--text-primary);
+    font-family: Georgia, serif;
+    line-height: 1.7;
+    resize: none;
+    min-height: 90px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .write-area:focus { border-color: var(--green-accent); }
+  .write-area::placeholder { color: #c0bca8; font-style: italic; }
+  .save-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .saved-msg {
+    font-family: sans-serif;
+    font-size: 11px;
+    color: var(--green-accent);
+    display: none;
+  }
+  .saved-msg.show { display: block; }
+  .btn-save {
+    background: var(--green-deep);
+    color: #c8ddb8;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-family: sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn-save:hover { opacity: 0.85; }
+
+  /* ACTION */
+  .action-box {
+    background: var(--green-light);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .action-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--green-mid);
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    font-size: 12px;
+    color: transparent;
+    background: transparent;
+    font-family: sans-serif;
+  }
+  .action-check.done {
+    background: var(--green-mid);
+    border-color: var(--green-mid);
+    color: white;
+  }
+  .action-body { flex: 1; }
+  .action-label {
+    font-family: sans-serif;
+    font-size: 10px;
+    color: var(--green-mid);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .action-text {
+    font-family: sans-serif;
+    font-size: 13px;
+    color: var(--green-text);
+    line-height: 1.6;
+  }
+  .action-write {
+    width: 100%;
+    background: #d8edcc;
+    border: 0.5px solid #a8c88a;
+    border-radius: 9px;
+    padding: 11px 13px;
+    font-size: 13px;
+    color: var(--green-text);
+    font-family: Georgia, serif;
+    line-height: 1.65;
+    resize: none;
+    min-height: 65px;
+    margin-top: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .action-write:focus { border-color: var(--green-mid); }
+  .action-write::placeholder { color: #8ab870; font-style: italic; }
+
+  /* PRAYER */
+  .prayer-box {
+    background: var(--green-deep);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 24px;
+  }
+  .prayer-label {
+    font-family: sans-serif;
+    font-size: 10px;
+    color: var(--green-accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .prayer-text {
+    font-size: 14px;
+    color: #c8ddb8;
+    line-height: 1.8;
+    font-style: italic;
+  }
+
+  /* PROGRESS */
+  .progress-bar {
+    padding: 14px 20px 12px;
+    background: var(--cream);
+    border-top: 0.5px solid var(--border);
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-family: sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 7px;
+  }
+  .prog-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+  .prog-fill {
+    height: 4px;
+    background: var(--green-accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* DAY SELECTOR */
+  .day-selector {
+    padding: 14px 20px;
+    background: var(--cream-dark);
+    border-top: 0.5px solid var(--border);
+  }
+  .day-selector-label {
+    font-family: sans-serif;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+  }
+  .day-btn {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    border: none;
+    background: var(--cream);
+    font-family: sans-serif;
+    font-size: 11px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .day-btn:hover { background: var(--green-light); color: var(--green-mid); }
+  .day-btn.active {
+    background: var(--green-deep);
+    color: #c8ddb8;
+    font-weight: 500;
+  }
+  .day-btn.completed {
+    background: var(--green-light);
+    color: var(--green-mid);
+  }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    background: var(--cream);
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    padding: 10px 0 8px;
+  }
+  .bnav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-family: sans-serif;
+    font-size: 9px;
+    color: #b0aa94;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+  .bnav-item.active { color: var(--green-mid); }
+  .bnav-icon { font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <div class="top-nav">
+    <button class="nav-back" onclick="goBack()">←</button>
+    <div class="nav-center">
+      <div class="nav-title">Coach de Proverbios</div>
+      <div class="nav-sub">Sabiduría diaria</div>
+    </div>
+    <div class="nav-prog" id="nav-prog">1 / 31</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow" id="hero-eyebrow">Proverbios 1 · NTV</p>
+    <h1 class="hero-title" id="hero-title">El día que decidiste escuchar</h1>
+    <div class="verse-block">
+      <p class="verse-text" id="verse-text">"El temor del Señor es la base del verdadero conocimiento, pero los necios desprecian la sabiduría y la disciplina."</p>
+      <p class="verse-ref" id="verse-ref">Proverbios 1:7 · NTV</p>
+    </div>
+  </div>
+
+  <!-- READ CTA -->
+  <div style="background: var(--cream); padding-bottom: 2px;">
+    <div class="read-cta" id="read-cta" onclick="openBible()">
+      <div class="read-icon">📖</div>
+      <div class="read-copy">
+        <p class="read-label">Antes de comenzar</p>
+        <p class="read-text" id="read-text">Lee Proverbios 1 completo</p>
+      </div>
+      <span class="read-arrow">→</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <div style="height: 4px;"></div>
+    <p class="section-eyebrow">Reflexión de hoy</p>
+    <div class="prose" id="prose-content"></div>
+
+    <div class="divider"></div>
+    <p class="section-eyebrow">Para reflexionar</p>
+
+    <div class="write-block">
+      <p class="write-prompt" id="q1-prompt"></p>
+      <textarea class="write-area" id="q1" placeholder="Escribe aquí lo que Dios te habla..."></textarea>
+      <div class="save-row">
+        <span class="saved-msg" id="badge1">✓ Guardado</span>
+        <button class="btn-save" onclick="guardar(1)">Guardar</button>
+      </div>
+    </div>
+
+    <div class="write-block">
+      <p class="write-prompt" id="q2-prompt"></p>
+      <textarea class="write-area" id="q2" placeholder="Escribe aquí con honestidad..."></textarea>
+      <div class="save-row">
+        <span class="saved-msg" id="badge2">✓ Guardado</span>
+        <button class="btn-save" onclick="guardar(2)">Guardar</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <p class="section-eyebrow">Acción de hoy</p>
+    <div class="action-box">
+      <div class="action-check" id="action-check" onclick="toggleCheck()"></div>
+      <div class="action-body">
+        <p class="action-label">Haz esto hoy</p>
+        <p class="action-text" id="action-text"></p>
+        <textarea class="action-write" id="q3" placeholder="Escribe tu compromiso aquí..."></textarea>
+        <div class="save-row" style="margin-top:8px;">
+          <span class="saved-msg" id="badge3">✓ Guardado</span>
+          <button class="btn-save" style="background:var(--green-mid);" onclick="guardar(3)">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <p class="section-eyebrow">Oración</p>
+    <div class="prayer-box">
+      <p class="prayer-label">Oremos juntos</p>
+      <p class="prayer-text" id="prayer-text"></p>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="progress-info">
+      <span>Tu progreso</span>
+      <span id="prog-label">Día 1 de 31</span>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="prog-fill" style="width:3.2%"></div>
+    </div>
+  </div>
+
+  <!-- DAY SELECTOR -->
+  <div class="day-selector">
+    <p class="day-selector-label">Ir a otro día</p>
+    <div class="days-grid" id="days-grid"></div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <button class="bnav-item" onclick="goBack()"><span class="bnav-icon">⌂</span><span>Inicio</span></button>
+    <button class="bnav-item active"><span class="bnav-icon">✦</span><span>Camino</span></button>
+    <button class="bnav-item"><span class="bnav-icon">▣</span><span>Biblia</span></button>
+    <button class="bnav-item"><span class="bnav-icon">✎</span><span>Diario</span></button>
+    <button class="bnav-item"><span class="bnav-icon">◯</span><span>Perfil</span></button>
+  </div>
+
+</div>
+
+<script>
+const DAYS = [
+  {
+    cap: 1, title: "El día que decidiste escuchar",
+    verse: '"El temor del Señor es la base del verdadero conocimiento, pero los necios desprecian la sabiduría y la disciplina."',
+    ref: "Proverbios 1:7 · NTV",
+    prose: `<p>Antes de leer esta reflexión, abre tu Biblia y lee Proverbios 1 completo. Son 33 versículos. Léelos como si fueran una carta. Porque eso es exactamente lo que son.</p>
+<p>Proverbios 1 comienza con un padre hablándole a su hijo. No es un sermón, no es una lista de reglas. Es una voz que dice: <em>hijo mío, escucha.</em> Una voz que sabe lo que viene adelante y que quiere ahorrarte el dolor de aprenderlo todo a golpes.</p>
+<p>Lo primero que le dice no es "sé bueno". Lo primero es: <em>el temor del Señor es donde todo comienza.</em> No el miedo a un Dios severo — sino el reconocimiento de que hay alguien más sabio que tú. Eso es el temor del Señor. No es encogerse. Es inclinarse.</p>
+<p>Hay un momento en Proverbios 1 que pocas veces se nota: la Sabiduría sale a las calles. Grita en las plazas, en las esquinas. <em>¿Hasta cuándo seguirán ignorándome?</em> La sabiduría está disponible. El problema nunca es el acceso — es la disposición.</p>
+<p>Hoy es el día uno. Llegaste aquí porque algo en ti quiere escuchar. Eso ya es el primer movimiento de la sabiduría.</p>`,
+    q1: "¿Qué fue lo que más te habló al leer Proverbios 1 hoy?",
+    q2: "¿En qué área de tu vida sientes que la Sabiduría ha estado gritando en las calles y tú has seguido caminando?",
+    action: "Escribe en una frase cuál es el área de tu vida donde más necesitas sabiduría este mes. Guárdala. Volverás a ella al día 31.",
+    prayer: "Señor, hoy elijo escucharte. No quiero ser de los que oyen tu voz y siguen caminando. Abre mis oídos durante estos 31 días. Muéstrame lo que necesito ver, aunque sea incómodo. Quiero crecer en tu sabiduría, no en la mía. Amén."
+  },
+  {
+    cap: 2, title: "El corazón que busca de verdad",
+    verse: '"Clama por inteligencia y pide entendimiento. Búscalos como si fueran plata, como si fueran tesoros escondidos."',
+    ref: "Proverbios 2:3-4 · NTV",
+    prose: `<p>Lee Proverbios 2 completo antes de continuar. Es un capítulo de condiciones y promesas — si haces esto, entonces recibirás aquello.</p>
+<p>Proverbios 2 tiene la estructura de una ecuación. Si recibes mis palabras, si las guardas, si clamas por entendimiento, si lo buscas como plata, si lo buscas como tesoro — <em>entonces</em> entenderás el temor del Señor.</p>
+<p>La imagen es poderosa: buscarla como tesoro escondido. Nadie busca un tesoro a medias. El que busca un tesoro mueve cada piedra. Vuelve al día siguiente. No se rinde. Esa es la actitud que Dios honra con su sabiduría.</p>
+<p>Pero el capítulo revela algo hermoso: Dios no está escondiendo la sabiduría para ver quién la encuentra. Está esperando a los que la buscan de verdad para derramarla sobre ellos. Es un Padre que quiere dar, no un maestro que quiere reprobar.</p>
+<p>El problema no es que Dios no quiera darnos sabiduría. El problema es que muchas veces la pedimos de pasada, sin urgencia real, esperando que llegue sola.</p>`,
+    q1: "¿Estás buscando la sabiduría de Dios con la misma energía con que buscas otras cosas importantes en tu vida?",
+    q2: "¿Qué tendría que cambiar en tu rutina diaria para buscarla como un tesoro?",
+    action: "Aparta 10 minutos hoy — sin teléfono, sin ruido — solo para pedirle a Dios sabiduría en el área que escribiste ayer. Dile específicamente lo que necesitas entender.",
+    prayer: "Padre, quiero ser de los que te buscan de verdad. Perdona las veces que te he pedido sabiduría de pasada, sin hambre real. Hoy te busco como un tesoro. Dame el entendimiento que solo tú puedes dar. Amén."
+  },
+  {
+    cap: 3, title: "Confía aunque no entiendas",
+    verse: '"Confía en el Señor con todo tu corazón; no dependas de tu propio entendimiento. Busca su voluntad en todo lo que hagas, y él te mostrará cuál camino tomar."',
+    ref: "Proverbios 3:5-6 · NTV",
+    prose: `<p>Lee Proverbios 3 completo. Es uno de los capítulos más ricos de todo el libro — cada párrafo contiene una instrucción y una promesa.</p>
+<p>"Confía en el Señor con todo tu corazón." No con parte. No con la parte que ya entiendes. Con todo. Incluyendo la parte que todavía duele, la que no entiende por qué pasó lo que pasó.</p>
+<p>"No dependas de tu propio entendimiento." Esto no significa apagar el cerebro. Significa reconocer los límites de tu perspectiva. Tú ves desde un punto. Dios ve el cuadro completo. Tu lógica funciona con la información que tienes. Dios trabaja con información que tú no tienes todavía.</p>
+<p>El capítulo también habla de algo que pocas veces conectamos con la sabiduría: la generosidad y el honor a Dios con los primeros frutos. La sabiduría no es solo filosófica — se expresa en cómo manejamos el dinero, cómo tratamos a nuestros vecinos.</p>
+<p>Y termina con una imagen hermosa: Dios disciplina al que ama. La corrección de Dios no es señal de abandono. Es señal de que todavía está en el proceso contigo.</p>`,
+    q1: "¿Hay alguna situación donde estás dependiendo más de tu propio entendimiento que de la dirección de Dios?",
+    q2: "¿Qué te impide confiarle esa área completamente a Él?",
+    action: "Identifica una decisión que tienes pendiente. Antes de actuar, escríbela aquí y ora específicamente pidiéndole a Dios que te muestre el camino — y espera antes de decidir.",
+    prayer: "Señor, me cuesta confiar en lo que no entiendo. Pero hoy elijo darte esa área donde mi lógica se agota. Tú ves lo que yo no veo. Guía mis pasos, aunque no me muestres todos los detalles. Amén."
+  },
+  {
+    cap: 4, title: "Guarda tu corazón sobre todas las cosas",
+    verse: '"Sobre toda cosa guardada, guarda tu corazón; porque de él mana la vida."',
+    ref: "Proverbios 4:23 · NTV",
+    prose: `<p>Lee Proverbios 4 completo. Es el capítulo donde el padre le habla al hijo con más urgencia — casi con desesperación amorosa.</p>
+<p>El padre recuerda cuando su propio padre le enseñó sabiduría. Algo pasa de generación en generación. La sabiduría no es solo algo que aprendes — es algo que recibes y luego tienes la responsabilidad de dar.</p>
+<p>Pero la instrucción más importante llega al final: <em>guarda tu corazón sobre todas las cosas, porque de él mana la vida.</em> En la Biblia, el corazón es el centro de la persona — el lugar desde donde nacen las decisiones, los deseos, las palabras, las acciones.</p>
+<p>Por eso guardar el corazón es tan urgente. Un corazón descuidado produce vida descuidada. Un corazón herido y sin sanar produce decisiones heridas. Un corazón lleno de resentimiento produce palabras de resentimiento aunque intentes esconderlas.</p>
+<p>¿Qué estás dejando entrar a tu corazón? ¿Qué conversaciones, qué imágenes, qué voces, qué hábitos? Todo eso está formando algo en ti, aunque no lo notes.</p>`,
+    q1: "¿Qué estás dejando entrar a tu corazón regularmente que está drenando tu vida en lugar de alimentarla?",
+    q2: "¿Qué necesitas proteger con más intención esta semana?",
+    action: "Identifica una cosa que estás consumiendo regularmente — una red social, un tipo de conversación, un hábito — que no está alimentando tu corazón. Decide hoy reducirla o eliminarla.",
+    prayer: "Señor, examina mi corazón. Muéstrame lo que he dejado entrar que no debería estar ahí. Ayúdame a guardar con intención lo más importante que tengo: el lugar desde donde vivo. Amén."
+  },
+  {
+    cap: 5, title: "El agua de tu propio pozo",
+    verse: '"Bebe el agua de tu propio pozo; comparte tu amor únicamente con tu esposa."',
+    ref: "Proverbios 5:15 · NTV",
+    prose: `<p>Lee Proverbios 5 completo. Es un capítulo directo, sin rodeos, sobre una de las áreas donde más se pierde la sabiduría: la sexualidad y el matrimonio.</p>
+<p>El padre en Proverbios 5 le habla al hijo con claridad sobre algo que muchos padres evitan. No con vergüenza, no con religiosidad vacía — sino con la honestidad de alguien que sabe lo que está en juego.</p>
+<p>Y luego llega la imagen del pozo. <em>Bebe el agua de tu propio pozo.</em> Es una imagen de intimidad, de exclusividad, de plenitud. Dios no diseñó la sexualidad como algo sucio — la diseñó como una fuente de vida, de gozo, de conexión profunda. Pero solo funciona dentro del pacto matrimonial.</p>
+<p>Si estás soltero: este capítulo te llama a proteger tu corazón con intención, porque lo que cultivas hoy forma la persona que serás mañana. Si estás casado: es una invitación a reinvertir en tu propio pozo. A elegir a tu cónyuge de nuevo, con intención, cada día.</p>`,
+    q1: "¿En qué áreas de tu vida estás buscando satisfacción fuera de los lugares que Dios diseñó para dártela?",
+    q2: "¿Qué podrías hacer para invertir más en lo que ya tienes?",
+    action: "Si estás casado: haz hoy un acto intencional de amor hacia tu cónyuge — no por obligación, sino por elección. Si estás soltero: escribe una oración pidiendo a Dios que guarde tu corazón.",
+    prayer: "Señor, gracias porque diseñaste la intimidad como algo bueno. Perdóname por las veces que he buscado fuera de tus límites lo que solo tú puedes dar. Ayúdame a invertir con intención en lo que me has dado. Amén."
+  },
+  {
+    cap: 6, title: "Las cosas que Dios no puede ignorar",
+    verse: '"Hay seis cosas que el Señor odia, siete que son abominación para él."',
+    ref: "Proverbios 6:16 · NTV",
+    prose: `<p>Lee Proverbios 6 completo. Es un capítulo que mezcla consejos prácticos sobre finanzas, trabajo y carácter con advertencias muy directas sobre lo que destruye.</p>
+<p>Empieza con un consejo financiero urgente: si te comprometiste con algo que no puedes cumplir, humíllate y ve a arreglarlo. No dejes que el orgullo te cueste más de lo que ya has perdido.</p>
+<p>Luego habla del perezoso: ve a la hormiga. Nadie la supervisa. Nadie le da órdenes. Pero prepara en verano lo que necesitará en invierno. La sabiduría actúa antes de que sea urgente.</p>
+<p>Y entonces llega la lista. Las siete cosas que Dios odia: los ojos arrogantes, la lengua mentirosa, las manos que derraman sangre inocente, el corazón que trama maldad, los pies que corren hacia el mal, el testigo falso y el que siembra discordia entre hermanos. La mayoría tienen que ver con cómo tratamos a otras personas.</p>
+<p>La sabiduría sabe reconocer el fuego antes de que queme.</p>`,
+    q1: "Al leer la lista de las siete cosas que Dios odia, ¿hay alguna que resuena contigo — no para condena, sino para honestidad?",
+    q2: "¿Qué necesitas traer a la luz hoy?",
+    action: "Elige una de las áreas del capítulo — finanzas, pereza, tus palabras — y escribe un paso concreto para alinearte mejor con la sabiduría de Dios en esa área esta semana.",
+    prayer: "Señor, no quiero vivir ignorando lo que a ti te importa. Muéstrame las áreas donde estoy siendo descuidado. Dame valentía para corregir el rumbo antes de que las consecuencias sean más grandes. Amén."
+  },
+  {
+    cap: 7, title: "Cuando el camino parece inofensivo",
+    verse: '"Sígueme — le dijo ella. ¡Ven! Y él la siguió de inmediato, como un buey que va al matadero."',
+    ref: "Proverbios 7:18,22 · NTV",
+    prose: `<p>Lee Proverbios 7 completo. Es uno de los capítulos más narrativos — una historia con personajes, escena y desenlace.</p>
+<p>El padre describe una escena que observa desde la ventana. Un joven sin juicio camina por las calles al caer la noche. La mujer lo encuentra, lo llama, lo invita. Sus palabras son perfectas: <em>ya hice mis ofrendas de paz, cumplí mis votos.</em> Hasta tiene coartada espiritual.</p>
+<p>Y el joven la sigue. Como un buey al matadero. Sin saber que le costará la vida.</p>
+<p>Lo que hace poderosa esta historia es el proceso. El joven no cayó de repente. Tomó decisiones pequeñas que lo llevaron ahí: salir de noche, caminar por ese barrio, quedarse a escucharla. Cada decisión sola parecía inofensiva. El conjunto fue fatal.</p>
+<p>Así funciona la tentación. Rara vez llega de frente. Llega de lado, disfrazada, con argumentos razonables. El antídoto no es más reglas. Es más relación: <em>di a la sabiduría: eres mi hermana.</em></p>`,
+    q1: "¿Hay algún camino en tu vida que estás recorriendo pensando que no tiene consecuencias, pero que paso a paso te aleja de donde quieres estar?",
+    q2: "¿Cuáles son las decisiones pequeñas que están construyendo ese patrón?",
+    action: "Identifica una decisión pequeña que has estado tomando repetidamente que podría construir un patrón peligroso. Escríbela con honestidad. ¿Adónde lleva ese camino si continúas?",
+    prayer: "Señor, dame ojos para ver los caminos antes de recorrerlos hasta el final. Que la sabiduría no sea una regla externa sino una voz interna que reconozco y escucho. Guarda mis pasos hoy. Amén."
+  },
+  {
+    cap: 8, title: "La sabiduría estaba ahí desde el principio",
+    verse: '"Yo estaba con Dios desde el principio, desde antes de que comenzara la tierra."',
+    ref: "Proverbios 8:23 · NTV",
+    prose: `<p>Lee Proverbios 8 completo. Es uno de los capítulos más poéticos y teológicamente ricos de toda la Biblia.</p>
+<p>En Proverbios 8, la Sabiduría habla en primera persona. Ella estaba antes de que existiera el mundo. Antes de los mares, antes de las montañas. Cuando Dios trazó los fundamentos de la tierra, la Sabiduría estaba a su lado. <em>Como un maestro artesano</em> — deleitándose en cada acto de la creación.</p>
+<p>Esto significa algo profundo: la sabiduría no es una lista de consejos humanos. Es el principio que subyace a toda la realidad creada. Cuando vives sabiamente, no estás siguiendo reglas arbitrarias — estás viviendo en alineación con la manera en que el universo fue diseñado para funcionar.</p>
+<p>Y la Sabiduría grita en los lugares más altos porque quiere ser encontrada. No hay exclusividad, no hay código secreto. Está disponible para todos los que la buscan.</p>
+<p>Buscar la sabiduría no es una obligación religiosa. Es el camino hacia la vida plena.</p>`,
+    q1: "¿Cómo cambia tu forma de ver la sabiduría saber que es el principio que sostiene toda la creación?",
+    q2: "¿Qué decisión estás tomando ahora que podría estar en desalineación con ese orden?",
+    action: "Lee los versículos 32 al 36 de nuevo, despacio. Escribe lo que significa para ti hoy 'vigilar día tras día' a las puertas de la sabiduría. ¿Qué hábito concreto te acercaría a eso?",
+    prayer: "Señor, gracias porque la sabiduría no está escondida de mí. Está disponible, está llamando, está esperando. Hoy elijo escuchar. Que cada decisión de mi día esté alineada con el orden que tú pusiste en la creación. Amén."
+  },
+  {
+    cap: 9, title: "A la mesa de la sabiduría",
+    verse: '"La sabiduría ha construido su casa; ha tallado sus siete columnas. Ha preparado un gran banquete."',
+    ref: "Proverbios 9:1-2 · NTV",
+    prose: `<p>Lee Proverbios 9 completo. Es un capítulo breve pero lleno de contraste — dos mujeres, dos invitaciones, dos destinos.</p>
+<p>Proverbios 9 presenta dos banquetes. El de la Sabiduría y el de la Necedad. Ambas invitan, ambas llaman, ambas tienen mesa puesta. La diferencia está en lo que sirven y adónde llevan.</p>
+<p>La Sabiduría preparó su casa con cuidado. Su invitación es abierta: <em>vengan todos los que son simples.</em> No pide que lleguen perfectos. Pide que lleguen con hambre.</p>
+<p>La Necedad también llama. Pero lo que ofrece es robado y escondido — presentado como si eso lo hiciera más emocionante. <em>El agua robada es más dulce.</em> Y los que entran sin pensar no saben que están entrando a un lugar de muerte.</p>
+<p>En el medio del capítulo hay una verdad incómoda: si corriges a un burlón, él te odiará. Si instruyes a un sabio, él te amará. La sabiduría se mide también en cómo recibes la corrección.</p>`,
+    q1: "¿A qué 'mesa' te has sentado más esta semana — a la de la sabiduría o a la de la necedad?",
+    q2: "¿Qué voces e influencias están formando tu manera de pensar últimamente?",
+    action: "Haz una lista de las tres fuentes de donde más recibes información esta semana. ¿Te están acercando a la sabiduría o alejando?",
+    prayer: "Señor, quiero sentarme a tu mesa. No a la mesa de lo fácil o lo robado. Ayúdame a elegir bien las voces que me forman. Que mi apetito sea por lo que realmente alimenta. Amén."
+  },
+  {
+    cap: 10, title: "Las manos que trabajan y las palabras que sanan",
+    verse: '"Las manos diligentes gobiernan, mientras que las perezosas son obligadas a servir."',
+    ref: "Proverbios 10:4 · NTV",
+    prose: `<p>Lee Proverbios 10 completo. A partir de aquí, Proverbios cambia de formato — proverbios individuales agrupados por temas. Léelos despacio, uno por uno.</p>
+<p>Dos temas atraviesan todo el capítulo: el trabajo y las palabras. Sobre el trabajo: <em>la mano diligente enriquece, pero la perezosa empobrece.</em> Dios creó un mundo donde el esfuerzo produce fruto. La pereza es una forma de despreciar los dones que Dios puso en nosotros.</p>
+<p>Sobre las palabras: <em>las palabras del justo son plata pura... la boca del necio lleva a la ruina.</em> Las palabras no son neutras. Construyen o destruyen, sanan o hieren, abren puertas o las cierran.</p>
+<p>Y hay una frase que conecta los dos temas: <em>el que habla demasiado, peca; el sabio sabe cuándo guardar silencio.</em> La sabiduría no siempre se expresa hablando. A veces se expresa callando.</p>`,
+    q1: "¿En cuál de los dos temas — trabajo o palabras — necesitas más sabiduría ahora mismo?",
+    q2: "¿Qué proverbio específico de este capítulo te habló más directamente y por qué?",
+    action: "Elige un proverbio del capítulo 10 que te haya impactado y escríbelo en algún lugar visible hoy. Déjalo que te acompañe durante el día.",
+    prayer: "Señor, que mis manos sean diligentes y mis palabras sean plata. Que lo que haga hoy refleje que tengo un Padre que trabaja y que habla con intención. Amén."
+  },
+  {
+    cap: 11, title: "La humildad que abre caminos",
+    verse: '"El orgullo lleva a la deshonra, pero con la humildad viene la sabiduría."',
+    ref: "Proverbios 11:2 · NTV",
+    prose: `<p>Lee Proverbios 11 completo. Es un capítulo sobre integridad, generosidad y el impacto que tenemos en los demás.</p>
+<p>Proverbios 11 abre con la imagen de las balanzas falsas. El comerciante que engañaba a sus clientes mientras sonreía. Dios detesta eso — no porque sea técnicamente ilegal, sino porque revela un corazón doble. La integridad es ser la misma persona en todos los contextos.</p>
+<p>Y luego llega el versículo central: el orgullo lleva a la deshonra, pero con la humildad viene la sabiduría. El orgulloso no puede aprender porque ya cree que sabe. No puede recibir corrección porque cualquier señalamiento lo siente como ataque.</p>
+<p>El humilde, en cambio, llega a cada situación con espacio. Espacio para aprender, para ser corregido, para cambiar de opinión cuando la evidencia lo requiere.</p>
+<p>Y hay una paradoja hermosa: <em>hay quienes dan con liberalidad y reciben más; hay quienes retienen lo que deben dar y terminan en la pobreza.</em> La generosidad no es un riesgo — es una inversión en la economía del reino.</p>`,
+    q1: "¿En qué áreas de tu vida el orgullo te ha impedido aprender o recibir corrección?",
+    q2: "¿Hay alguien que ha intentado señalarte algo que rechazaste sin realmente considerarlo?",
+    action: "Piensa en alguien que te ha dado un consejo o corrección que no recibiste bien. Hoy, con humildad, vuelve a considerar si había algo de verdad en lo que dijeron.",
+    prayer: "Señor, el orgullo es más sutil de lo que creo. Muéstrame dónde está operando en mi vida sin que yo lo vea. Dame la humildad que abre puertas, no el orgullo que las cierra. Amén."
+  },
+  {
+    cap: 12, title: "Vale más ser real que parecer importante",
+    verse: '"Más vale ser un don nadie con un sirviente que hacerse el importante sin tener qué comer."',
+    ref: "Proverbios 12:9 · NTV",
+    prose: `<p>Lee Proverbios 12 completo. Es un capítulo sobre autenticidad, trabajo y la diferencia entre lo que parece y lo que es.</p>
+<p>Proverbios 12 tiene una obsesión: la diferencia entre la apariencia y la realidad. El versículo 9 es casi cómico en su directeza: vale más ser un don nadie con sustancia que hacerse el importante sin tener qué comer.</p>
+<p>Es una crítica a vivir para la imagen. A gastar en lo que se ve para compensar lo que no se tiene. Hoy tiene más herramientas que nunca: las redes sociales nos dan la capacidad de construir una imagen que no corresponde a nuestra realidad.</p>
+<p>La sabiduría nos llama a algo diferente: a construir sustancia, no imagen. A ser ricos en lo que importa, aunque nadie lo vea. A trabajar bien aunque nadie aplauda.</p>
+<p>Y sobre las palabras: <em>las palabras hirientes hieren como espadas, pero la lengua de los sabios trae sanidad.</em> Las mismas palabras pueden herir o sanar. La diferencia no está solo en lo que decimos, sino en desde dónde lo decimos.</p>`,
+    q1: "¿Hay algún área de tu vida donde estás invirtiendo más en la apariencia que en la realidad?",
+    q2: "¿Qué cambiaría si nadie pudiera ver ese área de tu vida?",
+    action: "Haz algo hoy que nadie va a ver pero que construye algo real — en tu trabajo, en tu familia, en tu fe. Que sea un acto de sustancia, no de imagen.",
+    prayer: "Señor, líbrame de vivir para la apariencia. Que prefiera ser real a parecer importante. Construye en mí algo que valga, aunque nadie lo aplauda todavía. Amén."
+  },
+  {
+    cap: 13, title: "El que aprende a recibir instrucción",
+    verse: '"El que se niega a la corrección termina en la pobreza y la vergüenza; el que acepta la crítica es honrado."',
+    ref: "Proverbios 13:18 · NTV",
+    prose: `<p>Lee Proverbios 13 completo. Es un capítulo sobre cómo respondemos a la instrucción y qué produce esa respuesta en nuestra vida.</p>
+<p>El que rechaza la corrección terminará en pobreza y vergüenza. El que la acepta es honrado. No porque sea perfecto — sino porque las personas a su alrededor saben que pueden confiarle algo: que si le señalas algo, lo va a considerar honestamente.</p>
+<p>Recibir corrección bien es una habilidad rara. La mayoría la recibimos a la defensiva — buscando el error en el mensajero antes de considerar el mensaje. O la aceptamos en palabras pero no en hechos.</p>
+<p>El capítulo también habla de los hijos: <em>el que no usa la vara odia a su hijo; el que lo ama se preocupa de disciplinarlo.</em> La disciplina no es crueldad. La ausencia de disciplina sí puede serlo.</p>
+<p>Y hay una frase sobre el deseo que vale considerar: <em>el deseo cumplido deleita el alma.</em> Hay promesa de satisfacción para los que trabajan con intención y perseveran.</p>`,
+    q1: "¿Cómo recibes la corrección? ¿Cuál es tu primera reacción cuando alguien te señala algo?",
+    q2: "¿Qué dice eso de ti?",
+    action: "Piensa en la última corrección que recibiste. Escribe honestamente: ¿había algo de verdad en lo que dijeron que todavía no has aplicado?",
+    prayer: "Señor, hazme de los que reciben instrucción con gracia. Que no me aferre tanto a mi versión de la realidad que no pueda aprender. Que prefiera el dolor breve de ser corregido al dolor largo de no crecer. Amén."
+  },
+  {
+    cap: 14, title: "Construir la casa o derribarla",
+    verse: '"La mujer sabia edifica su hogar, pero la necia con sus propias manos lo derriba."',
+    ref: "Proverbios 14:1 · NTV",
+    prose: `<p>Lee Proverbios 14 completo. Es un capítulo de contrastes — sabio y necio, construir y destruir.</p>
+<p>La imagen se aplica a todos: hay personas que edifican y personas que derriban. Y lo más inquietante es que la necia derriba <em>con sus propias manos</em> — no porque venga un enemigo externo, sino desde adentro.</p>
+<p>¿Cómo se derriba una casa con las propias manos? Con palabras que hieren en lugar de sanar. Con ausencia emocional disfrazada de ocupación. Con prioridades mal ordenadas que descuidan lo más importante. Con amargura guardada que contamina el ambiente.</p>
+<p>Y edificar tampoco siempre se ve dramático. A veces edificar es simplemente estar presente cuando importa. Hablar bien de los que amas cuando no están. Crear un ambiente donde las personas a tu alrededor pueden crecer.</p>
+<p>Hay también una frase sobre los pobres que corta: <em>el que oprime al pobre insulta a su Creador.</em> Cómo tratamos a los vulnerables no es un tema político — es un tema de sabiduría y de carácter.</p>`,
+    q1: "¿Estás construyendo o derrumbando en este momento de tu vida?",
+    q2: "¿Qué hábito, actitud o patrón tuyo está dañando algo que vale la pena proteger?",
+    action: "Elige una relación importante en tu vida. Haz hoy un acto consciente de edificación: una palabra, un gesto, una presencia. No porque sientas ganas — porque decides hacerlo.",
+    prayer: "Señor, quiero ser de los que construyen. Muéstrame lo que estoy derrumbando sin darme cuenta. Dame sabiduría para edificar con mis palabras, mi presencia y mis decisiones. Amén."
+  },
+  {
+    cap: 15, title: "La respuesta que apaga el fuego",
+    verse: '"La respuesta apacible desvía el enojo, pero las palabras ásperas encienden los ánimos."',
+    ref: "Proverbios 15:1 · NTV",
+    prose: `<p>Lee Proverbios 15 completo. Es uno de los capítulos más prácticos de todo Proverbios — casi cada versículo es directamente aplicable hoy.</p>
+<p>Una respuesta apacible apaga el fuego. Una respuesta áspera lo enciende. Todos lo sabemos. Y sin embargo, en el momento de tensión, lo primero que queremos hacer es responder con la misma moneda.</p>
+<p>La sabiduría no dice que la respuesta apacible sea la más fácil. Dice que es la que funciona. Y hay una diferencia entre apacible y pasiva — puede decir cosas difíciles, puede no estar de acuerdo, puede mantener una posición firme. Lo que no hace es escalar.</p>
+<p>El capítulo también habla de algo que conecta directamente: <em>el Señor está en todas partes, vigilando tanto a los malos como a los buenos.</em> Cuando nadie me ve, Dios sí me ve. Cuando estoy en privado, Dios está en esa conversación.</p>
+<p>Y sobre la consejería: <em>los planes fracasan por falta de consejo; muchos consejeros traen éxito.</em> El sabio no toma decisiones importantes en soledad.</p>`,
+    q1: "¿Hay una relación en tu vida donde regularmente respondes con aspereza en lugar de apacibilidad?",
+    q2: "¿Qué produce eso en esa relación? ¿Qué produciría una respuesta diferente?",
+    action: "La próxima vez que sientas la urgencia de responder con dureza — hoy, mañana — detente tres segundos antes de hablar. Solo tres. Y elige la respuesta apacible.",
+    prayer: "Señor, necesito tu ayuda con mi boca. Mis primeras reacciones no siempre son sabias. Dame la pausa, dame el control, dame las palabras que apagan en lugar de las que encienden. Amén."
+  },
+  {
+    cap: 16, title: "Tus planes y los de Dios",
+    verse: '"Podemos hacer nuestros planes, pero el Señor determina nuestros pasos."',
+    ref: "Proverbios 16:9 · NTV",
+    prose: `<p>Lee Proverbios 16 completo. Es el capítulo central de Proverbios — temáticamente habla de la soberanía de Dios sobre los planes humanos.</p>
+<p>Al hombre le parece bueno todo lo que hace, pero el Señor examina sus intenciones. No solo nuestras acciones — nuestras intenciones. Lo que hay detrás de lo que hacemos.</p>
+<p>Y luego viene el versículo: podemos hacer nuestros planes, pero el Señor determina nuestros pasos. Esto no es una invitación a la pasividad. Es una invitación a la rendición. Planea con todo tu corazón — y sostén los planes con mano abierta, porque Dios puede llevarte a algo mejor de lo que tú planificaste.</p>
+<p>Los planes que se frustran no siempre son señal de fracaso. A veces son señal de redirección.</p>
+<p>Y hay una frase sobre el orgullo que vale recordar: <em>el orgullo va antes de la destrucción, y la arrogancia antes de la caída.</em> El orgullo se instala despacio, en las pequeñas formas en que empezamos a depender más de nuestra fuerza que de la dirección de Dios.</p>`,
+    q1: "¿Hay un plan tuyo que Dios parece estar frustrando o redirigiendo?",
+    q2: "¿Puedes considerar la posibilidad de que lo que parece un obstáculo sea en realidad una corrección de rumbo?",
+    action: "Escribe los planes más importantes que tienes ahora mismo. Luego, uno por uno, díselos a Dios en oración con manos abiertas: 'Señor, esto quiero yo — pero que se haga tu voluntad.'",
+    prayer: "Señor, tengo mis planes. Pero hoy los pongo en tus manos. Que tu propósito prevalezca sobre mi preferencia. Confío en que lo que tú diriges es mejor que lo que yo diseño. Amén."
+  },
+  {
+    cap: 17, title: "El corazón alegre es medicina",
+    verse: '"El corazón alegre es buena medicina, pero el espíritu quebrantado consume las fuerzas."',
+    ref: "Proverbios 17:22 · NTV",
+    prose: `<p>Lee Proverbios 17 completo. Es un capítulo sobre relaciones, conflictos, amistades y el estado del corazón.</p>
+<p>La medicina moderna lo confirma: el estado emocional afecta directamente la salud física. El estrés crónico debilita. La alegría genuina tiene efectos medibles en el cuerpo. Y la Biblia lo dijo hace tres mil años: el corazón alegre es medicina.</p>
+<p>Esto plantea una pregunta seria: ¿de dónde viene la alegría? No del optimismo forzado, no de fingir que todo está bien. La alegría bíblica es más profunda — es el resultado de una relación viva con Dios, de saber que eres amado, de confiar que el que controla el resultado final está a tu favor.</p>
+<p>El capítulo también habla de los conflictos: <em>soltar un pleito antes de que estalle es señal de honor.</em> No todo conflicto merece ser peleado. La sabiduría sabe distinguir entre los que valen la pena sostener y los que es mejor soltar.</p>
+<p>El necio gasta su energía en pleitos sin fruto. El sabio la guarda para lo que importa.</p>`,
+    q1: "¿Qué está robando tu alegría en este momento?",
+    q2: "¿Es algo que puedes cambiar, algo que debes soltar, o algo que necesitas llevar a Dios de manera diferente?",
+    action: "Haz algo hoy que genuinamente te traiga alegría santa — no escapismo, sino gozo real. Adora, camina, comparte con alguien que amas. Cuida tu corazón como si fuera medicina, porque lo es.",
+    prayer: "Señor, cuida mi corazón. No quiero cargar un espíritu quebrantado que consume mis fuerzas. Renueva mi alegría — la profunda que viene de saber que tú estás conmigo. Amén."
+  },
+  {
+    cap: 18, title: "El que escucha antes de hablar",
+    verse: '"El que responde antes de escuchar muestra su necedad y se cubre de vergüenza."',
+    ref: "Proverbios 18:13 · NTV",
+    prose: `<p>Lee Proverbios 18 completo. Es un capítulo que se enfoca en las palabras — su poder, su peligro y su responsabilidad.</p>
+<p>Proverbios 18 comienza con una descripción del necio que resulta incómoda porque muchos nos reconocemos: <em>al necio no le interesa entender, solo quiere expresar sus propias opiniones.</em> Hablar para ser escuchado, no escuchar para entender.</p>
+<p>La sabiduría propone algo diferente: escucha primero. Entiende antes de responder. El que responde antes de escuchar no solo comete un error social — se cubre de vergüenza.</p>
+<p>Y hay una de las frases más poderosas sobre las palabras: <em>la lengua puede traer vida o muerte; los que hablan mucho cosecharán las consecuencias.</em> Cada vez que abrimos la boca estamos plantando algo — vida o muerte — en el corazón de quien escucha.</p>
+<p>Las relaciones profundas no se consiguen siendo encantador — se construyen siendo fiel, siendo consistente, siendo el tipo de persona que está cuando importa.</p>`,
+    q1: "¿En qué conversaciones tiendes a responder antes de entender completamente?",
+    q2: "¿Hay alguien en tu vida a quien le debes el regalo de escucharlos de verdad antes de responder?",
+    action: "En tu próxima conversación importante, practica este ejercicio: antes de responder, repite con tus propias palabras lo que la otra persona acaba de decir. Asegúrate de haber entendido antes de hablar.",
+    prayer: "Señor, dame el don de escuchar. No para formular mi respuesta mientras el otro habla, sino para realmente entender. Que mis palabras traigan vida, no porque sean muchas sino porque son sabias. Amén."
+  },
+  {
+    cap: 19, title: "La generosidad que le presta a Dios",
+    verse: '"Si ayudas al pobre, le prestas al Señor, ¡y él te lo pagará!"',
+    ref: "Proverbios 19:17 · NTV",
+    prose: `<p>Lee Proverbios 19 completo. Es un capítulo sobre carácter, pobreza, generosidad y los peligros del dinero mal entendido.</p>
+<p>Ayudar al pobre es prestarle al Señor. No a una organización. No a una causa. Al Señor mismo. Esto cambia completamente la naturaleza de la generosidad. Ya no es filantropía — es transacción con Dios. Ya no es pérdida — es inversión con el mejor garante del universo.</p>
+<p>El capítulo también habla de la herencia: <em>la casa y la riqueza son herencia de los padres; pero la mujer prudente es don del Señor.</em> Lo que dejamos en herencia no es solo patrimonio — es carácter, es fe, son los valores con los que criamos a los que vienen detrás.</p>
+<p>Y hay una frase sobre la pereza que es casi humorística: <em>el perezoso mete la mano en el plato, pero ni siquiera puede llevarse la comida a la boca.</em> La pereza no solo no produce — ni siquiera disfruta lo que ya tiene.</p>`,
+    q1: "¿Cómo es tu relación con la generosidad hacia los que tienen menos?",
+    q2: "¿La vives como una carga, como una obligación religiosa, o como una transacción de confianza con Dios?",
+    action: "Haz hoy un acto de generosidad — no porque alguien te lo pidió, no porque sea visible, sino porque decidiste prestarle algo a Dios. Puede ser tiempo, dinero, o un servicio concreto.",
+    prayer: "Señor, quiero ser generoso de verdad. No para que me vean, no por obligación, sino porque confío en que lo que doy a los que necesitan, tú lo recibes. Forma en mí un corazón abierto. Amén."
+  },
+  {
+    cap: 20, title: "El dominio propio que todo lo sostiene",
+    verse: '"El vino produce burlones; la bebida fuerte lleva a peleas. Todo el que es engañado por ellas no es sabio."',
+    ref: "Proverbios 20:1 · NTV",
+    prose: `<p>Lee Proverbios 20 completo. Es un capítulo sobre dominio propio, integridad, y las consecuencias de las decisiones impulsivas.</p>
+<p>La advertencia sobre el alcohol es en realidad sobre todo lo que nos controla en lugar de que nosotros lo controlemos. Puede ser la ira, el miedo, el deseo de aprobación, la necesidad de tener siempre la razón. Cuando algo nos controla más que nuestra fe, perdemos la sabiduría en ese punto.</p>
+<p>El capítulo también tiene una frase que los padres deberían meditar: <em>hasta los niños se conocen por sus acciones; sus hechos muestran si son puros y correctos.</em> El carácter no se forma con palabras — se forma con hábitos.</p>
+<p>Y hay una advertencia sobre la venganza que libera: <em>no digas "me vengaré"; espera al Señor y él te rescatará.</em> La persona que espera en Dios para hacer justicia vive más libre que la que carga con la responsabilidad de equilibrar todas las cuentas.</p>`,
+    q1: "¿Qué te controla a ti más de lo que tú lo controlas?",
+    q2: "¿Dónde está el área donde más te cuesta dominar tus propias reacciones?",
+    action: "Elige hoy una disciplina de dominio propio — algo que normalmente cedes — y practícala con intención. No como castigo, sino como ejercicio de libertad.",
+    prayer: "Señor, quiero ser libre. Libre de las cosas que me controlan en lugar de que yo las controle. Dame dominio propio — no por fuerza de voluntad, sino por la transformación que solo tú puedes hacer. Amén."
+  },
+  {
+    cap: 21, title: "Dios examina lo que hay adentro",
+    verse: '"Las personas pueden considerarse rectas en su propia opinión, pero el Señor examina el corazón."',
+    ref: "Proverbios 21:2 · NTV",
+    prose: `<p>Lee Proverbios 21 completo. Es un capítulo que desafía la autocomplacencia espiritual.</p>
+<p>Podemos <em>considerarnos</em> rectos — y aun así estar equivocados. Porque el estándar de medida no es nuestra propia percepción. Es el examen de Dios, que ve el corazón.</p>
+<p>La persona que dice "yo soy buena persona" puede estar en lo correcto — o puede estar midiendo con la regla equivocada. El Señor no pregunta si cumpliste la lista. Pregunta qué había en tu corazón cuando la cumpliste.</p>
+<p>El capítulo también tiene una frase directa sobre la práctica de la justicia: <em>hacer lo correcto y lo justo es más aceptable para el Señor que ofrecer un sacrificio.</em> La religiosidad sin justicia es hueca. Dios prefiere que trates bien a las personas sobre cualquier ritual.</p>
+<p>Y sobre los apetitos: <em>los que aman el placer se vuelven pobres.</em> No es que el placer sea malo — es que cuando el placer gobierna, la provisión sufre.</p>`,
+    q1: "¿Hay algún área en tu vida donde te consideras recto pero quizás no has dejado que Dios examine realmente tu corazón?",
+    q2: "¿Cuáles son tus motivaciones reales en esa área?",
+    action: "Pide a Dios en oración: 'Revela mi motivación.' Y luego escucha. Escribe lo primero que venga a tu mente, sin juzgarlo — solo observa lo que encuentras.",
+    prayer: "Señor, examina mi corazón. No quiero medirme con mi propia regla — quiero que seas tú quien evalúe. Muéstrame lo que hay adentro que no corresponde con quien quiero ser. Amén."
+  },
+  {
+    cap: 22, title: "El nombre que vale más que el oro",
+    verse: '"Elige una buena reputación sobre las muchas riquezas; ser tenido en gran estima es mejor que la plata o el oro."',
+    ref: "Proverbios 22:1 · NTV",
+    prose: `<p>Lee Proverbios 22 completo. Es un capítulo sobre reputación, generosidad, crianza y los peligros de las deudas.</p>
+<p>Una buena reputación vale más que el oro. En un mundo que mide el éxito en patrimonio acumulado, la Biblia dice que el mayor activo que tienes es quién eres cuando las personas pronuncian tu nombre. La reputación no se compra. Se construye lentamente, en las decisiones pequeñas que nadie registra pero que todos eventualmente sienten.</p>
+<p>El capítulo también tiene uno de los versículos más citados sobre la crianza: <em>dirige a tus hijos por el camino correcto, y cuando sean mayores, no lo abandonarán.</em> Los hijos criados con valores sólidos tienen una brújula interna que los llama de regreso, aunque en algún momento se alejen.</p>
+<p>Y sobre las deudas: <em>el rico gobierna al pobre, y el que pide prestado es sirviente del que presta.</em> Las deudas no son simplemente financieras — son relacionales y emocionales. El endeudado carga con una servidumbre invisible que limita su libertad.</p>`,
+    q1: "¿Cuál es tu reputación real — no la que quieres tener, sino la que tienes?",
+    q2: "¿Qué dirían las personas más cercanas a ti si se les preguntara cómo eres de verdad?",
+    action: "Escribe tres palabras con las que quieres que te describan dentro de cinco años. Luego pregúntate: ¿mis decisiones de esta semana están construyendo hacia esas palabras?",
+    prayer: "Señor, quiero un nombre que valga. No fama — integridad. Que cuando las personas pronuncien mi nombre, lo que sientan sea confianza. Forma mi carácter antes que mi reputación. Amén."
+  },
+  {
+    cap: 23, title: "No te mates por hacerte rico",
+    verse: '"No te agotes tratando de hacerte rico; sé lo bastante sabio para saber cuándo parar."',
+    ref: "Proverbios 23:4 · NTV",
+    prose: `<p>Lee Proverbios 23 completo. Es un capítulo sobre apetitos — el apetito por el dinero, por la comida, por el vino — y cómo la sabiduría los regula.</p>
+<p>No te agotes tratando de hacerte rico. Las riquezas vuelen como un águila. Lo que hoy está en tu mano, mañana puede no estar. Construir tu vida sobre la acumulación es construir sobre arena.</p>
+<p>Esto no es un elogio a la pobreza. Es un llamado a la perspectiva. Trabaja, produce, sé excelente — pero que el objetivo de tu vida no sea el número en tu cuenta bancaria.</p>
+<p>El capítulo también habla de los hijos con uno de los versículos más emotivos: <em>que se alegre tu padre y tu madre, que se regocije la que te dio a luz.</em> La sabiduría no es solo personal — tiene un impacto en las personas que te aman.</p>
+<p>Y cierra con una advertencia sobre el alcohol — no como moralismo, sino como descripción de lo que produce en quienes lo hacen su compañía constante: al final muerde como serpiente y envenena como víbora.</p>`,
+    q1: "¿Estás agotándote por algo que, en el fondo, sabes que es pasajero?",
+    q2: "¿Cuál es el apetito que más te cuesta regular?",
+    action: "Escribe cuál es la cosa que más persigues ahora mismo. Luego pregúntate: si la consigo, ¿me acerca o me aleja de la persona que quiero ser?",
+    prayer: "Señor, regula mis apetitos. Que no me agote persiguiendo lo que no satisface. Que mis esfuerzos estén alineados con lo que tú dices que vale la pena. Amén."
+  },
+  {
+    cap: 24, title: "No te alegres cuando tu enemigo caiga",
+    verse: '"No te alegres cuando caigan tus enemigos; no te regocijes cuando tropiecen."',
+    ref: "Proverbios 24:17 · NTV",
+    prose: `<p>Lee Proverbios 24 completo. Es un capítulo sobre valentía, perseverancia y la actitud del corazón frente al éxito ajeno y al fracaso del adversario.</p>
+<p>No te alegres cuando tu enemigo caiga. Cuando alguien que te hizo daño fracasa, hay algo en nosotros que quiere sentir satisfacción. La Biblia lo llama por su nombre: eso no es justicia. Es regodeo. Y Dios lo ve y no le agrada.</p>
+<p>La sabiduría no celebra el dolor ajeno, ni siquiera el de los que nos hicieron daño. La caída de otro ser humano no es victoria — es tragedia.</p>
+<p>El capítulo también habla de valentía: <em>rescata a los que van a la muerte; si dices 'no sabía de esto', ¿acaso no lo sabe el que pesa los corazones?</em> No puedes pretender ignorancia sobre el sufrimiento que está a tu alcance.</p>
+<p>Y una de las frases más útiles para los tiempos difíciles: <em>si te desmayas en tiempo de angustia, tu fortaleza es limitada.</em> Las crisis revelan lo que somos. El que tiene raíces profundas no se derrumba — se dobla, pero vuelve.</p>`,
+    q1: "¿Hay alguien cuyo fracaso te ha causado alivio o satisfacción? ¿Qué dice eso de tu corazón?",
+    q2: "¿Qué necesitarías soltar para llegar a un lugar de genuina compasión por esa persona?",
+    action: "Piensa en alguien con quien tienes conflicto o con quien estás en competencia. Ora por esa persona hoy — no para ganar puntos religiosos, sino genuinamente.",
+    prayer: "Señor, que mi corazón no se alegre del dolor ajeno. Ayúdame a querer el bien de los que me han hecho daño. Sé que eso no viene de mí — viene de ti. Transfórmame. Amén."
+  },
+  {
+    cap: 25, title: "La palabra en el momento correcto",
+    verse: '"Las palabras oportunas son como manzanas de oro en una bandeja de plata."',
+    ref: "Proverbios 25:11 · NTV",
+    prose: `<p>Lee Proverbios 25 completo. Es donde comienzan los proverbios que recopilaron los hombres de Ezequías — con imágenes vívidas y comparaciones memorables.</p>
+<p>Palabras oportunas como manzanas de oro en una bandeja de plata. No solo las palabras correctas — las palabras correctas en el momento correcto.</p>
+<p>Hay una diferencia enorme. Una verdad dicha en el momento equivocado puede herir tanto como una mentira. Una corrección antes de que la persona esté lista rebota. La sabiduría en las palabras tiene dos dimensiones: qué decir y cuándo decirlo. Y muchas veces la segunda es más difícil que la primera.</p>
+<p>El capítulo también habla de los límites: <em>no visites con tanta frecuencia la casa de tu vecino, no sea que se canse de verte.</em> La sabiduría relacional incluye no sobrar. Dar espacio. No convertirse en una carga aunque las intenciones sean buenas.</p>
+<p>Y sobre el orgullo: <em>es mejor que otros te alaben que alabarte a ti mismo.</em> El que proclama sus propios logros revela inseguridad en ellos.</p>`,
+    q1: "¿Hay algo que necesitas decir a alguien y que has estado diciendo en el momento equivocado?",
+    q2: "¿O algo que has callado que era momento de decir?",
+    action: "Piensa en alguien que necesita escuchar una palabra tuya. Considera no solo qué decir sino cuándo y cómo. Y luego hazlo con intención.",
+    prayer: "Señor, dame el don de las palabras oportunas. Que sepa callar cuando no es el momento y hablar cuando sí lo es. Que mis palabras sean manzanas de oro, no ruido. Amén."
+  },
+  {
+    cap: 26, title: "El necio y su necedad",
+    verse: '"Como el perro que vuelve a su vómito, así el necio repite su necedad."',
+    ref: "Proverbios 26:11 · NTV",
+    prose: `<p>Lee Proverbios 26 completo. Es el capítulo más extenso sobre la necedad — sus formas, sus consecuencias, por qué es tan difícil de corregir.</p>
+<p>El capítulo abre con una paradoja: no respondas al necio según su necedad — pero también, respóndele. ¿Cuál es? Depende. A veces el silencio es la respuesta sabia. Otras veces el silencio valida la necedad. La sabiduría sabe cuándo hacer qué.</p>
+<p>Y luego viene la imagen más memorable: el perro que vuelve a su vómito. Es gráfico porque necesita serlo. Todos hemos experimentado volver a los mismos errores, las mismas relaciones dañinas, los mismos hábitos. El conocimiento no basta. Se necesita transformación.</p>
+<p>Y hay un tipo de necio especialmente peligroso: el que es sabio en su propia opinión. El que tiene una respuesta para todo, que nunca está equivocado. Ese tiene menos esperanza que el necio que al menos no sabe que no sabe.</p>`,
+    q1: "¿Hay algún patrón en tu vida al que sigues volviendo aunque sabes que daña?",
+    q2: "¿Qué te hace seguir regresando? ¿Qué sería diferente si realmente lo soltaras?",
+    action: "Identifica el 'vómito al que vuelves' — el hábito, la actitud, la relación — y escribe con honestidad qué necesitaría cambiar en ti para no volver.",
+    prayer: "Señor, no quiero seguir volviendo a lo mismo. Que la transformación que produces en mí sea más profunda que mis hábitos. Rompe el ciclo. Amén."
+  },
+  {
+    cap: 27, title: "El hierro que afila al hierro",
+    verse: '"El hierro se afila con hierro, y el hombre se afila con la influencia de otro."',
+    ref: "Proverbios 27:17 · NTV",
+    prose: `<p>Lee Proverbios 27 completo. Es un capítulo sobre relaciones — las que nos acompañan, las que nos desafían, las que nos forman.</p>
+<p>Cuando el hierro afila al hierro, hay fricción. No es una imagen de comodidad — es una imagen de transformación a través del contacto real. El amigo que te afila no siempre es el que te dice lo que quieres escuchar. Es el que está suficientemente cerca para decirte lo que necesitas escuchar.</p>
+<p>El capítulo también abre con un consejo práctico: <em>no te jactes del mañana, porque no sabes lo que el día traerá.</em> Hay algo sano en recordar que el mañana es de Dios.</p>
+<p>Y hay una observación sobre el elogio: <em>la plata se prueba en el crisol, el oro en el horno, y la persona se prueba por el elogio que recibe.</em> Cómo reaccionamos cuando nos elogian revela quiénes somos tanto como cuando nos critican.</p>
+<p>El capítulo cierra con la imagen del pastor que conoce bien a su rebaño — una llamada a conocer bien lo que está bajo tu cuidado. Los hijos, el matrimonio, el equipo. El que conoce bien lo que cuida, cuida bien.</p>`,
+    q1: "¿Tienes personas en tu vida que te afilen — con acceso y valentía para decirte verdades difíciles?",
+    q2: "¿O solo tienes personas que te dicen lo que quieres escuchar?",
+    action: "Identifica a alguien que te afila — o que podría afilarte. Si no tienes a nadie así, escribe lo que tendría que cambiar en ti para poder tener ese tipo de relación.",
+    prayer: "Señor, gracias por las personas que me afilan aunque duela. Que no huya de las relaciones que me desafían. Que sepa elegir bien quiénes me forman. Amén."
+  },
+  {
+    cap: 28, title: "El valiente que habla la verdad",
+    verse: '"Los malvados huyen aunque nadie los persiga, pero los justos son tan valientes como el león."',
+    ref: "Proverbios 28:1 · NTV",
+    prose: `<p>Lee Proverbios 28 completo. Es un capítulo sobre justicia, integridad financiera y el valor de decir la verdad.</p>
+<p>Dos tipos de personas: el que vive con miedo aunque nadie lo persiga, cargando con la persecución invisible de su propia conciencia. Y el justo que tiene la valentía del león — camina libre porque no tiene nada que esconder.</p>
+<p>La valentía no es arrogancia. Es el resultado de vivir con integridad — de ser la misma persona en todos los contextos, de no tener versiones de uno mismo que hay que esconder.</p>
+<p>Y hay una promesa que libera al que confiesa: <em>el que encubre sus pecados no prosperará, pero el que los confiesa y los abandona recibirá misericordia.</em> No hay carga más pesada que la culpa escondida. Y no hay alivio más inmediato que la confesión honesta ante Dios.</p>
+<p>El valiente no es el que nunca falla. Es el que falla, lo reconoce, lo confiesa y cambia.</p>`,
+    q1: "¿Hay algo que estás escondiendo — ante Dios, ante alguien, ante ti mismo — que está pesando más de lo que crees?",
+    q2: "¿Qué pasaría si lo trajeras a la luz?",
+    action: "Si hay algo que has estado encubriendo, trae esa área a Dios en oración hoy. No para castigo — para misericordia. La promesa es clara: el que confiesa y abandona recibirá misericordia.",
+    prayer: "Señor, no quiero cargar lo que tú ya pagaste. Traigo a la luz lo que he estado escondiendo. Recibo tu misericordia. Ayúdame a vivir con la valentía del que no tiene nada que ocultar. Amén."
+  },
+  {
+    cap: 29, title: "La visión que une al pueblo",
+    verse: '"Cuando no hay visión profética, el pueblo se desenfrena; ¡dichosos los que obedecen la ley!"',
+    ref: "Proverbios 29:18 · NTV",
+    prose: `<p>Lee Proverbios 29 completo. Es un capítulo sobre liderazgo, autoridad, y el papel de la visión en la vida de una comunidad y una familia.</p>
+<p>Sin visión profética, el pueblo se desenfrena. No habla de metas empresariales. Habla de la Palabra de Dios hablada con claridad. Cuando una familia pierde el ancla de la revelación divina, no se queda quieta — se desorienta. Cada uno hace lo que le parece bien.</p>
+<p>El antídoto no es más gestión — es más revelación. Más conexión con lo que Dios está diciendo.</p>
+<p>El capítulo también habla de la corrección de los hijos con urgencia: <em>disciplina a tus hijos mientras hay esperanza; no los quieras tanto como para no corregirlos.</em> La permisividad no es amor — es abandono disfrazado de ternura.</p>
+<p>Y sobre la ira: <em>el que airadamente apresura sus pasos, peca.</em> Las decisiones tomadas en estado de enojo rara vez son sabias. La sabiduría espera. Actúa desde la claridad, no desde la reacción.</p>`,
+    q1: "¿Qué visión — qué palabra de Dios, qué dirección clara — está guiando tu familia y tu vida ahora mismo?",
+    q2: "¿O estás viviendo en modo reactivo, sin brújula?",
+    action: "Escribe en una frase la visión que Dios te ha dado para esta temporada. Si no la tienes clara, escribe una oración pidiéndola. La claridad de dirección es el primer paso para dejar de desenfrenarse.",
+    prayer: "Señor, habla con claridad sobre mi vida y mi familia. No quiero vivir sin dirección, reaccionando a lo que viene. Dame visión. Dame la palabra que ordena mis pasos. Amén."
+  },
+  {
+    cap: 30, title: "El que tiene todo lo necesario",
+    verse: '"Las arañas son pequeñas pero se encuentran en los palacios de los reyes."',
+    ref: "Proverbios 30:28 · NTV",
+    prose: `<p>Lee Proverbios 30 completo. Es un capítulo diferente — escrito por Agur, no por Salomón. Y abre con una honestidad que desconcierta: "soy el más ignorante de todos los hombres."</p>
+<p>Agur no empieza declarando su sabiduría. Empieza declarando su ignorancia. Es una apertura que descoloca. Pero la humildad intelectual es el primer requisito para aprender.</p>
+<p>El capítulo también tiene una de las oraciones más honestas de toda la Biblia: <em>no me des pobreza ni riqueza; solo dame el alimento que necesito.</em> No pide éxito — pide suficiencia.</p>
+<p>Y luego vienen las criaturas pequeñas que habitan en palacios. Las hormigas. Los damanes. Las langostas. Y las arañas que con paciencia, hilo por hilo, llegan a los palacios de los reyes.</p>
+<p>La araña no tiene fuerza. No tiene velocidad. Tiene constancia. Y eso la lleva más lejos que la mayoría. Dios ya puso en ti lo que necesitas para llegar adonde Él te llama.</p>`,
+    q1: "¿Con qué te identificas más: con la fuerza que sientes que te falta, o con la constancia que tienes disponible?",
+    q2: "¿Qué tienes hoy — aunque sea pequeño — que podrías usar con más intención?",
+    action: "Dedica 15 minutos hoy a practicar o ejercer un talento que Dios ya te dio pero que has subestimado. La araña no espera tener más — teje con lo que tiene.",
+    prayer: "Señor, gracias porque no necesito más de lo que ya me diste para hacer lo que me llamas a hacer. Dame la constancia de la araña. Que teja con paciencia, sin comparar, sin rendirme. Amén."
+  },
+  {
+    cap: 31, title: "La mujer que teme al Señor",
+    verse: '"El encanto es engañoso, y la belleza no perdura, pero la mujer que teme al Señor será sumamente alabada."',
+    ref: "Proverbios 31:30 · NTV",
+    prose: `<p>Lee Proverbios 31 completo. Es el capítulo final — y cierra el libro con dos imágenes: la madre que instruye a su hijo rey, y la mujer de carácter noble que hace de su vida una obra de arte.</p>
+<p>La primera parte es la instrucción de una madre a su hijo: <em>habla en favor de los que no pueden hablar por sí mismos, defiende los derechos de los pobres y necesitados.</em> Una madre que sabe que la sabiduría más importante no es estratégica sino ética.</p>
+<p>La segunda es el retrato de la mujer virtuosa. No es una lista de requisitos imposibles — es la descripción de alguien que teje su vida completa con sabiduría. No es perfecta — es íntegra. No lo tiene todo — lo cuida todo.</p>
+<p>Y al final llega el versículo que cierra no solo el capítulo sino el libro entero: el encanto es engañoso, la belleza no perdura, pero la mujer que teme al Señor será alabada.</p>
+<p>El libro comenzó con el temor del Señor. Termina con el temor del Señor. No es coincidencia. Es el arco completo de la sabiduría: comienza reconociendo a Dios y termina siendo reconocido por Él.</p>
+<p><strong>Vuelve ahora a lo que escribiste el día uno.</strong> El área donde necesitabas sabiduría. ¿Qué cambió en 31 días?</p>`,
+    q1: "Vuelve a la frase que escribiste el Día 1. ¿Qué cambió en ti durante estos 31 días?",
+    q2: "¿Qué vas a hacer diferente con lo que aprendiste este mes?",
+    action: "Escribe una carta breve a ti mismo sobre lo que Dios te habló en este mes. No una lista — una carta. Guárdala. Ábrela en seis meses.",
+    prayer: "Señor, llegué al día 31. No soy el mismo que empezó. Gracias por cada capítulo, cada pregunta, cada incomodidad que me hizo crecer. Que la sabiduría que recibí no se quede en conocimiento — que se vuelva vida. Amén."
+  }
+];
+
+let currentDay = 1;
+
+function render(day) {
+  const d = DAYS[day - 1];
+  currentDay = day;
+
+  document.getElementById('nav-prog').textContent = day + ' / 31';
+  document.getElementById('hero-eyebrow').textContent = 'Proverbios ' + d.cap + ' · NTV';
+  document.getElementById('hero-title').textContent = d.title;
+  document.getElementById('verse-text').textContent = d.verse;
+  document.getElementById('verse-ref').textContent = d.ref;
+  document.getElementById('read-text').textContent = 'Lee Proverbios ' + d.cap + ' completo';
+  document.getElementById('prose-content').innerHTML = d.prose;
+  document.getElementById('q1-prompt').textContent = d.q1;
+  document.getElementById('q2-prompt').textContent = d.q2;
+  document.getElementById('action-text').textContent = d.action;
+  document.getElementById('prayer-text').textContent = d.prayer;
+  document.getElementById('prog-label').textContent = 'Día ' + day + ' de 31';
+  document.getElementById('prog-fill').style.width = Math.round((day / 31) * 100) + '%';
+
+  const savedQ1 = localStorage.getItem('prov_d' + day + '_q1') || '';
+  const savedQ2 = localStorage.getItem('prov_d' + day + '_q2') || '';
+  const savedQ3 = localStorage.getItem('prov_d' + day + '_q3') || '';
+  const savedCheck = localStorage.getItem('prov_d' + day + '_check') === '1';
+
+  document.getElementById('q1').value = savedQ1;
+  document.getElementById('q2').value = savedQ2;
+  document.getElementById('q3').value = savedQ3;
+
+  const check = document.getElementById('action-check');
+  if (savedCheck) { check.classList.add('done'); check.textContent = '✓'; }
+  else { check.classList.remove('done'); check.textContent = ''; }
+
+  ['badge1','badge2','badge3'].forEach(b => document.getElementById(b).classList.remove('show'));
+
+  updateDayGrid(day);
+  document.getElementById('app').scrollTop = 0;
+  window.scrollTo(0, 0);
+}
+
+function updateDayGrid(active) {
+  const grid = document.getElementById('days-grid');
+  grid.innerHTML = '';
+  for (let i = 1; i <= 31; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'day-btn';
+    btn.textContent = i;
+    if (i === active) btn.classList.add('active');
+    else if (localStorage.getItem('prov_d' + i + '_q1')) btn.classList.add('completed');
+    btn.onclick = () => render(i);
+    grid.appendChild(btn);
+  }
+}
+
+function guardar(n) {
+  const val = document.getElementById('q' + n).value;
+  if (!val.trim()) return;
+  localStorage.setItem('prov_d' + currentDay + '_q' + n, val);
+  const badge = document.getElementById('badge' + n);
+  badge.classList.add('show');
+  setTimeout(() => badge.classList.remove('show'), 2500);
+  if (n === 1) updateDayGrid(currentDay);
+}
+
+function toggleCheck() {
+  const check = document.getElementById('action-check');
+  const isDone = check.classList.toggle('done');
+  check.textContent = isDone ? '✓' : '';
+  localStorage.setItem('prov_d' + currentDay + '_check', isDone ? '1' : '0');
+}
+
+function openBible() {
+  alert('Abre tu Biblia en Proverbios ' + currentDay + ' (NTV) y léelo completo antes de continuar.');
+}
+
+function goBack() {
+  window.history.back();
+}
+
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search);
+  const startDay = parseInt(params.get('dia')) || 1;
+  render(Math.min(Math.max(startDay, 1), 31));
+});
+</script>
+
+</body>
+</html>

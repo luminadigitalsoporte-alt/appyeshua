@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14051F">
+  <meta name="description" content="Yeshua, una experiencia diaria centrada en Cristo y las Escrituras.">
+  <title>Yeshua | Cristo y Su Palabra</title>
+  <link rel="manifest" href="manifest.webmanifest?v=88">
+  <link rel="icon" href="assets/icons/favicon.ico" sizes="any">
+  <link rel="icon" href="assets/icons/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="assets/icons/favicon-16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" sizes="180x180">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=88">
+</head>
+<body>
+  <a class="skip-link" href="#app-main">Saltar al contenido</a>
+  <div id="app" class="app-shell">
+    <header class="app-header" id="app-header">
+      <button class="icon-button back-button" id="back-button" type="button" aria-label="Regresar" hidden>
+        <span aria-hidden="true">&#8592;</span>
+      </button>
+      <button class="wordmark" type="button" data-route="home" aria-label="Yeshua, inicio">
+        <img class="wordmark-mark" src="assets/icons/icon-192.png" alt="" aria-hidden="true">
+        <span>Yeshua</span>
+      </button>
+      <div class="header-actions">
+        <button class="text-button" id="language-button" type="button" aria-label="Change language">EN</button>
+        <button class="icon-button" id="theme-button" type="button" aria-label="Activar modo nocturno">
+          <span id="theme-icon" aria-hidden="true">&#9789;</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="app-main" tabindex="-1"></main>
+
+    <nav class="bottom-nav" id="bottom-nav" aria-label="Navegacion principal">
+      <button type="button" data-route="home"><span aria-hidden="true">&#8962;</span><small data-i18n="navHome">Inicio</small></button>
+      <button type="button" data-route="moment"><span aria-hidden="true">&#9788;</span><small data-i18n="navJourney">Momentos</small></button>
+      <button type="button" data-route="bible"><span aria-hidden="true">&#9638;</span><small data-i18n="navBible">Biblia</small></button>
+      <button type="button" data-route="journal"><span aria-hidden="true">&#9998;</span><small data-i18n="navJournal">Diario</small></button>
+      <button type="button" data-route="profile"><span aria-hidden="true">&#9675;</span><small data-i18n="navProfile">Ajustes</small></button>
+    </nav>
+
+    <button class="assistant-fab" id="assistant-fab" type="button" aria-label="Abrir Asistente Yeshua" hidden>
+      <span class="assistant-fab-icon" aria-hidden="true">✦</span>
+      <span class="assistant-fab-chat" aria-hidden="true"></span>
+      <span>Pregúntale a Yeshua</span>
+    </button>
+    <aside class="assistant-drawer" id="assistant-drawer" hidden></aside>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="config.js?v=2"></script>
+  <script type="module" src="app.js?v=88"></script>
+</body>
+</html>
+
+
+
+
+

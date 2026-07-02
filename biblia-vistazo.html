@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Biblia de un Vistazo — Yeshua</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF7F2;
+    --green: #4A7C59;
+    --green-light: #EAF2EC;
+    --brown: #7C5C3A;
+    --gold: #C9963A;
+    --gold-light: #FBF3E2;
+    --text: #2C2C2C;
+    --text-muted: #7A7A7A;
+    --border: #E8E0D4;
+    --blue: #2D6A9F;
+    --blue-light: #EBF2FA;
+    --purple: #6B4C9A;
+
+    /* Section palette */
+    --penta-bg: #FDF3DC; --penta-fg: #C9963A; --penta-dark: #9B6E1E;
+    --hist-bg:  #DCE8F7; --hist-fg:  #2D6A9F; --hist-dark:  #1B4A75;
+    --sab-bg:   #EDE0F5; --sab-fg:   #6B4C9A; --sab-dark:   #4A2E78;
+    --pm-bg:    #FCDCDC; --pm-fg:    #C0392B; --pm-dark:    #8E1A10;
+    --pmen-bg:  #FDEBD0; --pmen-fg:  #D4622A; --pmen-dark:  #A03A0C;
+    --evang-bg: #D9EFE0; --evang-fg: #4A7C59; --evang-dark: #2E5A3C;
+    --hnt-bg:   #D6E8F8; --hnt-fg:   #2D6A9F; --hnt-dark:   #1B4A75;
+    --pablo-bg: #FDF3DC; --pablo-fg: #C9963A; --pablo-dark: #9B6E1E;
+    --gen-bg:   #EDE0F5; --gen-fg:   #6B4C9A; --gen-dark:   #4A2E78;
+    --prof-bg:  #FCDCDC; --prof-fg:  #C0392B; --prof-dark:  #8E1A10;
+  }
+
+  body {
+    background: var(--cream);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--green);
+    padding: 20px 16px 14px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-top { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .header-icon {
+    width:36px; height:36px;
+    background:rgba(255,255,255,0.2); border-radius:10px;
+    display:flex; align-items:center; justify-content:center; font-size:18px;
+  }
+  .header-title { color:white; font-size:20px; font-weight:700; letter-spacing:-0.3px; }
+  .header-sub   { color:rgba(255,255,255,0.75); font-size:12px; margin-top:1px; }
+  .search-wrap  { position:relative; }
+  .search-input {
+    width:100%; padding:10px 16px 10px 38px;
+    border-radius:12px; border:none;
+    background:rgba(255,255,255,0.18); color:white; font-size:14px; outline:none;
+  }
+  .search-input::placeholder { color:rgba(255,255,255,0.6); }
+  .search-icon {
+    position:absolute; left:12px; top:50%; transform:translateY(-50%);
+    font-size:14px; color:rgba(255,255,255,0.7); pointer-events:none;
+  }
+
+  /* ── FILTERS ── */
+  .filter-scroll {
+    display:flex; gap:8px; padding:14px 16px 0;
+    overflow-x:auto; scrollbar-width:none;
+  }
+  .filter-scroll::-webkit-scrollbar { display:none; }
+  .filter-chip {
+    flex-shrink:0; padding:6px 14px; border-radius:20px;
+    font-size:12px; font-weight:600; cursor:pointer;
+    border:1.5px solid var(--border); background:white; color:var(--text-muted);
+    transition:all 0.2s;
+  }
+  .filter-chip.active { background:var(--green); border-color:var(--green); color:white; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    margin:14px 16px 0; background:white;
+    border-radius:12px; padding:12px 14px; border:1px solid var(--border);
+  }
+  .progress-label {
+    display:flex; justify-content:space-between;
+    font-size:12px; color:var(--text-muted); margin-bottom:7px;
+  }
+  .progress-label span:first-child { font-weight:600; color:var(--text); }
+  .progress-bar { height:6px; background:var(--border); border-radius:4px; overflow:hidden; }
+  .progress-fill { height:100%; background:var(--green); border-radius:4px; width:0%; transition:width 0.6s ease; }
+
+  /* ── SECTION HEADERS ── */
+  .section-header { display:flex; align-items:center; gap:8px; padding:18px 16px 8px; }
+  .section-badge {
+    padding:4px 12px; border-radius:20px;
+    font-size:11px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;
+  }
+  .badge-pentateuco      { background:var(--penta-bg); color:var(--penta-dark); }
+  .badge-historia        { background:var(--hist-bg);  color:var(--hist-dark); }
+  .badge-sabiduria       { background:var(--sab-bg);   color:var(--sab-dark); }
+  .badge-profetas-mayores{ background:var(--pm-bg);    color:var(--pm-dark); }
+  .badge-profetas-menores{ background:var(--pmen-bg);  color:var(--pmen-dark); }
+  .badge-evangelios      { background:var(--evang-bg); color:var(--evang-dark); }
+  .badge-historia-nt     { background:var(--hnt-bg);   color:var(--hnt-dark); }
+  .badge-cartas-pablo    { background:var(--pablo-bg); color:var(--pablo-dark); }
+  .badge-cartas-generales{ background:var(--gen-bg);   color:var(--gen-dark); }
+  .badge-profecia        { background:var(--prof-bg);  color:var(--prof-dark); }
+
+  .section-line { flex:1; height:1px; background:var(--border); }
+  .section-count { font-size:11px; color:var(--text-muted); }
+
+  /* ── BOOK GRID ── */
+  .book-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; padding:0 16px; }
+
+  /* ── BOOK CARD ── */
+  .book-card {
+    background:white; border-radius:16px;
+    border:1.5px solid var(--border);
+    overflow:hidden; cursor:pointer;
+    transition:transform 0.15s, box-shadow 0.15s;
+    position:relative;
+  }
+  .book-card:active { transform:scale(0.97); }
+  .book-card.read { border-color:var(--green); }
+  .book-card.read::after {
+    content:'✓';
+    position:absolute; top:8px; right:8px;
+    width:20px; height:20px;
+    background:var(--green); color:white;
+    border-radius:50%; font-size:11px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* colored top banner per section */
+  .card-banner {
+    height: 56px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:28px;
+    position:relative;
+  }
+  .card-banner-penta      { background: linear-gradient(135deg, #F7D97A, #E8B84B); }
+  .card-banner-historia   { background: linear-gradient(135deg, #7BB8E8, #3D80C4); }
+  .card-banner-sabiduria  { background: linear-gradient(135deg, #C49BE0, #8E5CBF); }
+  .card-banner-pm         { background: linear-gradient(135deg, #F08080, #C0392B); }
+  .card-banner-pmen       { background: linear-gradient(135deg, #F4A96A, #D4622A); }
+  .card-banner-evangelios { background: linear-gradient(135deg, #7EC89A, #4A7C59); }
+  .card-banner-hnt        { background: linear-gradient(135deg, #7BB8E8, #2D6A9F); }
+  .card-banner-pablo      { background: linear-gradient(135deg, #F7D97A, #C9963A); }
+  .card-banner-generales  { background: linear-gradient(135deg, #C49BE0, #6B4C9A); }
+  .card-banner-profecia   { background: linear-gradient(135deg, #F08080, #8E1A10); }
+
+  .card-body { padding:10px 12px 12px; }
+  .book-name  { font-size:13px; font-weight:700; color:var(--text); margin-bottom:2px; }
+  .book-theme { font-size:10px; color:var(--text-muted); line-height:1.3; margin-bottom:8px; }
+  .book-meta  { display:flex; gap:5px; flex-wrap:wrap; }
+  .meta-pill  {
+    font-size:9px; padding:2px 7px; border-radius:10px;
+    background:var(--cream); color:var(--text-muted); font-weight:600;
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state { text-align:center; padding:60px 32px; color:var(--text-muted); }
+  .empty-state .emoji { font-size:40px; margin-bottom:12px; }
+  .empty-state p { font-size:14px; line-height:1.6; }
+
+  /* ── BOTTOM PAD ── */
+  .bottom-pad { height:90px; }
+
+  /* ══════════════════════════════════════
+     MODAL
+  ══════════════════════════════════════ */
+  .modal-overlay {
+    position:fixed; inset:0;
+    background:rgba(0,0,0,0.55);
+    z-index:200; display:none; align-items:flex-end;
+  }
+  .modal-overlay.open { display:flex; }
+
+  .modal {
+    background:var(--cream); border-radius:24px 24px 0 0;
+    width:100%; max-height:92vh; overflow-y:auto;
+    padding-bottom:40px;
+    animation:slideUp 0.28s ease;
+  }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+
+  /* back button row */
+  .modal-topbar {
+    display:flex; align-items:center;
+    padding:14px 16px 0;
+    position:sticky; top:0; background:var(--cream); z-index:10;
+  }
+  .modal-back-btn {
+    display:flex; align-items:center; gap:6px;
+    background:white; border:1.5px solid var(--border);
+    border-radius:20px; padding:6px 14px;
+    font-size:13px; font-weight:600; color:var(--text);
+    cursor:pointer; transition:background 0.15s;
+  }
+  .modal-back-btn:active { background:var(--cream); }
+  .modal-back-arrow { font-size:16px; line-height:1; }
+
+  /* hero with colored band */
+  .modal-hero {
+    margin:12px 16px 0;
+    border-radius:18px; overflow:hidden;
+    border:1.5px solid var(--border);
+  }
+  .modal-hero-band {
+    padding:20px 16px 16px;
+    display:flex; gap:14px; align-items:flex-start;
+  }
+  .modal-emoji { font-size:44px; line-height:1; flex-shrink:0; }
+  .modal-hero-text {}
+  .modal-title  { font-size:22px; font-weight:800; color:white; letter-spacing:-0.4px; }
+  .modal-sub    { font-size:12px; color:rgba(255,255,255,0.8); margin-top:3px; }
+  .modal-badge-hero {
+    display:inline-block; margin-top:8px;
+    background:rgba(255,255,255,0.25); color:white;
+    padding:3px 10px; border-radius:20px;
+    font-size:10px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;
+  }
+
+  /* card sections inside modal */
+  .modal-card {
+    margin:12px 16px 0; background:white;
+    border-radius:14px; padding:14px; border:1px solid var(--border);
+  }
+  .modal-card-title {
+    font-size:11px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.8px; color:var(--text-muted); margin-bottom:10px;
+  }
+  .facts-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .fact-item  { background:var(--cream); border-radius:10px; padding:10px; }
+  .fact-label { font-size:10px; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:3px; }
+  .fact-value { font-size:13px; font-weight:700; color:var(--text); }
+
+  .theme-text { font-size:14px; color:var(--text); line-height:1.65; }
+
+  .jesus-box {
+    background:var(--evang-bg); border-radius:10px;
+    padding:12px; border-left:3px solid var(--green);
+  }
+  .jesus-box p { font-size:13px; color:#2E5A3C; line-height:1.55; font-weight:500; }
+
+  .sabias-box {
+    background:var(--gold-light); border-radius:10px;
+    padding:12px; border-left:3px solid var(--gold);
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .sabias-icon { font-size:20px; flex-shrink:0; }
+  .sabias-text { font-size:13px; color:var(--brown); line-height:1.55; }
+
+  .verse-box {
+    background:var(--blue-light); border-radius:10px;
+    padding:12px; border-left:3px solid var(--blue);
+  }
+  .verse-text { font-size:14px; color:var(--blue); font-style:italic; line-height:1.6; margin-bottom:6px; }
+  .verse-ref  { font-size:11px; font-weight:700; color:var(--blue); opacity:0.65; }
+
+  .read-btn {
+    display:block; margin:16px 16px 0;
+    padding:14px; background:var(--green); color:white;
+    border:none; border-radius:14px;
+    font-size:15px; font-weight:700; cursor:pointer;
+    text-align:center; width:calc(100% - 32px);
+    transition:opacity 0.2s;
+  }
+  .read-btn.done { background:var(--border); color:var(--text-muted); }
+
+  /* ── CAPA DEVOCIONAL ── */
+  .dev-divider {
+    margin: 20px 16px 0;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .dev-divider-line { flex:1; height:1px; background:var(--border); }
+  .dev-divider-label {
+    font-size:11px; font-weight:700; letter-spacing:0.8px;
+    text-transform:uppercase; color:var(--green);
+  }
+
+  .dev-card {
+    margin:10px 16px 0; border-radius:14px;
+    padding:14px; border:1.5px solid;
+  }
+  .dev-card-title {
+    font-size:11px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.8px; margin-bottom:10px;
+  }
+  /* Reflexión — verde suave */
+  .dev-reflexion {
+    background:#F0F7F3;
+    border-color:#B2D9C0;
+  }
+  .dev-reflexion .dev-card-title { color:#2E5A3C; }
+  .dev-reflexion-text {
+    font-size:14px; color:#2C2C2C; line-height:1.65;
+  }
+  /* Pregunta — ámbar */
+  .dev-pregunta {
+    background:#FEF9EC;
+    border-color:#F0D080;
+  }
+  .dev-pregunta .dev-card-title { color:#9B6E1E; }
+  .dev-pregunta-bubble {
+    background:white; border-radius:10px;
+    padding:12px 14px; border:1px solid #F0D080;
+    font-size:14px; color:#5A4010; line-height:1.6;
+    font-style:italic;
+  }
+  /* Oración — lavanda */
+  .dev-oracion {
+    background:#F3EFFC;
+    border-color:#C9B8EE;
+  }
+  .dev-oracion .dev-card-title { color:#4A2E78; }
+  .dev-oracion-text {
+    font-size:14px; color:#2C2C2C; line-height:1.7;
+  }
+  .dev-oracion-text em { color:#6B4C9A; font-style:normal; font-weight:600; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-icon">📖</div>
+    <div>
+      <div class="header-title">La Biblia de un Vistazo</div>
+      <div class="header-sub">66 libros · 2 Testamentos</div>
+    </div>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" placeholder="Buscar libro..." id="searchInput" oninput="filterBooks()">
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filter-scroll">
+  <div class="filter-chip active" onclick="setFilter('todos',this)">Todos</div>
+  <div class="filter-chip" onclick="setFilter('at',this)">Antiguo Testamento</div>
+  <div class="filter-chip" onclick="setFilter('nt',this)">Nuevo Testamento</div>
+  <div class="filter-chip" onclick="setFilter('leidos',this)">Explorados ✓</div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Mi progreso</span>
+    <span id="progressText">0 de 66 libros explorados</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<!-- LIST -->
+<div id="bookList"></div>
+<div class="bottom-pad"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+
+    <!-- sticky back button -->
+    <div class="modal-topbar">
+      <button class="modal-back-btn" onclick="closeModal()">
+        <span class="modal-back-arrow">←</span> Volver
+      </button>
+    </div>
+
+    <!-- colored hero -->
+    <div class="modal-hero">
+      <div class="modal-hero-band" id="mHeroBand">
+        <div class="modal-emoji" id="mEmoji"></div>
+        <div class="modal-hero-text">
+          <div class="modal-title" id="mTitle"></div>
+          <div class="modal-sub" id="mSubtitle"></div>
+          <span class="modal-badge-hero" id="mBadge"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- datos prácticos -->
+    <div class="modal-card">
+      <div class="modal-card-title">📋 Datos del Libro</div>
+      <div class="facts-grid" id="mFacts"></div>
+    </div>
+
+    <!-- tema central -->
+    <div class="modal-card">
+      <div class="modal-card-title">📜 Tema Central</div>
+      <p class="theme-text" id="mTheme"></p>
+    </div>
+
+    <!-- jesús en este libro -->
+    <div class="modal-card">
+      <div class="modal-card-title">✝️ Jesús en este Libro</div>
+      <div class="jesus-box"><p id="mJesus"></p></div>
+    </div>
+
+    <!-- sabías que -->
+    <div class="modal-card">
+      <div class="modal-card-title">💡 ¿Sabías que...?</div>
+      <div class="sabias-box">
+        <span class="sabias-icon">⚡</span>
+        <p class="sabias-text" id="mSabias"></p>
+      </div>
+    </div>
+
+    <!-- versículo -->
+    <div class="modal-card">
+      <div class="modal-card-title">🔖 Versículo Ancla</div>
+      <div class="verse-box">
+        <p class="verse-text" id="mVerse"></p>
+        <p class="verse-ref"  id="mVerseRef"></p>
+      </div>
+    </div>
+
+    <!-- ── CAPA DEVOCIONAL ── -->
+    <div class="dev-divider">
+      <div class="dev-divider-line"></div>
+      <span class="dev-divider-label">🌿 Devocional</span>
+      <div class="dev-divider-line"></div>
+    </div>
+
+    <!-- Reflexión -->
+    <div class="dev-card dev-reflexion">
+      <div class="dev-card-title">🌱 Reflexión</div>
+      <p class="dev-reflexion-text" id="mReflexion"></p>
+    </div>
+
+    <!-- Pregunta -->
+    <div class="dev-card dev-pregunta">
+      <div class="dev-card-title">💭 Pregunta para hoy</div>
+      <div class="dev-pregunta-bubble" id="mPregunta"></div>
+    </div>
+
+    <!-- Oración -->
+    <div class="dev-card dev-oracion">
+      <div class="dev-card-title">🙏 Oración sugerida</div>
+      <p class="dev-oracion-text" id="mOracion"></p>
+    </div>
+
+    <button class="read-btn" id="mBtn" onclick="toggleRead()"></button>
+  </div>
+</div>
+
+<script>
+// ─── SECTION → banner CSS class ────────────────
+const BANNER = {
+  'pentateuco':       'card-banner-penta',
+  'historia':         'card-banner-historia',
+  'sabiduria':        'card-banner-sabiduria',
+  'profetas-mayores': 'card-banner-pm',
+  'profetas-menores': 'card-banner-pmen',
+  'evangelios':       'card-banner-evangelios',
+  'historia-nt':      'card-banner-hnt',
+  'cartas-pablo':     'card-banner-pablo',
+  'cartas-generales': 'card-banner-generales',
+  'profecia':         'card-banner-profecia'
+};
+
+// ─── SECTION → hero gradient ───────────────────
+const HERO_GRAD = {
+  'pentateuco':       'linear-gradient(135deg,#F7D97A,#C9963A)',
+  'historia':         'linear-gradient(135deg,#7BB8E8,#2D6A9F)',
+  'sabiduria':        'linear-gradient(135deg,#C49BE0,#6B4C9A)',
+  'profetas-mayores': 'linear-gradient(135deg,#F08080,#C0392B)',
+  'profetas-menores': 'linear-gradient(135deg,#F4A96A,#D4622A)',
+  'evangelios':       'linear-gradient(135deg,#7EC89A,#4A7C59)',
+  'historia-nt':      'linear-gradient(135deg,#7BB8E8,#2D6A9F)',
+  'cartas-pablo':     'linear-gradient(135deg,#F7D97A,#C9963A)',
+  'cartas-generales': 'linear-gradient(135deg,#C49BE0,#6B4C9A)',
+  'profecia':         'linear-gradient(135deg,#F08080,#8E1A10)'
+};
+
+const BOOKS = [
+  // PENTATEUCO
+  {id:'genesis',name:'Génesis',emoji:'🌍',testament:'at',section:'pentateuco',sectionLabel:'Pentateuco',badgeClass:'badge-pentateuco',subtema:'1–50 · Creación y Promesa',autor:'Moisés',fecha:'~1445 a.C.',capitulos:'50',audiencia:'Israel en el desierto',tema:'El libro de los comienzos: la creación del mundo, la caída del hombre, el diluvio de Noé y las promesas de Dios a Abraham, Isaac, Jacob y José. Cada historia muestra que Dios no abandona a quienes Él eligió, aunque fallen repetidamente.',jesus:'En Génesis 3:15 Dios promete a la serpiente que una descendencia de mujer la aplastaría — la primera profecía del Mesías. José, vendido por sus hermanos pero que los salva, es también una imagen poderosa de Cristo.',sabias:'El nombre "Génesis" en griego significa "origen". En hebreo el libro se llama Bereshit, que quiere decir simplemente "En el principio" — las primeras palabras del texto.',versiculo:'"Dios vio todo lo que había hecho, y era bueno en gran manera."',versiculoRef:'Génesis 1:31',reflexion:'Génesis nos recuerda que Dios no abandona su historia aunque sus personajes fallen. Abraham mintió, Jacob engañó, José fue traicionado — y sin embargo Dios siguió cumpliendo sus promesas a través de ellos. Tú también eres parte de una historia que Él no va a abandonar.',pregunta:'¿En qué área de tu vida necesitas confiar que Dios está escribiendo algo bueno, aunque ahora solo veas caos o fracaso?',oracion:'Padre, gracias porque desde el principio tenías un plan para mí. Así como no abandonaste a Abraham, a Jacob ni a José en sus momentos más oscuros, confío que no me abandonas a mí. Escribe tu historia en mi vida. Amén.'},
+  {id:'exodo',name:'Éxodo',emoji:'🌊',testament:'at',section:'pentateuco',sectionLabel:'Pentateuco',badgeClass:'badge-pentateuco',subtema:'1–40 · Liberación de Egipto',autor:'Moisés',fecha:'~1445 a.C.',capitulos:'40',audiencia:'Israel en el desierto',tema:'El nacimiento y llamado de Moisés, las 10 plagas, la liberación de Israel de la esclavitud egipcia, el cruce del Mar Rojo y el pacto en el Sinaí con los 10 Mandamientos. También la construcción del Tabernáculo donde Dios habitaría entre su pueblo.',jesus:'El cordero de la Pascua — cuya sangre en los dinteles salvó a Israel de la muerte — es imagen directa de Jesús como el Cordero de Dios. Moisés como libertador también prefigura a Cristo.',sabias:'Las 10 plagas estaban dirigidas específicamente contra los dioses de Egipto. La plaga de oscuridad, por ejemplo, atacaba directamente a Ra, el dios sol. Dios no solo liberó a Israel — demostró que los dioses egipcios no eran nada.',versiculo:'"Yo soy el que soy. Así dirás a los israelitas: YO SOY me envió a vosotros."',versiculoRef:'Éxodo 3:14',reflexion:'Dios escuchó el clamor de un pueblo esclavo y actuó. No les dijo "aguanten un poco más" — los sacó. Éxodo nos dice que Dios ve la opresión de su pueblo y que su liberación no llega a medias: los sacó completos, los cuidó en el desierto y se quedó a vivir entre ellos.',pregunta:'¿De qué tipo de esclavitud — hábito, miedo, dependencia, pensamiento — necesitas pedirle a Dios que te libere hoy?',oracion:'Señor, así como liberaste a Israel, líbrame a mí de lo que me tiene atado. Eres el Dios que oye el clamor de sus hijos. Aquí está el mío. Sácame y quédate conmigo en el camino. Amén.'},
+  {id:'levitico',name:'Levítico',emoji:'🕊️',testament:'at',section:'pentateuco',sectionLabel:'Pentateuco',badgeClass:'badge-pentateuco',subtema:'1–27 · La Ley de la Santidad',autor:'Moisés',fecha:'~1445 a.C.',capitulos:'27',audiencia:'Sacerdotes y pueblo de Israel',tema:'El manual de adoración de Israel: tipos de sacrificios, pureza ritual, el rol de los sacerdotes, el Día de la Expiación y las siete fiestas anuales. Dios misericordiosamente proveyó un camino para que su pueblo pecador pudiera acercarse a Él.',jesus:'Todo el sistema de sacrificios apunta a Jesús como el sacrificio definitivo. El Día de la Expiación prefigura a Jesús entrando al trono celestial con su propia sangre.',sabias:'La palabra "santo" aparece más de 90 veces en Levítico — más que en cualquier otro libro de la Biblia. El mensaje central: "Sed santos, porque yo soy santo" (Lev 11:44).',versiculo:'"Amarás a tu prójimo como a ti mismo. Yo soy el Señor."',versiculoRef:'Levítico 19:18',reflexion:'Levítico parece un libro de reglas, pero en su corazón hay una verdad preciosa: Dios quería que su pueblo pudiera acercarse a Él. Cada sacrificio decía "hay un camino". Cristo es ese camino — definitivo y perfecto. Ya no necesitas un sistema de rituales para estar cerca de Dios.',pregunta:'¿Hay algo en tu vida que sientes que te aleja de Dios? ¿Puedes traérselo hoy, sabiendo que Jesús ya pagó el precio de tu acceso?',oracion:'Señor, gracias porque no necesito sacrificios ni rituales para acercarme a ti. Jesús abrió el camino. Vengo a ti tal como soy, con lo que soy, confiando en lo que Él hizo. Acércame más a tu presencia. Amén.'},
+  {id:'numeros',name:'Números',emoji:'🏕️',testament:'at',section:'pentateuco',sectionLabel:'Pentateuco',badgeClass:'badge-pentateuco',subtema:'1–36 · Rebelión en el Desierto',autor:'Moisés',fecha:'~1445 a.C.',capitulos:'36',audiencia:'Israel en el desierto',tema:'Cuarenta años de vagabundeo por negarse a entrar a Canaán. Muestra la rebelión repetida de Israel y la paciencia sostenida de Dios. También incluye la historia de Balaam y su burra, y la serpiente de bronce que sanaba a los mordidos.',jesus:'La serpiente de bronce que Moisés levantó es citada por el propio Jesús: "Como Moisés levantó la serpiente, el Hijo del Hombre debe ser levantado" (Juan 3:14). Una imagen perfecta de la cruz.',sabias:'El nombre "Números" viene de los dos censos del libro. En hebreo se llama Bemidbar, "en el desierto" — mucho más descriptivo de lo que realmente trata.',versiculo:'"El Señor te bendiga y te guarde; el Señor haga resplandecer su rostro sobre ti."',versiculoRef:'Números 6:24-25',reflexion:'Israel tardó 40 años en hacer un viaje de 11 días porque el miedo venció a la fe. El desierto no fue el plan original de Dios — fue consecuencia de no confiar. Pero incluso allí, Dios los alimentó, los guió con nube y fuego, y nunca los abandonó. El desierto no es el fin — es formación.',pregunta:'¿Hay una "tierra prometida" — un paso de fe, un sueño, una dirección — ante la que el miedo te ha hecho rodear en vez de entrar?',oracion:'Señor, perdóname cuando el miedo ha sido más grande que la fe. Dame el corazón de Caleb y Josué — los que dijeron "podemos" cuando todos decían "no podemos". Ayúdame a avanzar hacia lo que tú tienes para mí. Amén.'},
+  {id:'deuteronomio',name:'Deuteronomio',emoji:'📜',testament:'at',section:'pentateuco',sectionLabel:'Pentateuco',badgeClass:'badge-pentateuco',subtema:'1–34 · Llamado a la Fidelidad',autor:'Moisés',fecha:'~1405 a.C.',capitulos:'34',audiencia:'Nueva generación de Israel',tema:'El último discurso de Moisés. Recapitula la historia de Israel, reafirma la Ley para la nueva generación y presenta una elección clara: obediencia trae bendición, desobediencia trae maldición. Moisés nombra a Josué su sucesor y muere en el Monte Nebo.',jesus:'Moisés profetizó que Dios levantaría "un profeta como yo" (Deut 18:15). Jesús es identificado como ese profeta (Hechos 3:22). Cuando Satanás tentó a Jesús en el desierto, Él respondió cada vez con una cita de Deuteronomio.',sabias:'Deuteronomio es el libro más citado por Jesús durante su tentación en el desierto. También es uno de los más citados en todo el NT. El "Shemá" (Deut 6:4) fue declarado por Jesús el primer mandamiento.',versiculo:'"Amarás al Señor tu Dios con todo tu corazón, con toda tu alma y con todas tus fuerzas."',versiculoRef:'Deuteronomio 6:5',reflexion:'Moisés sabía que no entraría a la tierra prometida, pero aun así dedicó sus últimas palabras a preparar al siguiente. Deuteronomio es el libro del legado: ¿qué le voy a dejar a la siguiente generación? Fe, obediencia y amor a Dios son la herencia más valiosa que podemos transmitir.',pregunta:'¿Qué valores de fe estás transmitiendo hoy — consciente o inconscientemente — a quienes vienen detrás de ti?',oracion:'Señor, que mi vida sea un testamento de fidelidad. Como Moisés, quiero usar cada palabra y cada día para apuntar a otros hacia ti. Que lo que deje detrás no sea solo logros, sino fe. Amén.'},
+
+  // HISTORIA AT
+  {id:'josue',name:'Josué',emoji:'⚔️',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–24 · La Tierra Prometida',autor:'Josué / escribas posteriores',fecha:'~1400 a.C.',capitulos:'24',audiencia:'Israel al entrar a Canaán',tema:'Israel finalmente entra a la Tierra Prometida. Incluye la caída de Jericó, la conquista de Canaán en 31 batallas, y la distribución de la tierra entre las doce tribus. Josué desafía al pueblo a elegir a quién servirán.',jesus:'Dato extraordinario: Yeshua es el nombre hebreo de Josué — en griego se traduce "Jesús". Josué guía al pueblo a la Tierra Prometida; Jesús nos guía a la vida eterna. El mismo nombre, el mismo rol: liberar y establecer.',sabias:'El nombre Yeshua (יֵשׁוּעַ) significa "el Señor salva". Tanto Josué como Jesús llevan exactamente el mismo nombre. Por eso la app se llama Yeshua — el nombre del libertador que viene desde el AT.',versiculo:'"Sed fuertes y valientes. No temáis, porque el Señor vuestro Dios estará con vosotros dondequiera que vayáis."',versiculoRef:'Josué 1:9',reflexion:'Josué nos habla de la valentía de avanzar cuando Dios dice que avancemos. Pero también de fidelidad colectiva — el pueblo cruzó junto, peleó junto y celebró junto. La fe no es un deporte individual. Dios quiere guiarte, pero también quiere que camines en comunidad.',pregunta:'¿Hay un paso de obediencia que Dios te ha pedido dar y que has pospuesto por miedo? ¿Qué pasaría si lo dieras esta semana?',oracion:'Señor, dame el coraje de Josué. Que cuando tú digas \'avanza\', yo avance — no cuando me sienta listo, sino cuando tú me lo pidas. Sé fuerte en mí donde yo soy débil. Amén.'},
+  {id:'jueces',name:'Jueces',emoji:'🗡️',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–21 · El Ciclo del Fracaso',autor:'Samuel (tradición)',fecha:'~1050 a.C.',capitulos:'21',audiencia:'Israel durante el período de los jueces',tema:'Cuatrocientos años de un ciclo repetitivo: Israel peca, es oprimido, clama a Dios, Dios envía un juez libertador, hay paz, y el ciclo vuelve a empezar. Jueces como Débora, Gedeón y Sansón muestran que Dios usa líderes imperfectos.',jesus:'Los jueces eran libertadores temporales e imperfectos que apuntan a la necesidad de un Salvador definitivo. Sansón, que murió con los brazos extendidos aplastando a los enemigos, es una imagen impactante de Cristo en la cruz.',sabias:'El libro termina con una de las frases más oscuras de la Biblia: "En aquellos días no había rey en Israel; cada uno hacía lo que le parecía bien" (Jueces 21:25). Este final prepara la necesidad de un rey.',versiculo:'"En aquellos días no había rey en Israel; cada uno hacía lo que le parecía bien."',versiculoRef:'Jueces 21:25',reflexion:'El ciclo de Jueces — pecado, consecuencia, clamor, rescate — es el ciclo de muchas vidas. La buena noticia es que Dios siempre escucha el clamor. No importa cuántas veces hayas fallado: Él sigue siendo el Dios que rescata.',pregunta:'¿Reconoces algún ciclo en tu vida del que quieres salir? ¿Qué rompería ese ciclo si lo traes honestamente a Dios hoy?',oracion:'Dios, reconozco los patrones en mi vida que me alejan de ti. No quiero seguir dando vueltas en el mismo círculo. Rompe ese ciclo con tu poder. Soy tuyo. Amén.'},
+  {id:'rut',name:'Rut',emoji:'🌾',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–4 · Lealtad y Redención',autor:'Samuel (tradición)',fecha:'~1000 a.C.',capitulos:'4',audiencia:'Israel durante los jueces',tema:'En medio del caos de Jueces, una mujer moabita llamada Rut elige quedarse con su suegra Noemí y con el Dios de Israel. Booz, el pariente redentor, la rescata. Una historia de lealtad, amor y redención que brilla en la oscuridad.',jesus:'Booz como "pariente redentor" que paga el precio para rescatar a Rut es una de las imágenes más claras de Cristo en el AT. El hijo de Rut, Obed, fue el abuelo del Rey David — antepasado directo de Jesús.',sabias:'Rut es una de las dos únicas mujeres con libro propio en la Biblia (la otra es Ester). Y Rut no era israelita — era moabita. Dios la incluyó en el linaje de Jesús como señal de que la salvación es para todas las naciones.',versiculo:'"Donde tú mueras, yo moriré, y allí seré sepultada. Nada nos separará."',versiculoRef:'Rut 1:17',reflexion:'La historia de Rut muestra que Dios trabaja en lo ordinario y lo cotidiano. No hubo milagros espectaculares — solo lealtad, trabajo y un hombre generoso. A veces la providencia de Dios llega disfrazada de fidelidad en lo pequeño.',pregunta:'¿Hacia quién estás siendo leal hoy, aunque nadie te lo exija? ¿Cómo puedes ser, como Booz, un canal de gracia para alguien vulnerable en tu entorno?',oracion:'Señor, enséñame la lealtad de Rut y la generosidad de Booz. Que en mi vida cotidiana — sin grandes escenarios — sea un instrumento de tu cuidado para otros. Amén.'},
+  {id:'samuel1',name:'1 Samuel',emoji:'👑',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–31 · El Primer Rey de Israel',autor:'Samuel / Natán / Gad',fecha:'~1000 a.C.',capitulos:'31',audiencia:'Israel durante la monarquía',tema:'Samuel, el último juez, unge al primer rey: Saúl. Pero Saúl desobedece a Dios y pierde el reino. David — el joven pastor que derrota a Goliat — es ungido en secreto como el siguiente rey, elegido no por apariencia sino por su corazón.',jesus:'David como pastor que rescata sus ovejas del oso y el león prefigura a Jesús el Buen Pastor. La victoria de David sobre Goliat representa cómo Cristo venció al enemigo de la manera más inesperada.',sabias:'David mató a Goliat aproximadamente a los 15-17 años. Goliat medía casi 3 metros según el texto. Cuatro soldados israelitas habían huido antes. David fue el único que avanzó hacia él.',versiculo:'"El Señor no mira lo que el hombre mira; el hombre mira lo exterior, pero el Señor mira el corazón."',versiculoRef:'1 Samuel 16:7',reflexion:'Dios mira el corazón. En un mundo que selecciona por apariencia, rendimiento y popularidad, Él eligió a un pastor adolescente con corazón de adorador. Tu valor ante Dios no depende de tus credenciales — depende de tu corazón.',pregunta:'¿Qué crees que Dios ve cuando mira tu corazón hoy? ¿Hay algo que quisieras que cambiara en lo más profundo de ti?',oracion:'Señor, no me dejes vivir para las apariencias. Que lo que hay en mi corazón sea lo que te agrada. Transfórmame desde adentro, no solo en lo que otros pueden ver. Amén.'},
+  {id:'samuel2',name:'2 Samuel',emoji:'🏰',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–24 · El Reinado de David',autor:'Samuel / Natán / Gad',fecha:'~970 a.C.',capitulos:'24',audiencia:'Israel durante la monarquía',tema:'David conquista Jerusalén y establece su capital. Dios le hace una promesa extraordinaria: alguien de su linaje reinaría para siempre. Pero David también comete adulterio con Betsabé y organiza la muerte de su esposo. El libro muestra la gracia de Dios hacia un rey quebrantado.',jesus:'El pacto de Dios con David (2 Sam 7) es clave: "Tu trono será firme para siempre." Jesús es el cumplimiento final — el Rey eterno del linaje de David.',sabias:'A pesar de sus grandes pecados, David es llamado "un hombre conforme al corazón de Dios". El Salmo 51, escrito tras su caída con Betsabé, es uno de los más profundos de toda la Biblia.',versiculo:'"Tu casa y tu reino permanecerán para siempre; tu trono será establecido para siempre."',versiculoRef:'2 Samuel 7:16',reflexion:'David cometió pecados graves — adulterio, asesinato — pero su respuesta fue arrepentimiento genuino, no excusas. El Salmo 51 es el fruto de ese quebrantamiento. Lo que lo hizo un hombre conforme al corazón de Dios no fue perfección, sino disposición a regresar.',pregunta:'¿Hay algo de lo que necesitas arrepentirte pero que has estado posponiendo o justificando? ¿Puedes traérselo a Dios ahora, con la honestidad de David?',oracion:'Padre, como David, me acerco a ti quebrantado por mis errores. No tengo excusas. Crea en mí un corazón limpio. Renueva un espíritu recto dentro de mí. Amén.'},
+  {id:'reyes1',name:'1 Reyes',emoji:'✨',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–22 · El Esplendor y la División',autor:'Jeremías (tradición)',fecha:'~550 a.C.',capitulos:'22',audiencia:'Israel en el exilio',tema:'Salomón sube al trono, pide sabiduría y construye el Templo. Pero al final se aparta de Dios por sus muchas esposas extranjeras. A su muerte Israel se divide en dos reinos: Norte y Sur. El profeta Elías enfrenta a los 450 profetas de Baal.',jesus:'La sabiduría de Salomón prefigura a Jesús, "la sabiduría de Dios" (1 Cor 1:24). Jesús dijo: "Aquí hay uno mayor que Salomón" (Mat 12:42). El Templo prefigura el cuerpo de Cristo.',sabias:'Salomón tuvo 700 esposas y 300 concubinas (1 Reyes 11:3). Lo que comenzó como alianzas políticas se convirtió en su ruina espiritual. La sabiduría sin obediencia no salva.',versiculo:'"Te doy corazón sabio y entendido, como no ha habido antes de ti ni habrá después."',versiculoRef:'1 Reyes 3:12',reflexion:'Salomón empezó bien — pidió sabiduría, construyó el Templo — pero terminó mal, con el corazón dividido. Nos recuerda que el inicio no garantiza el final. Lo que importa es mantenerse fiel hasta el último capítulo.',pregunta:'¿Tu corazón está completamente orientado hacia Dios hoy, o hay algo que compite con Él por el centro de tu vida?',oracion:'Señor, que no me pase lo de Salomón — empezar bien y terminar con el corazón dividido. Guarda mi corazón en la sencillez y la devoción a ti, hasta el final. Amén.'},
+  {id:'reyes2',name:'2 Reyes',emoji:'🏚️',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–25 · El Colapso de los Reinos',autor:'Jeremías (tradición)',fecha:'~550 a.C.',capitulos:'25',audiencia:'Israel en el exilio',tema:'La caída del Reino del Norte ante Asiria (722 a.C.) y del Sur ante Babilonia (586 a.C.). Los milagros de Eliseo y el reinado fiel de Ezequías brillan en medio de la oscuridad. El libro termina en el exilio.',jesus:'Los milagros de Eliseo — resucitar muertos, multiplicar alimentos, sanar leprosos — anticipan casi exactamente los milagros de Jesús siglos después. Dios preparaba al pueblo para reconocer al Mesías.',sabias:'2 Reyes 25 termina con Israel deportado y Jerusalén en ruinas — uno de los finales más devastadores de la Biblia. Pero no es el final de la historia: Dios ya había prometido el regreso.',versiculo:'"No temas, porque más son los que están con nosotros que los que están con ellos."',versiculoRef:'2 Reyes 6:16',reflexion:'2 Reyes termina en el exilio — una consecuencia de generaciones de decisiones que alejaron al pueblo de Dios. Las elecciones de hoy tienen consecuencias mañana. Pero Dios no termina la historia en el desastre — siempre hay un siguiente capítulo.',pregunta:'¿Qué decisión pequeña de hoy podría tener un impacto grande en tu vida o en la de tu familia en 10 años?',oracion:'Señor, dame visión larga. Ayúdame a tomar decisiones hoy pensando no solo en el presente sino en lo que quiero que sea mi legado. Que mis elecciones te honren. Amén.'},
+  {id:'cronicas1',name:'1 Crónicas',emoji:'📚',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–29 · Historia Restaurada',autor:'Esdras (tradición)',fecha:'~450 a.C.',capitulos:'29',audiencia:'Israel post-exilio',tema:'Recuenta la historia desde Adán hasta David, con énfasis en genealogías y los preparativos de David para el Templo. A diferencia de Samuel, omite las historias negativas de David y enfoca en su legado espiritual.',jesus:'El linaje de David en 1 Crónicas conecta directamente con la genealogía de Jesús en Mateo 1. Dios preservó ese registro cuidadosamente para que nadie dudara que Jesús era el Mesías prometido.',sabias:'1 Crónicas dedica nueve capítulos enteros a genealogías. Para los judíos que regresaron del exilio, saber de qué familia descendían era vital para reclamar tierras, sacerdocio y ciudadanía. Era su "documento de identidad".',versiculo:'"Busca al Señor y su fuerza; busca su rostro continuamente."',versiculoRef:'1 Crónicas 16:11',reflexion:'Las genealogías de Crónicas dicen algo profundo: cada nombre importa. Dios lleva la cuenta. No eres un número en la historia — eres un nombre en el plan de Dios, parte de un linaje espiritual que llega hasta Cristo.',pregunta:'¿Cómo te ves a ti mismo en la historia de Dios? ¿Sientes que tu vida tiene peso eterno, o te cuesta creer que Dios te tiene en cuenta?',oracion:'Padre, gracias porque me conoces por nombre. Mi historia importa en la tuya. Ayúdame a vivir consciente de que soy parte de algo mucho más grande que yo. Amén.'},
+  {id:'cronicas2',name:'2 Crónicas',emoji:'🏛️',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–36 · Reyes Fieles e Infieles',autor:'Esdras (tradición)',fecha:'~450 a.C.',capitulos:'36',audiencia:'Israel post-exilio',tema:'Del reinado de Salomón hasta el exilio en Babilonia. El patrón es claro: los reyes que buscan a Dios prosperan; los que lo abandonan caen. Termina con el decreto del rey Ciro permitiendo el regreso de los judíos a su tierra.',jesus:'2 Crónicas termina con el decreto de Ciro — el mismo con que comienza Esdras. Este "reinicio" de Israel apunta al reinicio definitivo que Jesús traería: un nuevo pacto, un nuevo templo, una nueva creación.',sabias:'El versículo más famoso, 2 Crónicas 7:14, fue escrito para momentos de crisis: "Si mi pueblo se humilla y ora... yo escucharé desde el cielo." Sigue siendo la oración de avivamiento más citada hoy.',versiculo:'"Si mi pueblo se humilla y ora, y me busca y abandona su mala conducta, yo lo escucharé desde el cielo."',versiculoRef:'2 Crónicas 7:14',reflexion:'2 Crónicas enseña que la fidelidad tiene recompensa y la infidelidad tiene consecuencias — no como fórmula mágica, sino como patrón de cómo funciona la vida con o sin Dios. La pregunta no es si Dios es fiel, sino si nosotros lo somos.',pregunta:'¿En qué área de tu vida Dios está buscando tu fidelidad ahora mismo — no un gran sacrificio, sino consistencia en lo pequeño?',oracion:'Señor, quiero ser de los reyes fieles en mi generación. No me interesa el tamaño de mi reino — me interesa honrarte en el espacio que me has dado. Que mi reinado sea uno de fidelidad. Amén.'},
+  {id:'esdras',name:'Esdras',emoji:'🔨',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–10 · El Regreso del Exilio',autor:'Esdras',fecha:'~450 a.C.',capitulos:'10',audiencia:'Israel que regresa del exilio',tema:'Los judíos regresan a Jerusalén tras 70 años en Babilonia. Zorobabel reconstruye el Templo a pesar de la oposición. Luego Esdras llega a enseñar la Torá y restaurar la comunidad espiritual del pueblo.',jesus:'Esdras restauró la Palabra de Dios al centro de la vida del pueblo. Jesús vino a hacer lo mismo de manera definitiva: "Destruid este templo, y en tres días lo levantaré" — hablando de su propio cuerpo.',sabias:'Los enemigos de Judá enviaron cartas al rey de Persia para detener la obra. El trabajo se paró por 16 años hasta que los profetas Hageo y Zacarías animaron al pueblo a retomar la construcción.',versiculo:'"Esdras había preparado su corazón para buscar la ley del Señor y para enseñarla."',versiculoRef:'Esdras 7:10',reflexion:'Esdras preparó su corazón antes de actuar. Estudió, practicó y luego enseñó. El orden importa. No podemos dar lo que no tenemos, ni enseñar lo que no vivimos. La transformación genuina empieza en lo personal antes de expresarse en lo público.',pregunta:'¿Estás intencionalmente preparando tu corazón — en la Palabra, en la oración, en comunidad — o estás intentando dar desde un pozo vacío?',oracion:'Señor, que como Esdras, mi primera prioridad sea prepararme a mí mismo para ti antes de querer cambiar a otros. Lléname antes de usarme. Amén.'},
+  {id:'nehemias',name:'Nehemías',emoji:'🧱',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–13 · Los Muros de Jerusalén',autor:'Nehemías',fecha:'~445 a.C.',capitulos:'13',audiencia:'Israel post-exilio',tema:'Nehemías, copero del rey persa, recibe noticias de que Jerusalén sigue en ruinas. Pide permiso, viaja y organiza la reconstrucción de los muros en solo 52 días, a pesar de la oposición constante.',jesus:'Nehemías reconstruyó los muros físicos. Jesús vino a restaurar algo más profundo: la relación rota entre Dios y la humanidad, derribada por el pecado y restaurada por su sacrificio.',sabias:'Los muros de Jerusalén fueron reconstruidos en 52 días. Los enemigos quedaron asombrados y reconocieron que solo Dios pudo haberlo hecho posible (Neh 6:16). Es uno de los proyectos más rápidos de la historia antigua.',versiculo:'"No teman, acuérdense del Señor grande y temible, y peleen por sus hermanos."',versiculoRef:'Nehemías 4:14',reflexion:'Nehemías oró antes de actuar, planeó antes de hablar y perseveró ante la oposición. No es un libro de espiritualidad sin acción ni de acción sin espiritualidad — es las dos cosas juntas. Fe con mangas remangadas.',pregunta:'¿Hay una obra de reconstrucción en tu vida — una relación, una disciplina, un área rota — a la que Dios te está llamando a poner manos a la obra?',oracion:'Señor, dame el corazón de Nehemías: que ore antes de actuar, que no me rinda ante la oposición y que trabaje sabiendo que la obra es tuya. Amén.'},
+  {id:'ester',name:'Ester',emoji:'👸',testament:'at',section:'historia',sectionLabel:'Historia',badgeClass:'badge-historia',subtema:'1–10 · Dios Salva a Su Pueblo',autor:'Mardoqueo / Esdras (tradición)',fecha:'~480 a.C.',capitulos:'10',audiencia:'Judíos en la diáspora persa',tema:'Una joven judía se convierte en reina de Persia sin revelar su origen. Cuando el funcionario Amán conspira para exterminar a todos los judíos, Ester arriesga su vida para interceder ante el rey. Su valor salva a su pueblo.',jesus:'Ester intercede ante el rey para salvar a su pueblo condenado a muerte — imagen de Cristo intercediendo ante el Padre por nosotros. El versículo 4:14 es quizás el más conocido: "¿Y quién sabe si para esta hora has llegado al reino?"',sabias:'Ester es el único libro del AT donde el nombre de Dios no aparece ni una sola vez. Sin embargo, su providencia se siente en cada página, orquestando eventos que parecen coincidencias pero que no lo son.',versiculo:'"¿Y quién sabe si para esta hora has llegado al reino?"',versiculoRef:'Ester 4:14',reflexion:'Ester no pidió ser reina. Pero cuando llegó el momento, usó la posición que tenía para salvar a los que amaba. Cada uno de nosotros está en una posición — familiar, laboral, social — que Dios puede usar si estamos dispuestos.',pregunta:'¿Para qué \'hora\' crees que Dios te ha colocado en la posición donde estás ahora? ¿Cómo puedes usar esa posición para el bien?',oracion:'Señor, como Ester, quiero usar el lugar donde me has puesto para algo más grande que yo. Dame valentía para actuar cuando el momento llegue, aunque me cueste. Amén.'},
+
+  // SABIDURÍA
+  {id:'job',name:'Job',emoji:'🌪️',testament:'at',section:'sabiduria',sectionLabel:'Sabiduría y Poesía',badgeClass:'badge-sabiduria',subtema:'1–42 · Sufrimiento y Fidelidad',autor:'Desconocido',fecha:'~2000-1800 a.C.',capitulos:'42',audiencia:'Universal',tema:'Job pierde todo en un día — hijos, riqueza y salud. Sus amigos argumentan que pecó. Job los refuta y clama a Dios. Finalmente Dios responde desde el torbellino. El libro no da respuestas fáciles al sufrimiento; nos lleva a confiar aunque no entendamos.',jesus:'Job 19:25 es asombroso: "Yo sé que mi Redentor vive." Job anticipa a alguien que vendría a redimirnos. Cristo es ese Redentor vivo. Job inocente que sufre injustamente también prefigura a Cristo en la cruz.',sabias:'Job es posiblemente el libro más antiguo de la Biblia, situado en tiempos de los patriarcas. No hay mención del éxodo ni de Israel ni de Moisés. Job es un gentil — y Dios lo llama "mi siervo" más que a casi nadie en el AT.',versiculo:'"Yo sé que mi Redentor vive, y que al final se levantará sobre el polvo."',versiculoRef:'Job 19:25',reflexion:'Job no recibió explicaciones — recibió a Dios. Al final del libro, Dios no respondió las preguntas de Job sobre el sufrimiento; se reveló a sí mismo. Y eso fue suficiente. A veces la respuesta al dolor no es información — es presencia.',pregunta:'¿Hay algo en tu vida que no entiendes y con lo que estás enojado con Dios? ¿Puedes ser tan honesto como Job y traérselo directamente?',oracion:'Dios, no entiendo todo lo que ha pasado. Pero como Job, elijo confiar en ti aunque no tenga respuestas. Tú eres suficiente. Mi Redentor vive. Amén.'},
+  {id:'salmos',name:'Salmos',emoji:'🎵',testament:'at',section:'sabiduria',sectionLabel:'Sabiduría y Poesía',badgeClass:'badge-sabiduria',subtema:'1–150 · El Corazón de Israel',autor:'David (73), Asaf (12), Salomón, Moisés y otros',fecha:'1000–500 a.C.',capitulos:'150',audiencia:'Israel en adoración',tema:'La colección de poemas, oraciones y canciones más grande de la Biblia. Cubre toda la experiencia humana: alabanza gozosa, lamento profundo, gratitud, enojo, confusión, esperanza. Es el libro de oración de Israel y de la iglesia a través de los siglos.',jesus:'Al menos 17 salmos son mesiánicos con profecías directas sobre Jesús. El Salmo 22 describe la crucifixión ("horadaron mis manos y mis pies") escrito 1000 años antes de que existiera la crucifixión como método de ejecución.',sabias:'Los Salmos son el libro más citado en el NT — más de 400 veces. Jesús citó los Salmos desde la cruz misma. También es el libro más largo de la Biblia con 150 capítulos y más de 2,500 versículos.',versiculo:'"El Señor es mi pastor; nada me faltará."',versiculoRef:'Salmo 23:1',reflexion:'Los Salmos son permiso para ser humano delante de Dios. Hay salmos de alegría pura y salmos de enojo, confusión y duda. Dios no exige que vengas con las emociones correctas — exige que vengas. La honestidad es la puerta de la adoración.',pregunta:'¿Qué salmo describe mejor cómo te sientes ahora mismo — lamento, gratitud, confusión, alabanza? ¿Puedes orar ese sentimiento a Dios sin filtros?',oracion:'Señor, te traigo mi corazón tal como está hoy — no como debería estar. Tú lo conoces de todas formas. Recíbeme, transforma lo que necesita transformación, y aumenta lo que se alinea contigo. Amén.'},
+  {id:'proverbios',name:'Proverbios',emoji:'💡',testament:'at',section:'sabiduria',sectionLabel:'Sabiduría y Poesía',badgeClass:'badge-sabiduria',subtema:'1–31 · El Camino de la Sabiduría',autor:'Salomón (principalmente)',fecha:'~950 a.C.',capitulos:'31',audiencia:'Jóvenes de Israel',tema:'Dichos sabios para vivir bien en el mundo real: relaciones, trabajo, dinero, palabras, familia e integridad. La sabiduría comienza con el temor del Señor y se expresa en cómo vivimos cada día. Incluye el retrato de la "Mujer Virtuosa" en el capítulo 31.',jesus:'La sabiduría en Proverbios es personificada como una mujer que clama en las plazas. Pablo en 1 Cor 1:24 identifica a Cristo como "la sabiduría de Dios". Jesús es la sabiduría encarnada, el Proverbio viviente de Dios al mundo.',sabias:'Proverbios 31 — el retrato de la mujer virtuosa — fue escrito originalmente por la madre del rey Lemuel para enseñarle cómo reconocer una buena esposa. Es uno de los pocos textos donde una mujer aparece como autora.',versiculo:'"Confía en el Señor con todo tu corazón, y no te apoyes en tu propio entendimiento."',versiculoRef:'Proverbios 3:5',reflexion:'Proverbios no promete que la sabiduría te evitará todo problema — promete que te dará la integridad para navegar cualquier cosa. La sabiduría bíblica no es un truco para tener éxito; es el arte de vivir bien en un mundo complejo.',pregunta:'¿En qué decisión o relación necesitas más sabiduría ahora mismo? ¿La has pedido a Dios de manera específica?',oracion:'Padre, te pido sabiduría hoy — no teoría, sino juicio práctico para las decisiones reales de mi vida. Confío en que me la das, como prometiste. Amén.'},
+  {id:'eclesiastes',name:'Eclesiastés',emoji:'🌀',testament:'at',section:'sabiduria',sectionLabel:'Sabiduría y Poesía',badgeClass:'badge-sabiduria',subtema:'1–12 · El Sentido de la Vida',autor:'El Predicador (posiblemente Salomón)',fecha:'~935 a.C.',capitulos:'12',audiencia:'Universal',tema:'Un experimento filosófico: ¿qué tiene sentido bajo el sol? Lo prueba todo — riqueza, placer, sabiduría, fama — y concluye que todo es "vanidad" sin Dios. La conclusión final: teme a Dios y guarda sus mandamientos.',jesus:'Eclesiastés expone el vacío de todo lo que no es Dios. Jesús ofrece lo que este libro busca: "Yo he venido para que tengan vida, y para que la tengan en abundancia" (Juan 10:10). Él es el antídoto a la vanidad.',sabias:'La palabra "vanidad" (en hebreo: hebel, "vapor" o "aliento") aparece 38 veces en Eclesiastés. El libro es una conversación honesta con la desesperanza humana — y la Biblia no tiene miedo de incluirla.',versiculo:'"Todo tiene su momento; hay un tiempo para todo lo que se hace bajo el cielo."',versiculoRef:'Eclesiastés 3:1',reflexion:'Eclesiastés es brutalmente honesto sobre el vacío de perseguir cosas sin Dios. Si resonó en ti, no es casualidad — hay algo en ti que fue hecho para más que lo que el mundo ofrece. Ese anhelo es la firma de Dios en tu alma.',pregunta:'¿En qué estás poniendo tu esperanza de satisfacción ahora mismo — trabajo, relación, logro, placer? ¿Está funcionando?',oracion:'Señor, solo en ti encuentro lo que verdaderamente busco. Todo lo demás deja vacío. Ayúdame a no perder tiempo persiguiendo viento cuando tú eres el único que llena. Amén.'},
+  {id:'cantares',name:'Cantares',emoji:'🌹',testament:'at',section:'sabiduria',sectionLabel:'Sabiduría y Poesía',badgeClass:'badge-sabiduria',subtema:'1–8 · Un Poema de Amor',autor:'Salomón',fecha:'~950 a.C.',capitulos:'8',audiencia:'Universal',tema:'Un poema de amor apasionado entre esposo y esposa. Celebra la belleza del amor conyugal como don de Dios. Interpretado también como alegoría del amor de Dios por Israel (tradición judía) y del amor de Cristo por su Iglesia (tradición cristiana).',jesus:'La tradición cristiana desde los primeros siglos ha leído Cantares como alegoría del amor de Cristo por la Iglesia. El esposo que busca a su amada, que la llama hermosa aún cuando ella se siente indigna, refleja el amor de Dios por cada creyente.',sabias:'"Cantar de los Cantares" es una expresión superlativa en hebreo que significa "El mejor de todos los cánticos" — igual que "Santo de los Santos" o "Rey de Reyes". Para los judíos es considerado el libro más sagrado de toda la Biblia.',versiculo:'"Fuerte es el amor como la muerte... sus brasas son brasas de fuego, llama del Señor mismo."',versiculoRef:'Cantares 8:6',reflexion:'Cantares celebra el amor como don sagrado de Dios. En una cultura que trivializa el amor o lo reduce a transacción, este libro es un llamado a amar profundo, exclusivo y apasionado — en el matrimonio y como imagen del amor de Dios por nosotros.',pregunta:'¿Cómo está tu capacidad de recibir el amor de Dios? ¿Te sientes amado por Él ahora mismo, o hay algo que te hace sentir indigno de ese amor?',oracion:'Señor, enséñame a recibir tu amor sin merecerlo y a amarte sin calcular. Que el amor sea el idioma central de mi vida — hacia ti y hacia quienes me rodean. Amén.'},
+
+  // PROFETAS MAYORES
+  {id:'isaias',name:'Isaías',emoji:'🕯️',testament:'at',section:'profetas-mayores',sectionLabel:'Profetas Mayores',badgeClass:'badge-profetas-mayores',subtema:'1–66 · Juicio y Esperanza',autor:'Isaías',fecha:'740–700 a.C.',capitulos:'66',audiencia:'Judá antes del exilio',tema:'El "evangelio del AT". Anuncia juicio sobre Judá pero también promesas extraordinarias del Mesías venidero. Los capítulos 40-55, "El Libro de la Consolación", y el capítulo 53 — el Siervo Sufriente — son la profecía mesiánica más detallada del AT.',jesus:'Isaías contiene 24 profecías mesiánicas cumplidas en Jesús: nacido de virgen (7:14), ministerio en Galilea, entrada triunfal, traición por 30 monedas, silencio ante acusadores, muerte con criminales y sepultura rica. Ningún azar puede explicar eso.',sabias:'Isaías tiene exactamente 66 capítulos — igual que los libros de la Biblia. Los primeros 39 (como el AT) hablan de ley y juicio; los últimos 27 (como el NT) de gracia y restauración. Algunos llaman a Isaías "la Biblia en miniatura".',versiculo:'"Mas él herido fue por nuestras rebeliones, molido por nuestros pecados; y por su llaga fuimos nosotros curados."',versiculoRef:'Isaías 53:5',reflexion:'Isaías vio la gloria de Dios y quedó deshecho: \'Soy hombre de labios inmundos.\' Pero Dios no lo destruyó — lo limpió y lo comisionó. El encuentro con la santidad de Dios no nos aplasta; nos transforma y nos envía.',pregunta:'Después de un encuentro honesto con Dios hoy, ¿a quién o a dónde crees que Él te está enviando? ¿Qué \'aquí estoy, envíame\' hay en tu vida?',oracion:'Señor, como Isaías, me detengo ante tu grandeza. Soy pequeño y limitado. Pero si me envías, iré. Aquí estoy. Límpiame, envíame y acompáñame. Amén.'},
+  {id:'jeremias',name:'Jeremías',emoji:'😢',testament:'at',section:'profetas-mayores',sectionLabel:'Profetas Mayores',badgeClass:'badge-profetas-mayores',subtema:'1–52 · El Profeta Llorón',autor:'Jeremías',fecha:'627–585 a.C.',capitulos:'52',audiencia:'Judá antes y durante el exilio',tema:'Durante 40 años Jeremías advirtió sobre el juicio de Babilonia sin que nadie le creyera. Fue encarcelado y perseguido. Pero también proclamó una promesa extraordinaria: Dios haría un Nuevo Pacto escrito no en piedra sino en los corazones.',jesus:'Jeremías 31:31-34, la profecía del Nuevo Pacto, es citada en Hebreos 8 como cumplida en Cristo. En la Última Cena, Jesús tomó la copa y dijo: "Esta copa es el Nuevo Pacto en mi sangre." Jeremías vio ese momento 600 años antes.',sabias:'Jeremías es el libro más largo de la Biblia en cantidad de palabras. También fue probablemente el más perseguido de todos los profetas: lo encarcelaron, lo bajaron a un pozo con lodo para que muriera, y fue llevado a Egipto contra su voluntad.',versiculo:'"Porque yo sé los planes que tengo para vosotros — planes de bienestar y no de calamidad, para daros un futuro y una esperanza."',versiculoRef:'Jeremías 29:11',reflexion:'Jeremías predicó 40 años sin ver resultados visibles. Fue rechazado, perseguido y encarcelado. Pero siguió fiel. Su recompensa no fue el éxito medible — fue la fidelidad misma. Dios no nos llama al éxito; nos llama a la obediencia.',pregunta:'¿Hay un área donde has sido fiel sin ver resultados? ¿Puedes confiar que Dios ve tu fidelidad aunque el mundo no la reconozca?',oracion:'Señor, dame la resistencia de Jeremías. Que no mida mi fidelidad por los aplausos ni por los resultados visibles, sino por tu aprobación. Amén.'},
+  {id:'lamentaciones',name:'Lamentaciones',emoji:'💔',testament:'at',section:'profetas-mayores',sectionLabel:'Profetas Mayores',badgeClass:'badge-profetas-mayores',subtema:'1–5 · Llanto sobre Jerusalén',autor:'Jeremías',fecha:'586 a.C.',capitulos:'5',audiencia:'Sobrevivientes del exilio',tema:'Cinco poemas de lamento escritos tras la destrucción de Jerusalén. Jeremías llora por la ciudad en ruinas y por el sufrimiento del pueblo. Pero en el centro hay un destello de esperanza que no se apaga: "Nuevas son cada mañana."',jesus:'Las Lamentaciones muestran el corazón de Dios destrozado por el pecado de su pueblo. Jesús también lloró sobre Jerusalén (Lucas 19:41). El sufrimiento descrito en el capítulo 1 fue aplicado por los primeros padres de la iglesia como imagen de Cristo.',sabias:'Los capítulos 1, 2 y 4 son poemas acrósticos: cada versículo comienza con una letra consecutiva del alfabeto hebreo. El capítulo 3 tiene 66 versículos — 3 por letra. Era una forma de expresar que el dolor era total, de la A a la Z.',versiculo:'"Las misericordias del Señor jamás terminan; son nuevas cada mañana."',versiculoRef:'Lamentaciones 3:22-23',reflexion:'Lamentaciones nos enseña que el lamento es un acto de fe — no de duda. Llevar el dolor a Dios en vez de alejarse de Él es confianza, no debilidad. Y en medio del llanto más oscuro del libro aparece Lamentaciones 3:22-23: \'Las misericordias del Señor son nuevas cada mañana.\'',pregunta:'¿Hay algo por lo que necesitas llorar delante de Dios hoy — una pérdida, una decepción, un dolor sin resolver? ¿Puedes traerlo como oración?',oracion:'Señor, te traigo mi dolor sin pretender que no existe. Sé que en ti el lamento puede convivir con la esperanza. Tus misericordias son nuevas esta mañana también para mí. Amén.'},
+  {id:'ezequiel',name:'Ezequiel',emoji:'👁️',testament:'at',section:'profetas-mayores',sectionLabel:'Profetas Mayores',badgeClass:'badge-profetas-mayores',subtema:'1–48 · Visiones de Juicio y Restauración',autor:'Ezequiel',fecha:'593–571 a.C.',capitulos:'48',audiencia:'Judíos en el exilio babilónico',tema:'Ezequiel profetiza en el exilio con visiones apocalípticas: la gloria de Dios abandona el Templo, Jerusalén cae. Pero también promete un nuevo corazón, un nuevo espíritu, y el famoso valle de huesos secos que cobran vida.',jesus:'La promesa de Ezequiel 36:26 — "Os daré corazón nuevo" — se cumple en Cristo a través del Espíritu Santo. El Nuevo Templo de los capítulos 40-48 prefigura la Iglesia como morada de Dios.',sabias:'Ezequiel realizó acciones proféticas extremas: se acostó 390 días sobre su lado izquierdo y 40 días sobre el derecho. Y cuando murió su esposa, Dios le prohibió llorar como señal profética para Israel.',versiculo:'"Os daré corazón nuevo y pondré espíritu nuevo dentro de vosotros."',versiculoRef:'Ezequiel 36:26',reflexion:'La visión de Ezequiel del valle de huesos secos es una de las imágenes más poderosas de la Escritura: Dios puede dar vida a lo que parece completamente muerto. No importa cuánto tiempo lleve sin vida — donde Dios sopla, algo vive.',pregunta:'¿Hay un área de tu vida — sueño, relación, fe, vocación — que sientes \'muerta\'? ¿Puedes pedirle a Dios que sople vida allí?',oracion:'Dios, como en el valle de huesos, sopla sobre lo que en mí está muerto. Tú eres el que da vida donde no hay vida. Confío en tu poder para restaurar lo que el tiempo y el dolor han marchitado. Amén.'},
+  {id:'daniel',name:'Daniel',emoji:'🦁',testament:'at',section:'profetas-mayores',sectionLabel:'Profetas Mayores',badgeClass:'badge-profetas-mayores',subtema:'1–12 · Fe en el Imperio',autor:'Daniel',fecha:'605–530 a.C.',capitulos:'12',audiencia:'Judíos en el exilio babilónico',tema:'Daniel, joven judío en el exilio, se niega a comprometer su fe. Dios lo protege en el foso de los leones y protege a sus amigos en el horno ardiente. También recibe visiones de reinos futuros que culminan con el reino eterno de Dios.',jesus:'En Daniel 7:13-14, Daniel ve al "Hijo del Hombre" recibir un reino eterno. Jesús adoptó este título y se aplicó esta visión repetidamente. Fue la referencia mesiánica que más impactó a los líderes religiosos de su tiempo.',sabias:'Daniel es uno de los pocos hombres en la Biblia de quien no se registra ningún pecado. El libro fue escrito en dos idiomas: hebreo y arameo (el idioma internacional de la época) para que las visiones llegaran a todas las naciones.',versiculo:'"Mi Dios envió su ángel y cerró la boca de los leones."',versiculoRef:'Daniel 6:22',reflexion:'Daniel fue fiel en tierra extranjera — donde nadie lo obligaba a serlo, donde era más fácil adaptarse. Su secreto era la oración tres veces al día, sin importar las consecuencias. La fidelidad en privado produce integridad en público.',pregunta:'¿Cómo está tu vida de oración en privado — cuando nadie te ve, cuando no hay urgencia? ¿Es suficientemente robusta para sostenerte en los momentos de presión?',oracion:'Señor, como Daniel, quiero ser fiel en lo privado para poder ser íntegro en lo público. Que mi tiempo contigo no sea solo para las crisis, sino el ritmo de mi vida. Amén.'},
+
+  // PROFETAS MENORES
+  {id:'oseas',name:'Oseas',emoji:'💍',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–14 · El Amor Fiel de Dios',autor:'Oseas',fecha:'760–720 a.C.',capitulos:'14',audiencia:'Israel del Norte',tema:'Dios le pide a Oseas casarse con una mujer infiel para representar el amor de Dios por Israel infiel. A pesar de la traición repetida, Oseas la perdona — y así hace Dios con Israel. El libro revela el corazón de Dios: herido pero sin dejar de amar.',jesus:'Oseas 11:1 — "De Egipto llamé a mi hijo" — es citado en Mateo 2:15 para hablar del regreso de Jesús desde Egipto. El amor fiel de Oseas por Gómer es una imagen del amor de Cristo por su Iglesia.',sabias:'El nombre "Oseas" significa "salvación" — la misma raíz que Josué y Jesús (Yeshua). El matrimonio de Oseas es una de las historias más conmovedoras del AT: un profeta que vive en carne propia el dolor de Dios por su pueblo.',versiculo:'"Los amaré libremente, porque mi ira se ha apartado de ellos."',versiculoRef:'Oseas 14:4',reflexion:'Oseas nos muestra que Dios no te ama porque seas perfecto — te ama con el mismo amor que Oseas tenía por Gómer: persistente, costoso y sin merecerlo. No hay nada que puedas hacer para que Dios deje de amarte.',pregunta:'¿Hay algo en tu pasado o presente que te hace sentir que Dios ya no puede amarte? ¿Puedes traer eso específicamente a Él hoy?',oracion:'Señor, como Oseas amó a Gómer, tú me amas a mí — con todo y mis infidelidades. No me merezco ese amor, pero lo recibo. Gracias porque tu amor no depende de mi desempeño. Amén.'},
+  {id:'joel',name:'Joel',emoji:'☀️',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–3 · El Día del Señor',autor:'Joel',fecha:'~835 a.C.',capitulos:'3',audiencia:'Judá',tema:'Una plaga de langostas sirve como punto de partida para profetizar sobre el "Día del Señor". Joel llama al arrepentimiento y promete el derramamiento del Espíritu de Dios sobre toda carne.',jesus:'Joel 2:28-32 — "Derramaré mi Espíritu sobre toda carne" — fue citado por Pedro en Pentecostés (Hechos 2:16) como cumplido a través del Espíritu Santo enviado por Jesús resucitado.',sabias:'La profecía de Joel 2:28 se convirtió en una de las más famosas del AT: "Vuestros hijos e hijas profetizarán." Fue escrita 800 años antes de Pentecostés.',versiculo:'"Derramaré mi Espíritu sobre toda carne, y profetizarán vuestros hijos e hijas."',versiculoRef:'Joel 2:28',reflexion:'Joel llama a \'rasgar los corazones y no los vestidos\' — no rituales externos, sino transformación interna genuina. Y promete que cuando el pueblo regresa a Dios, Él derrama su Espíritu. El avivamiento siempre comienza con el corazón, no con los programas.',pregunta:'¿Hay una \'rasgadura de corazón\' que necesitas hacer hoy — un arrepentimiento genuino, no solo de palabras?',oracion:'Espíritu Santo, derrámame. Pero primero, límpiame. Que mi arrepentimiento sea genuino y no solo de forma. Aviva algo en mí que estaba dormido. Amén.'},
+  {id:'amos',name:'Amós',emoji:'⚖️',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–9 · Justicia para los Pobres',autor:'Amós',fecha:'~760 a.C.',capitulos:'9',audiencia:'Israel del Norte',tema:'Amós era pastor cuando Dios lo llamó como profeta. Denuncia la injusticia social: ricos que explotan a los pobres, jueces corruptos, adoración hipócrita. Pero también promete restauración futura para el pueblo fiel.',jesus:'Amós 9:11 — "Levantaré el tabernáculo caído de David" — fue citado en el Concilio de Jerusalén (Hechos 15:16) como profecía cumplida en la inclusión de los gentiles en la iglesia a través de Cristo.',sabias:'Amós fue el primer profeta en escribir sus profecías. Y fue el único que declaró explícitamente no ser profeta profesional: "No soy profeta... soy boyero y cultivador de higos silvestres" (Amós 7:14). Dios escoge a quien quiere.',versiculo:'"Que fluya el juicio como las aguas, y la justicia como impetuoso arroyo."',versiculoRef:'Amós 5:24',reflexion:'Amós nos recuerda que Dios toma la injusticia muy en serio. La adoración que agrada a Dios no se queda en el templo — se expresa en cómo tratamos al vulnerable, al pobre, al marginado. Fe y justicia no son opcionales entre sí.',pregunta:'¿Hay alguien vulnerable en tu entorno — familiar, laboral, vecinal — a quien Dios te está llamando a ver y a ayudar?',oracion:'Señor, que mi fe no se quede en palabras de domingo. Que fluya en justicia y en bondad hacia los que me rodean, especialmente los que nadie más nota. Amén.'},
+  {id:'abdias',name:'Abdías',emoji:'⚡',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1 capítulo · Juicio a Edom',autor:'Abdías',fecha:'~586 a.C.',capitulos:'1',audiencia:'Judá tras la caída de Jerusalén',tema:'El libro más corto del AT — un solo capítulo. Anuncia el juicio de Dios sobre Edom, que se regocijó cuando Babilonia destruyó Jerusalén. El orgullo de Edom sería su ruina.',jesus:'El mensaje de Abdías — Dios juzgará a los que oprimen a su pueblo — culmina en Cristo como el juez final de todas las naciones. El "Día del Señor" que menciona apunta al juicio final que Jesús anunciará.',sabias:'Abdías es el libro más corto del AT, con solo 21 versículos. La nación de Edom fue destruida por los nabateos alrededor del siglo V a.C. y nunca fue restaurada — el juicio se cumplió literalmente.',versiculo:'"Como tú hiciste, se te hará; tu recompensa volverá sobre tu cabeza."',versiculoRef:'Abdías 1:15',reflexion:'Abdías advierte sobre el orgullo — la convicción de que somos invulnerables, que no necesitamos a nadie ni a Dios. Edom cayó porque pensó que estaba por encima de las consecuencias. La humildad no es debilidad — es sabiduría.',pregunta:'¿Hay algún área donde el orgullo o la autosuficiencia te ha cerrado al consejo de Dios o de otros?',oracion:'Señor, guárdame del orgullo que piensa que no te necesita. Que nunca me sienta tan seguro que deje de depender de ti. Amén.'},
+  {id:'jonas',name:'Jonás',emoji:'🐋',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–4 · La Misericordia de Dios',autor:'Jonás',fecha:'~780 a.C.',capitulos:'4',audiencia:'Israel del Norte',tema:'Dios envía a Jonás a Nínive. Jonás huye. Tormenta, gran pez, tres días en el vientre, vomitado en la orilla. Jonás predica y toda la ciudad se arrepiente. Pero Jonás se molesta porque Dios los perdonó.',jesus:'Jesús mismo citó a Jonás: "Como Jonás estuvo tres días en el gran pez, así estará el Hijo del Hombre tres días en el corazón de la tierra" (Mateo 12:40). Jonás es la señal de la muerte y resurrección de Cristo.',sabias:'El arrepentimiento de Nínive fue uno de los avivamientos más grandes de la historia — toda una ciudad estimada en 120,000 personas. Y lo logró el predicador más renuente de todos los tiempos.',versiculo:'"La salvación viene del Señor."',versiculoRef:'Jonás 2:9',reflexion:'La historia de Jonás no termina con el pez — termina con Dios cuestionando su enojo: \'¿Haces bien en enojarte?\' Jonás quería juicio para Nínive, pero Dios quería misericordia. ¿A quién en tu vida consideras \'demasiado\' para ser perdonado?',pregunta:'¿Hay alguien a quien te cuesta querer que Dios perdone — un enemigo, alguien que te hizo daño? ¿Puedes pedirle a Dios que expanda tu compasión?',oracion:'Señor, perdóname cuando soy más Jonás que tú — cuando prefiero el juicio a la misericordia. Expande mi compasión hasta que se parezca más a la tuya. Amén.'},
+  {id:'miqueas',name:'Miqueas',emoji:'🕊️',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–7 · Amor y Justicia del Pacto',autor:'Miqueas',fecha:'735–700 a.C.',capitulos:'7',audiencia:'Judá e Israel',tema:'Miqueas denuncia la corrupción de líderes, sacerdotes y profetas, y anuncia juicio. También proclama esperanza: un gobernante nacerá en Belén que restaurará al pueblo.',jesus:'Miqueas 5:2 profetiza que el gobernante de Israel nacería en Belén — 700 años antes de Jesús. Los maestros de la ley citaron este versículo para señalar dónde nacería el Mesías cuando Herodes los interrogó (Mateo 2:6).',sabias:'El versículo más famoso de Miqueas (6:8) resume toda la ética bíblica en tres frases: "Hacer justicia, amar misericordia, caminar humildemente con tu Dios." Muchos teólogos dicen que solo este versículo contiene todo lo que Dios pide.',versiculo:'"¿Qué exige el Señor de ti? Que hagas justicia, que ames la misericordia y que camines humildemente con tu Dios."',versiculoRef:'Miqueas 6:8',reflexion:'Miqueas 6:8 es el resumen más sencillo de la vida bien vivida: hacer justicia, amar misericordia, caminar humildemente con Dios. No es complicado — pero sí costoso. Requiere toda una vida de decisiones pequeñas en esa dirección.',pregunta:'¿Cuál de los tres — justicia, misericordia o humildad — es el más difícil para ti en este momento de tu vida?',oracion:'Señor, que haga justicia sin dureza, que ame la misericordia sin ingenuidad, y que camine contigo sin orgullo. Que Miqueas 6:8 sea la descripción de mi vida. Amén.'},
+  {id:'nahum',name:'Nahúm',emoji:'🌪️',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–3 · La Caída de Nínive',autor:'Nahúm',fecha:'663–612 a.C.',capitulos:'3',audiencia:'Judá',tema:'150 años después del arrepentimiento bajo Jonás, Nínive volvió a sus caminos malvados. Nahúm anuncia su destrucción total. Esta vez no hay llamado al arrepentimiento — el tiempo de la misericordia ha terminado.',jesus:'Nahúm 1:15 anuncia al "que trae buenas nuevas". Pablo cita este versículo en Romanos 10:15 aplicándolo a los predicadores del evangelio de Jesús.',sabias:'Nínive fue destruida en 612 a.C. exactamente como Nahúm profetizó. Fue tan total que por siglos los historiadores griegos dudaron que hubiera existido — hasta que los arqueólogos la descubrieron en el siglo XIX.',versiculo:'"El Señor es lento para la ira y grande en poder; de ningún modo tendrá por inocente al culpable."',versiculoRef:'Nahúm 1:3',reflexion:'Nínive se arrepintió y fue perdonada. Cien cincuenta años después, volvió al mal y fue destruida. El arrepentimiento sin transformación no dura. La gracia no es una tarjeta de crédito — es una invitación a vivir diferente.',pregunta:'¿Hay un arrepentimiento en tu vida que fue genuino en el momento pero que no produjo un cambio real? ¿Qué necesitaría cambiar para que ese arrepentimiento sea duradero?',oracion:'Señor, que mi arrepentimiento no sea solo de palabras sino de dirección. Que cuando me vuelva a ti, realmente me vuelva — y no regrese al mismo lugar. Amén.'},
+  {id:'habacuc',name:'Habacuc',emoji:'❓',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–3 · Cuestionando a Dios',autor:'Habacuc',fecha:'~608 a.C.',capitulos:'3',audiencia:'Judá',tema:'Habacuc dialoga directamente con Dios: "¿Por qué permites el mal?" Dios responde que usará a Babilonia para juzgar a Judá. Habacuc replica que Babilonia es peor. Dios responde que también la juzgará. Termina con un himno de confianza a pesar de todo.',jesus:'Habacuc 2:4 — "El justo vivirá por su fe" — es citado tres veces en el NT y fue el versículo detonador de la Reforma Protestante cuando Martín Lutero lo leyó.',sabias:'Habacuc es el único libro profético estructurado como diálogo entre el profeta y Dios. Es el libro más "honesto" del AT sobre las dudas de un creyente — Dios no le reprende por preguntar.',versiculo:'"Aunque la higuera no florezca... con todo, yo me alegraré en el Señor."',versiculoRef:'Habacuc 3:17-18',reflexion:'Habacuc terminó con un himno de confianza: \'Aunque todo falle, me alegraré en el Señor.\' Llegó allí no porque las circunstancias mejoraron — llegó allí a través de la honestidad brutal con Dios. La fe madura no evita las preguntas; las atraviesa.',pregunta:'¿Hay una pregunta que le has tenido miedo de hacerle a Dios? ¿Puedes traérsela hoy con la honestidad de Habacuc?',oracion:'Señor, me atrevo a preguntarte lo que no entiendo. Y mientras espero respuestas, elijo confiar en tu carácter aunque no entienda tus caminos. Amén.'},
+  {id:'sofonias',name:'Sofonías',emoji:'🌩️',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–3 · Advertencia y Restauración',autor:'Sofonías',fecha:'~630 a.C.',capitulos:'3',audiencia:'Judá',tema:'Sofonías anuncia el Día del Señor sobre Judá y las naciones, llama al arrepentimiento. Termina con una de las promesas más hermosas del AT: Dios mismo cantará sobre Su pueblo con alegría.',jesus:'Sofonías 3:9 — "Volveré a los pueblos con labios limpios para que todos invoquen el nombre del Señor" — es una profecía del evangelio llegando a todas las naciones. Pentecostés comenzó su cumplimiento.',sabias:'Sofonías 3:17 es uno de los versículos más asombrosos de toda la Biblia: "El Señor... se regocijará sobre ti con cánticos." La imagen de Dios cantando sobre su pueblo es única en toda la Escritura.',versiculo:'"El Señor tu Dios está en medio de ti... se regocijará sobre ti con alegría."',versiculoRef:'Sofonías 3:17',reflexion:'Sofonías 3:17 — \'Se regocijará sobre ti con cánticos\' — es una imagen de Dios como Padre que canta sobre sus hijos. No un Dios que apenas te tolera, sino uno que se deleita en ti. Eso cambia cómo te relacionas con Él.',pregunta:'¿Puedes sentarte un momento con la imagen de que Dios está cantando sobre ti ahora mismo? ¿Qué te genera eso — alivio, incredulidad, emoción?',oracion:'Padre, me cuesta creer que te deleitas en mí. Pero tu Palabra lo dice y lo creo. Ayúdame a vivir desde ese amor, no buscando ganarme lo que ya tengo. Amén.'},
+  {id:'hageo',name:'Hageo',emoji:'🏗️',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–2 · Reconstruye el Templo',autor:'Hageo',fecha:'520 a.C.',capitulos:'2',audiencia:'Israel post-exilio en Jerusalén',tema:'Tras el exilio, el pueblo construyó sus propias casas pero dejó el Templo en ruinas 16 años. Hageo pregunta: "¿Es tiempo de vivir en casas artesonadas mientras esta casa está en ruinas?" Los anima a poner a Dios primero.',jesus:'Hageo 2:9 promete que la gloria del segundo Templo superará al primero. Los judíos se preguntaron cómo si era más pequeño. La respuesta es Jesús: Él entró a ese segundo Templo — esa fue la gloria que todo lo superó.',sabias:'El ministerio de Hageo duró solo 4 meses y sus mensajes están fechados al día exacto. Fue efectivo: el pueblo comenzó la construcción 23 días después del primer mensaje.',versiculo:'"Yo estoy con vosotros —declara el Señor—."',versiculoRef:'Hageo 1:13',reflexion:'Hageo preguntó: \'¿Es tiempo de vivir en casas artesonadas mientras mi casa está en ruinas?\' A veces priorizamos nuestra comodidad sobre lo que Dios ha llamado a construir. Pero cuando ponemos a Dios primero, Él bendice todo lo demás.',pregunta:'¿Hay algo que Dios te ha llamado a construir — en tu familia, tu comunidad, tu fe — que has pospuesto por ocuparte de lo tuyo?',oracion:'Señor, que tus prioridades sean mis prioridades. Que lo que tú quieres construir a través de mí no quede en ruinas por mi distracción. Amén.'},
+  {id:'zacarias',name:'Zacarías',emoji:'🌟',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–14 · Visiones y Profecías',autor:'Zacarías',fecha:'520–480 a.C.',capitulos:'14',audiencia:'Israel post-exilio',tema:'El más largo de los profetas "menores". Zacarías tiene 8 visiones nocturnas y profetiza sobre el Mesías: su entrada en burro, la traición por 30 monedas, el traspasamiento, el buen pastor. Termina con el reino final de Dios.',jesus:'Zacarías tiene más profecías mesiánicas por capítulo que casi cualquier libro del AT. Zac 9:9 (entrada en burro), 11:12 (30 monedas), 12:10 (traspasado), 13:7 (pastor herido). Todas cumplidas exactamente en Jesús.',sabias:'Zacarías 9:9 profetizó que el rey entraría en un asno — símbolo de humildad, no de triunfo. Cuando Jesús eligió exactamente eso 500 años después, enviaba un mensaje imposible de ignorar para quien conocía la Escritura.',versiculo:'"¡Alégrate mucho, hija de Sión! Mira, tu rey viene a ti, justo y victorioso, humilde y montado en un asno."',versiculoRef:'Zacarías 9:9',reflexion:'Zacarías vio al Mesías llegar en humildad, montado en un asno. En un mundo que valora el poder y el espectáculo, Dios envió a su Rey sin fanfarrias militares. El Reino de Dios siempre sorprende por dónde aparece y cómo llega.',pregunta:'¿Estás buscando a Dios solo en lo espectacular, o puedes reconocerlo también en lo sencillo, lo humilde y lo cotidiano?',oracion:'Señor, que no me pierda tu presencia por estar buscando algo más impresionante. Enséñame a reconocerte en lo humilde, en lo pequeño, en lo inesperado. Amén.'},
+  {id:'malaquias',name:'Malaquías',emoji:'🔥',testament:'at',section:'profetas-menores',sectionLabel:'Profetas Menores',badgeClass:'badge-profetas-menores',subtema:'1–4 · El Último Mensajero del AT',autor:'Malaquías',fecha:'~430 a.C.',capitulos:'4',audiencia:'Israel post-exilio',tema:'El último libro del AT. Israel tiene el Templo reconstruido pero volvió a sus viejos caminos. Malaquías anuncia que Dios enviará un mensajero para preparar el camino. Luego, 400 años de silencio profético.',jesus:'Malaquías 3:1 — "He aquí que yo envío mi mensajero para que prepare el camino" — fue citado por Jesús para identificar a Juan el Bautista (Mateo 11:10). El AT termina con la promesa del Precursor — el NT comienza exactamente donde termina.',sabias:'Después de Malaquías, Dios guardó silencio profético por 400 años. Ese silencio terminó cuando un ángel apareció a Zacarías anunciándole el nacimiento de Juan. El eco de Malaquías resonó cuatro siglos después.',versiculo:'"He aquí yo envío mi mensajero, el cual preparará el camino delante de mí."',versiculoRef:'Malaquías 3:1',reflexion:'Malaquías cierra el AT con una promesa — no un final. Dios enviará un mensajero, y luego vendría el Señor mismo. Cuatrocientos años de silencio después, el ángel le habló a Zacarías. Dios siempre cumple — aunque tarde, siempre cumple.',pregunta:'¿Hay una promesa de Dios sobre la que llevas tiempo esperando? ¿Puedes renovar tu confianza en que Él la cumplirá?',oracion:'Señor, como Israel esperó 400 años y tú llegaste, confío en que las promesas que me has hecho también se cumplirán. Dame paciencia para esperar sin dejar de creer. Amén.'},
+
+  // EVANGELIOS
+  {id:'mateo',name:'Mateo',emoji:'👑',testament:'nt',section:'evangelios',sectionLabel:'Evangelios',badgeClass:'badge-evangelios',subtema:'1–28 · El Rey Mesías',autor:'Mateo (apóstol)',fecha:'50–70 d.C.',capitulos:'28',audiencia:'Comunidad judía',tema:'Escrito para los judíos, Mateo muestra cómo Jesús cumple todas las promesas del AT. Comienza con la genealogía de Abraham a Jesús. Incluye el Sermón del Monte, las 5 grandes enseñanzas y la Gran Comisión.',jesus:'Mateo cita el AT más de 60 veces con la frase "para que se cumpliese". Su objetivo es demostrar que Jesús no es una novedad sino el clímax de toda la historia bíblica — el Rey prometido del linaje de David.',sabias:'Mateo era recaudador de impuestos — colaborador con Roma y despreciado por sus compatriotas. Sin embargo, Jesús lo llamó y se convirtió en apóstol. Su evangelio escrito para judíos es profundamente apropiado: un "traidor" que redescubrió a su Rey.',versiculo:'"Id y haced discípulos de todas las naciones, bautizándolos en el nombre del Padre, del Hijo y del Espíritu Santo."',versiculoRef:'Mateo 28:19',reflexion:'El Sermón del Monte (Mateo 5-7) describe el tipo de persona que el Reino produce: humilde, misericordiosa, pacificadora, hambrienta de justicia. No son las condiciones para entrar al Reino — son la descripción de los que ya han entrado.',pregunta:'¿Cuál de las Bienaventuranzas (Mateo 5:3-12) te desafía más en este momento de tu vida? ¿Por qué?',oracion:'Señor, que las Bienaventuranzas no sean solo texto que conozco sino la descripción de quien soy. Transfórmame a la imagen del Rey que predican. Amén.'},
+  {id:'marcos',name:'Marcos',emoji:'⚡',testament:'nt',section:'evangelios',sectionLabel:'Evangelios',badgeClass:'badge-evangelios',subtema:'1–16 · El Siervo Activo',autor:'Juan Marcos',fecha:'50–65 d.C.',capitulos:'16',audiencia:'Audiencia romana / gentil',tema:'El evangelio más corto y de acción más rápida. La palabra griega "euthus" (inmediatamente) aparece más de 40 veces. Marcos presenta a Jesús como el Siervo que actúa más que que habla.',jesus:'"Porque ni aun el Hijo del Hombre vino para ser servido, sino para servir y dar su vida en rescate por muchos" (Marcos 10:45). Marcos nos da al Jesús que hace — que sana, expulsa demonios, calma tormentas y da su vida.',sabias:'Marcos es posiblemente el evangelio más antiguo — muchos eruditos creen que Mateo y Lucas lo usaron como fuente. Juan Marcos acompañó a Pablo pero en un momento lo abandonó, creando una tensión que luego fue reconciliada.',versiculo:'"El tiempo se ha cumplido y el reino de Dios se ha acercado; arrepentíos y creed en el evangelio."',versiculoRef:'Marcos 1:15',reflexion:'Marcos presenta a Jesús siempre en movimiento: sanando, llamando, enseñando, actuando. La fe en Marcos no es pasiva — es activa, urgente y comprometida. Jesús llama a sus discípulos y \'dejaron todo\' inmediatamente.',pregunta:'¿Hay algo a lo que Jesús te está llamando hoy que aún no has \'dejado\' para seguirlo?',oracion:'Señor, que mi respuesta a tu llamado sea tan inmediata como la de tus primeros discípulos. Sin negociaciones ni condiciones. Aquí voy. Amén.'},
+  {id:'lucas',name:'Lucas',emoji:'🌍',testament:'nt',section:'evangelios',sectionLabel:'Evangelios',badgeClass:'badge-evangelios',subtema:'1–24 · El Salvador de Todos',autor:'Lucas (médico)',fecha:'60–70 d.C.',capitulos:'24',audiencia:'Teófilo / audiencia griega',tema:'El evangelio más largo y detallado. Lucas, médico griego, investiga con precisión histórica. Incluye historias únicas: el nacimiento de Juan y Jesús en paralelo, el hijo pródigo, el buen samaritano, Zaqueo. Énfasis especial en mujeres, pobres y excluidos.',jesus:'"El Hijo del Hombre vino a buscar y a salvar lo que se había perdido" (Lucas 19:10). Lucas tiene el énfasis más claro en la inclusión. El hijo pródigo es quizás la mejor historia jamás contada sobre el amor del Padre.',sabias:'Lucas es el único autor no judío del NT. Junto con Hechos forma el escrito más largo del NT. Lucas menciona más de 100 nombres y 32 países — muchos verificados arqueológicamente.',versiculo:'"El Hijo del Hombre vino a buscar y a salvar lo que se había perdido."',versiculoRef:'Lucas 19:10',reflexion:'Lucas destaca una y otra vez que Jesús buscó a los que nadie buscaba: el samaritano, la viuda, el leproso, el publicano. Su agenda era radicalmente incluyente. ¿A quién en mi entorno estoy pasando por alto?',pregunta:'¿Hay alguien en tu vida que siente que no pertenece, que está al margen? ¿Cómo podrías ser hoy los ojos y las manos de Jesús para esa persona?',oracion:'Señor, dame los ojos de Lucas para ver a los que nadie ve. Que mi fe no sea solo vertical — que se exprese también hacia los que el mundo margina. Amén.'},
+  {id:'juan',name:'Juan',emoji:'✨',testament:'nt',section:'evangelios',sectionLabel:'Evangelios',badgeClass:'badge-evangelios',subtema:'1–21 · El Hijo de Dios',autor:'Juan (apóstol)',fecha:'85–95 d.C.',capitulos:'21',audiencia:'Universal',tema:'El evangelio más teológico. Juan no comienza con el nacimiento sino con la eternidad: "En el principio era el Verbo." Organizado en 7 señales milagrosas y 7 declaraciones "Yo soy" de Jesús.',jesus:'"Yo soy el camino, la verdad y la vida" (Juan 14:6). Las 7 declaraciones "Yo soy" son las afirmaciones más directas de Jesús sobre su identidad divina — ecos del nombre de Dios en Éxodo 3:14.',sabias:'Juan es el evangelio más profundo pero también el más accesible para un nuevo creyente. Juan 3:16 es el versículo más conocido de la Biblia. Juan lo escribió en su vejez desde Éfeso, cuando la Iglesia necesitaba profundidad.',versiculo:'"Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito."',versiculoRef:'Juan 3:16',reflexion:'Juan 15 — \'Permaneced en mí\' — es quizás la invitación más importante de todo el evangelio. Jesús no pide rendimiento ni producción; pide conexión. El fruto viene solo de permanecer, no de esforzarse más.',pregunta:'¿Cómo está tu conexión con Jesús en este momento — viva y real, o más bien mecánica y de rutina?',oracion:'Señor, quiero permanecer en ti — no solo conocerte de lejos sino vivir conectado a ti. Que todo lo que hago fluya de esa unión y no de mi propio esfuerzo. Amén.'},
+
+  // HISTORIA NT
+  {id:'hechos',name:'Hechos',emoji:'🔥',testament:'nt',section:'historia-nt',sectionLabel:'Historia NT',badgeClass:'badge-historia-nt',subtema:'1–28 · El Espíritu en Movimiento',autor:'Lucas',fecha:'63–70 d.C.',capitulos:'28',audiencia:'Teófilo / iglesias gentiles',tema:'Los hechos del Espíritu Santo. Desde Pentecostés en Jerusalén hasta Pablo en Roma, narra cómo el evangelio se expandió por el mundo conocido. Incluye la conversión de Pablo y los viajes misioneros.',jesus:'Jesús resucitado pasa 40 días con sus discípulos antes de ascender. En Hechos 1:8 da la estructura de todo el libro: "Seréis mis testigos en Jerusalén, en Judea, en Samaria y hasta los confines de la tierra."',sabias:'Hechos termina de manera abrupta — Pablo en Roma predicando libremente. Muchos creen que Lucas planeaba un tercer volumen. El final abierto puede ser intencional: la historia del Espíritu continúa con cada generación.',versiculo:'"Recibiréis poder cuando el Espíritu Santo haya venido sobre vosotros, y seréis mis testigos."',versiculoRef:'Hechos 1:8',reflexion:'El libro de los Hechos muestra que el Espíritu Santo no es un detalle opcional del cristianismo — es el poder que lo hace funcionar. Sin el Espíritu, los apóstoles habrían sido solo un grupo de hombres asustados en un cuarto.',pregunta:'¿Estás dependiendo del Espíritu Santo en tu vida diaria, o estás intentando vivir el cristianismo con tu propia fuerza?',oracion:'Espíritu Santo, te necesito. No quiero vivir el evangelio en mis propias fuerzas. Lléname, guíame y habla a través de mí como lo hiciste con los apóstoles. Amén.'},
+
+  // CARTAS DE PABLO
+  {id:'romanos',name:'Romanos',emoji:'📋',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–16 · El Evangelio Completo',autor:'Pablo',fecha:'57 d.C.',capitulos:'16',audiencia:'Iglesia en Roma',tema:'La explicación más sistemática del evangelio: el problema (todos pecaron), la solución (justificación por fe), las implicaciones (vida en el Espíritu, ética práctica). Un libro que cambió el mundo.',jesus:'Romanos 8 es el capítulo más glorioso del NT: nada puede separarnos del amor de Dios en Cristo. "El que no escatimó ni a su propio Hijo... ¿cómo no nos dará también con él todas las cosas?"',sabias:'Romanos desencadenó la Reforma Protestante. Lutero leyó "el justo por la fe vivirá" y todo cambió. Agustín también se convirtió leyendo Romanos 13. Pocos libros han cambiado más la historia humana.',versiculo:'"No me avergüenzo del evangelio, porque es poder de Dios para salvación de todo aquel que cree."',versiculoRef:'Romanos 1:16',reflexion:'Romanos 8:1 — \'Ninguna condenación hay para los que están en Cristo Jesús\' — es quizás el versículo más liberador del NT. Si hay una voz en tu cabeza que te condena constantemente, no es de Dios. Dios convence; el diablo condena.',pregunta:'¿Hay condenación —no convicción, sino condena paralizante— que estás cargando? ¿Puedes recibir Romanos 8:1 como una verdad personal hoy?',oracion:'Padre, recibo hoy que en Cristo no hay condenación para mí. Silencia las voces que me acusan y ayúdame a caminar en la libertad que Cristo compró. Amén.'},
+  {id:'corintios1',name:'1 Corintios',emoji:'⚓',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–16 · La Iglesia con Problemas',autor:'Pablo',fecha:'55 d.C.',capitulos:'16',audiencia:'Iglesia en Corinto',tema:'La iglesia de Corinto tenía problemas graves: divisiones, inmoralidad sexual, demandas entre creyentes, desorden en la adoración y dudas sobre la resurrección. Pablo aborda cada uno con el evangelio. Incluye el famoso himno al amor del capítulo 13.',jesus:'1 Corintios 15 es el capítulo de la resurrección: si Cristo no resucitó, nuestra fe es vana. Pero resucitó, y esa resurrección garantiza la nuestra.',sabias:'El capítulo 13 — "el amor es paciente, el amor es bondadoso" — es el texto más leído en bodas del mundo. Pero Pablo lo escribió en el contexto de una iglesia dividida, no de una ceremonia romántica.',versiculo:'"El amor nunca deja de ser."',versiculoRef:'1 Corintios 13:8',reflexion:'1 Corintios 13 no es solo para bodas — es el estándar de cómo el amor cristiano debe funcionar en comunidad: en las diferencias, en los conflictos, en la vida diaria. El amor no es un sentimiento — es una decisión de cómo trato a otros.',pregunta:'¿Hay una relación donde necesitas aplicar el amor de 1 Corintios 13 — paciente, bondadoso, que no se ofende fácilmente?',oracion:'Señor, el amor que describes en el capítulo 13 lo necesito hoy con [nombre o situación]. Dame ese amor que no soy capaz de producir solo. Amén.'},
+  {id:'corintios2',name:'2 Corintios',emoji:'💪',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–13 · Fortaleza en la Debilidad',autor:'Pablo',fecha:'56 d.C.',capitulos:'13',audiencia:'Iglesia en Corinto',tema:'La carta más personal de Pablo. Defiende su apostolado con transparencia radical sobre sus sufrimientos, enseña sobre la generosidad y la reconciliación. El tema central: "Mi poder se perfecciona en la debilidad."',jesus:'"Aunque fue crucificado en debilidad, vive por el poder de Dios" (2 Cor 13:4). La fortaleza de Dios brilla mejor en los vasos rotos.',sabias:'2 Corintios es donde Pablo lista sus sufrimientos: cinco veces 39 azotes, tres veces apaleado, una vez apedreado, tres naufragios. Lo enumera no para quejarse sino para demostrar que el poder de Dios lo sostuvo en todo.',versiculo:'"Te basta mi gracia, pues mi poder se perfecciona en la debilidad."',versiculoRef:'2 Corintios 12:9',reflexion:'Pablo encontró fortaleza precisamente en sus debilidades — no a pesar de ellas sino a través de ellas. Eso invierte toda la lógica del mundo. Donde somos más vulnerables puede ser donde Dios más brilla.',pregunta:'¿Qué debilidad o limitación en tu vida has estado ocultando o avergonzándote de ella? ¿Puedes entregarla a Dios como espacio donde su gracia actúa?',oracion:'Señor, me rindo a la paradoja: que en mi debilidad hay fortaleza. No la mía — la tuya. Úsame, no a pesar de mis límites, sino a través de ellos. Amén.'},
+  {id:'galatas',name:'Gálatas',emoji:'🔓',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–6 · Libertad en Cristo',autor:'Pablo',fecha:'49 d.C.',capitulos:'6',audiencia:'Iglesias en Galacia',tema:'Escrita con urgencia. La iglesia en Galacia estaba siendo convencida de que la fe en Cristo no era suficiente — también debían circuncidarse y guardar la Ley. Pablo combate esto con fuerza: la salvación es solo por gracia a través de la fe. Incluye el Fruto del Espíritu.',jesus:'"Cristo nos redimió de la maldición de la ley" (Gálatas 3:13). Agregar cualquier cosa a Cristo como requisito de salvación es vaciar la cruz de su poder.',sabias:'Gálatas fue probablemente la primera carta de Pablo. Martín Lutero la llamó "mi Catalina de Bora" — su esposa — porque la amaba especialmente. Su mensaje de gracia inició la Reforma Protestante.',versiculo:'"Ya no hay judío ni griego, esclavo ni libre, hombre ni mujer; todos vosotros sois uno en Cristo Jesús."',versiculoRef:'Gálatas 3:28',reflexion:'La gracia que Gálatas proclama es escandalosamente generosa: no hay nada que puedas agregar a lo que Cristo ya hizo. Pero también desafía una trampa moderna: vivir la fe como si fuera una lista de rendimientos que demostrar a Dios.',pregunta:'¿Hay algo con lo que internamente intentas \'ganar\' el favor de Dios, más allá de la fe? ¿Puedes soltar eso hoy?',oracion:'Padre, descanso en la gracia — no en mi desempeño. Lo que Cristo hizo es suficiente. No tengo nada que demostrar, solo alguien a quien amar. Amén.'},
+  {id:'efesios',name:'Efesios',emoji:'🛡️',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–6 · La Iglesia como Cuerpo',autor:'Pablo',fecha:'61 d.C.',capitulos:'6',audiencia:'Iglesia en Éfeso',tema:'Los primeros 3 capítulos exploran las riquezas del evangelio y la identidad del creyente en Cristo. Los últimos 3 aplican eso a la vida familiar, comunitaria y espiritual. Termina con la Armadura de Dios.',jesus:'"Él es la cabeza del cuerpo que es la iglesia" (Ef 1:22). La iglesia no es una organización humana — es el cuerpo viviente de Cristo en el mundo.',sabias:'Efesios 2:8-9 es el resumen más conciso de la gracia en toda la Biblia: "Por gracia sois salvos por medio de la fe... no de vosotros, es don de Dios. No por obras, para que nadie se gloríe." Solo 30 palabras que cambian todo.',versiculo:'"Por gracia sois salvos por medio de la fe; y esto no de vosotros, pues es don de Dios."',versiculoRef:'Efesios 2:8',reflexion:'Efesios 2:10 — \'Somos hechura de Dios, creados en Cristo Jesús para buenas obras\' — reúne las dos verdades: salvados por gracia, pero creados para actuar. La gracia no produce pasividad; produce propósito.',pregunta:'¿Cuáles son las \'buenas obras\' que crees que Dios preparó específicamente para ti — las que solo tú, en tu posición y con tus dones, puedes hacer?',oracion:'Señor, soy tu obra maestra. Ayúdame a vivir a la altura de eso — no con orgullo, sino con propósito. Camina conmigo en las obras que preparaste para mí. Amén.'},
+  {id:'filipenses',name:'Filipenses',emoji:'😊',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–4 · El Gozo en la Prisión',autor:'Pablo',fecha:'61 d.C.',capitulos:'4',audiencia:'Iglesia en Filipos',tema:'Escrita desde la prisión, es la carta más gozosa de Pablo. "Alegraos en el Señor siempre; otra vez digo: ¡Alegraos!" El contentamiento no depende de las circunstancias sino de Cristo.',jesus:'Filipenses 2:5-11 — el gran himno de la encarnación: Cristo, siendo de naturaleza divina, se despojó tomando forma de siervo. La bajada de Cristo es la más profunda de la historia — y su exaltación, la más alta.',sabias:'Pablo escribió Filipenses encarcelado, esperando posiblemente la pena de muerte. Aun así la palabra "gozo" y sus variantes aparecen 16 veces en 4 capítulos. El contentamiento que describe es sobrenatural.',versiculo:'"Todo lo puedo en Cristo que me fortalece."',versiculoRef:'Filipenses 4:13',reflexion:'El gozo de Filipenses no es un estado de ánimo — es una postura de confianza en que Dios está en control, pase lo que pase. Pablo lo escribió encadenado. Si él podía decir \'regocijaos\', el gozo no depende de las circunstancias.',pregunta:'¿Qué robó tu gozo recientemente? ¿Puedes traer esa circunstancia a Dios y pedirle que restaure el gozo que no depende de ella?',oracion:'Señor, me enseñas a estar contento en toda circunstancia — y eso no viene natural. Enséñame el secreto de Pablo: que mi paz y mi gozo vengan de ti, no de lo que me rodea. Amén.'},
+  {id:'colosenses',name:'Colosenses',emoji:'🌐',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–4 · La Supremacía de Cristo',autor:'Pablo',fecha:'61 d.C.',capitulos:'4',audiencia:'Iglesia en Colosas',tema:'Una herejía se infiltraba en Colosas: adoración a ángeles, filosofías, rituales adicionales. Pablo responde con el himno a Cristo de Colosenses 1:15-20 — la afirmación más completa de la supremacía de Cristo en todo el NT.',jesus:'"En él habita corporalmente toda la plenitud de la Deidad" (Colosenses 2:9). La respuesta a toda herejía es siempre la misma: Cristo es suficiente y supremo.',sabias:'Colosas era una ciudad pequeña e insignificante — sin embargo, Pablo le dedica una de sus más grandes exposiciones cristológicas. El tamaño de la comunidad no determina la profundidad de lo que Dios quiere revelar en ella.',versiculo:'"Porque en él habita corporalmente toda la plenitud de la Deidad."',versiculoRef:'Colosenses 2:9',reflexion:'Colosenses 3:2 — \'Poned la mira en las cosas de arriba\' — no es escapismo; es reorientar lo que valoras para que lo terrenal encuentre su lugar correcto. Cuando Cristo es el centro, todo lo demás se ordena.',pregunta:'¿Qué ocupa el centro de tu mente y tu corazón en este momento? ¿Se parece a las \'cosas de arriba\' que Pablo menciona?',oracion:'Señor Jesús, ayúdame a ponerte en el centro — no como una actividad religiosa más, sino como el eje desde el cual gira todo lo demás en mi vida. Amén.'},
+  {id:'tesalonicenses1',name:'1 Tesalonicenses',emoji:'⏰',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–5 · Esperando la Venida',autor:'Pablo',fecha:'51 d.C.',capitulos:'5',audiencia:'Iglesia en Tesalónica',tema:'Posiblemente la primera carta de Pablo. La joven iglesia estaba siendo perseguida y tenía preguntas sobre los creyentes que morían antes del regreso de Cristo. Pablo los anima: los muertos resucitarán primero.',jesus:'"El Señor mismo descenderá del cielo con voz de arcángel" (1 Tes 4:16). La segunda venida de Jesús no es un detalle opcional — es la esperanza que sostiene a la Iglesia en cada generación.',sabias:'1 Tesalonicenses 5:17 — "Orad sin cesar" — es el versículo más corto de las cartas de Pablo y uno de los más desafiantes. No significa estar arrodillado todo el día sino vivir con orientación continua hacia Dios.',versiculo:'"Estad siempre gozosos. Orad sin cesar. En todo dad gracias."',versiculoRef:'1 Tesalonicenses 5:16-18',reflexion:'La esperanza del regreso de Cristo no es solo doctrina — transforma la manera en que vivimos hoy. Sabiendo que hay un día final de justicia y restauración, lo que hacemos ahora tiene peso eterno.',pregunta:'¿Cómo cambiaría tu manera de vivir hoy si supieras con certeza que Jesús regresa pronto?',oracion:'Señor, que la esperanza de tu regreso haga mi vida más enfocada, más generosa y más valiente. Que viva cada día como si importara para la eternidad — porque importa. Amén.'},
+  {id:'tesalonicenses2',name:'2 Tesalonicenses',emoji:'📅',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–3 · El Día del Señor',autor:'Pablo',fecha:'51 d.C.',capitulos:'3',audiencia:'Iglesia en Tesalónica',tema:'Algunos creían que el Día del Señor ya había llegado y dejaron de trabajar. Pablo aclara: ese día no ha llegado, y mientras tanto cada creyente debe trabajar y no ser carga para los demás.',jesus:'Pablo describe la destrucción del hombre de iniquidad "por el resplandor de su venida" (2 Tes 2:8). La certeza del triunfo final de Jesús es el fundamento de la esperanza cristiana.',sabias:'"El que no quiere trabajar, que no coma" (2 Tes 3:10) fue el lema económico de varios movimientos del siglo XX. Pablo lo escribió para una situación muy específica: creyentes ociosos que esperaban el regreso inmediato de Jesús.',versiculo:'"El Señor es fiel, y él os afirmará y guardará del maligno."',versiculoRef:'2 Tesalonicenses 3:3',reflexion:'2 Tesalonicenses anima a \'no cansarse de hacer el bien\' (3:13). La fidelidad en lo cotidiano — el trabajo honesto, la bondad sin fanfarrias — es una forma profunda de adoración.',pregunta:'¿En qué área de tu vida estás tentado a cansarte de hacer el bien — en el trabajo, en casa, en tu servicio? ¿Qué te sostiene cuando el entusiasmo decae?',oracion:'Señor, que no me canse de hacer el bien aunque no vea resultados inmediatos. Tú ves lo que nadie ve y recompensas lo que nadie aplaude. Eso es suficiente. Amén.'},
+  {id:'timoteo1',name:'1 Timoteo',emoji:'🏛️',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–6 · Liderazgo en la Iglesia',autor:'Pablo',fecha:'62 d.C.',capitulos:'6',audiencia:'Timoteo / Iglesia en Éfeso',tema:'Pablo escribe a su "hijo en la fe" sobre cómo guiar la iglesia: cómo nombrar líderes, manejar la adoración, confrontar falsas enseñanzas y cuidar de los vulnerables. Un manual pastoral atemporal.',jesus:'"Hay un solo Dios, y un solo mediador entre Dios y los hombres, Jesucristo hombre" (1 Tim 2:5). En un mundo con muchos dioses y caminos, Pablo es radical: hay un solo mediador.',sabias:'Timoteo era joven, tímido y propenso a enfermedades cuando Pablo lo dejó a cargo de Éfeso. "Que nadie te menosprecie por ser joven" (1 Tim 4:12) sugiere que el problema era real. Dios usa a los que el mundo descarta.',versiculo:'"Que nadie te menosprecie por ser joven; sé ejemplo en palabra, conducta, amor, espíritu, fe y pureza."',versiculoRef:'1 Timoteo 4:12',reflexion:'Pablo le dice a Timoteo que nadie lo menosprecie por ser joven. Lo que importa no es la edad — es el ejemplo. La influencia cristiana se gana con carácter, no con credenciales.',pregunta:'¿Qué tipo de ejemplo eres en tu esfera de influencia — en familia, trabajo, amistad? ¿Hay algo que quisieras cambiar en eso?',oracion:'Señor, que mi vida sea un ejemplo que apunte a ti — no por perfección, sino por dirección. Que quienes me rodean vean a Jesús en cómo vivo. Amén.'},
+  {id:'timoteo2',name:'2 Timoteo',emoji:'🏁',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–4 · La Última Carta de Pablo',autor:'Pablo',fecha:'67 d.C.',capitulos:'4',audiencia:'Timoteo',tema:'La última carta de Pablo, escrita antes de su ejecución. Un testamento espiritual a Timoteo: sé fiel, predica la Palabra, no te avergüences del evangelio, termina bien tu carrera.',jesus:'"He peleado la buena batalla, he acabado la carrera, he guardado la fe" (2 Tim 4:7). Pablo puede decir esto porque sabe que la corona lo espera — dada por el Señor justo.',sabias:'Entre 1 y 2 Timoteo, Pablo fue liberado y viajó nuevamente. Luego fue arrestado bajo Nerón — esta vez en una celda real, sabiendo que lo ejecutarían. Escribió 2 Timoteo desde ese lugar, con paz extraordinaria.',versiculo:'"He peleado la buena batalla, he acabado la carrera, he guardado la fe."',versiculoRef:'2 Timoteo 4:7',reflexion:'Pablo escribió su última carta con paz, no con pánico. El secreto: había vivido con propósito y fidelidad, y ahora podía decir \'terminé la carrera\'. La pregunta no es cómo empiezas — es cómo terminas.',pregunta:'Si escribieras tu carta final hoy, ¿cuál sería tu \'he guardado la fe\' — el área donde has sido más fiel? ¿Y cuál sería lo que aún querías mejorar?',oracion:'Señor, ayúdame a vivir de tal forma que al final pueda decir: \'pelee la buena batalla, guardé la fe.\' Que cada día cuente para esa carrera. Amén.'},
+  {id:'tito',name:'Tito',emoji:'🌴',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1–3 · Iglesia en Creta',autor:'Pablo',fecha:'63 d.C.',capitulos:'3',audiencia:'Tito / Iglesias en Creta',tema:'Pablo dejó a Tito en Creta para organizar las iglesias. Le da instrucciones sobre ancianos, cómo enseñar a distintos grupos, y cómo vivir en una cultura difícil. La gracia de Dios enseña a vivir con sobriedad y justicia.',jesus:'"La gracia de Dios se ha manifestado para salvación a todos los hombres, enseñándonos... a vivir sobria, justa y piadosamente" (Tito 2:11-12). La gracia no da licencia para pecar — enseña a no pecar.',sabias:'Creta era conocida por la deshonestidad de sus habitantes. Pablo cita a un poeta cretense que describe a su propio pueblo como "siempre mentirosos, malas bestias, glotones ociosos" (Tito 1:12). El evangelio puede transformar la cultura más difícil.',versiculo:'"La gracia de Dios se ha manifestado para salvación a todos los hombres."',versiculoRef:'Tito 2:11',reflexion:'Tito 2:11-12 dice que la gracia de Dios \'enseña\'. No es solo perdón — es formación. La gracia no nos deja como estamos; nos lleva hacia una vida de sobriedad, justicia y piedad.',pregunta:'¿Cómo te está \'enseñando\' la gracia de Dios en este momento — qué está transformando en ti, qué está corrigiendo?',oracion:'Señor, que tu gracia no sea solo el punto de partida de mi fe sino el maestro constante de mi vida. Que me forme, no solo me perdone. Amén.'},
+  {id:'filemon',name:'Filemón',emoji:'🤝',testament:'nt',section:'cartas-pablo',sectionLabel:'Cartas de Pablo',badgeClass:'badge-cartas-pablo',subtema:'1 capítulo · El Esclavo Libre',autor:'Pablo',fecha:'61 d.C.',capitulos:'1',audiencia:'Filemón',tema:'La carta más corta de Pablo — 25 versículos. Onésimo, un esclavo que huyó de Filemón y robó algo, se convirtió al evangelio junto a Pablo en la prisión. Pablo intercede para que Filemón lo reciba "no como esclavo, sino como hermano amado".',jesus:'Pablo planta una semilla explosiva: que un amo y su esclavo son ahora hermanos en Cristo. Esa lógica del evangelio fue la que siglos después desmanteló la esclavitud en el mundo occidental.',sabias:'Filemón es la única carta completamente privada de Pablo conservada en el canon. Todos los demás destinatarios son iglesias o líderes ministeriales. Esto sugiere que la iglesia primitiva la consideró de importancia universal.',versiculo:'"Ya no como esclavo, sino como más que esclavo, como hermano amado."',versiculoRef:'Filemón 1:16',reflexion:'Filemón es el evangelio en miniatura: un esclavo se convierte en hermano. La fe en Cristo no puede coexistir con la jerarquía deshumanizante. El evangelio tiene implicaciones sociales radicales.',pregunta:'¿Hay alguien en tu vida a quien tratas más como \'esclavo\' que como \'hermano\' — subordinado, empleado, familiar? ¿Cómo cambiaría esa relación si aplicaras Filemón 16?',oracion:'Señor, que las etiquetas que el mundo usa — empleado, subordinado, rival — no determinen cómo trato a las personas. En Cristo todos son hermanos. Amén.'},
+
+  // CARTAS GENERALES
+  {id:'hebreos',name:'Hebreos',emoji:'🌅',testament:'nt',section:'cartas-generales',sectionLabel:'Cartas Generales',badgeClass:'badge-cartas-generales',subtema:'1–13 · Cristo es Superior a Todo',autor:'Desconocido',fecha:'60–70 d.C.',capitulos:'13',audiencia:'Creyentes judíos',tema:'Escrito para judíos tentados a regresar al judaísmo, Hebreos demuestra que Jesús supera todo: ángeles, Moisés, el sacerdocio levítico y el sistema de sacrificios. El capítulo 11 — la galería de la fe — es uno de los más amados del NT.',jesus:'Hebreos 4:15 es uno de los versículos más consoladores del NT: "No tenemos sumo sacerdote que no pueda compadecerse de nuestras debilidades, sino uno que fue tentado en todo, pero sin pecado." Jesús conoce todo lo que vivimos.',sabias:'El autor de Hebreos es desconocido — la iglesia primitiva debatió si fue Pablo, Apolo, Priscila, Bernabé o Lucas. Lo que sí es seguro: es el texto griego más literario y elegante de todo el NT.',versiculo:'"Corramos con paciencia la carrera, puestos los ojos en Jesús, el autor y consumador de la fe."',versiculoRef:'Hebreos 12:1-2',reflexion:'Hebreos 12:1-2 — \'Corramos con paciencia la carrera\' — implica que la fe cristiana es un maratón, no un sprint. Hay que soltar el \'peso\' que frena — no solo el pecado, sino todo lo que distrae del objetivo.',pregunta:'¿Qué \'peso\' — no necesariamente pecado, sino distracción, preocupación, ocupación — necesitas soltar para correr más libre?',oracion:'Señor Jesús, autor y perfeccionador de mi fe: ayúdame a correr mi carrera con paciencia. Señálame lo que frena y dame gracia para soltarlo. Los ojos fijos en ti. Amén.'},
+  {id:'santiago',name:'Santiago',emoji:'⚒️',testament:'nt',section:'cartas-generales',sectionLabel:'Cartas Generales',badgeClass:'badge-cartas-generales',subtema:'1–5 · Fe que Actúa',autor:'Santiago (hermano de Jesús)',fecha:'45–50 d.C.',capitulos:'5',audiencia:'Judíos creyentes dispersos',tema:'El libro más práctico del NT. Santiago escribe sobre la fe que se ve: control de la lengua, ayuda a los pobres, sabiduría, paciencia en el sufrimiento. "La fe sin obras es muerta."',jesus:'Santiago fue escéptico sobre Jesús durante su ministerio. Pero después de la resurrección — Jesús se le apareció específicamente (1 Cor 15:7) — se convirtió en uno de los pilares de la iglesia. Su hermano resucitado lo transformó.',sabias:'Santiago era conocido por su vida de oración tan intensa que la tradición dice que tenía las rodillas encallecidas "como las de un camello". Fue martirizado en el 62 d.C., arrojado desde la cima del Templo.',versiculo:'"Si alguno tiene falta de sabiduría, pídala a Dios, el cual da a todos abundantemente."',versiculoRef:'Santiago 1:5',reflexion:'Santiago nos dice que la fe sin obras está muerta. Pero también que la sabiduría sin piedad es estéril. No es que las obras nos salven — es que la salvación genuina produce transformación visible.',pregunta:'¿Hay algo que crees con la cabeza pero que aún no se ha traducido en una acción concreta de tu parte?',oracion:'Señor, que mi fe no se quede en conceptos. Que lo que creo se vea en cómo vivo, en cómo trato a otros, en cómo uso mis recursos. Fe viva, no muerta. Amén.'},
+  {id:'pedro1',name:'1 Pedro',emoji:'⚓',testament:'nt',section:'cartas-generales',sectionLabel:'Cartas Generales',badgeClass:'badge-cartas-generales',subtema:'1–5 · Esperanza en el Sufrimiento',autor:'Pedro (apóstol)',fecha:'64 d.C.',capitulos:'5',audiencia:'Creyentes dispersos en Asia Menor',tema:'Escrita a creyentes bajo persecución. Pedro los llama "extranjeros y peregrinos" en este mundo y los anima a vivir con esperanza, a honrar autoridades incluso siendo oprimidos, y a sufrir como Cristo sufrió.',jesus:'"Quien llevó él mismo nuestros pecados en su cuerpo sobre el madero... por cuya herida fuisteis sanados" (1 Pedro 2:24). Pedro, quien negó a Cristo, ahora predica a Cristo crucificado. Solo la resurrección puede explicar ese cambio.',sabias:'Pedro escribe esta carta desde "Babilonia" — casi seguramente un código para Roma. Fue crucificado bajo Nerón pero pidió que lo crucificaran cabeza abajo porque no se sentía digno de morir como su Señor.',versiculo:'"Echad toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros."',versiculoRef:'1 Pedro 5:7',reflexion:'Pedro escribe a personas que sufrían por su fe. No les dice que eviten el sufrimiento — les dice cómo vivirlo con dignidad: confiando al Padre, siguiendo el ejemplo de Cristo, esperando con paciencia.',pregunta:'¿Cómo estás respondiendo al sufrimiento o la dificultad que enfrentas en este momento — con amargura, resignación o confianza activa?',oracion:'Señor, cuando llega el sufrimiento, que mi respuesta refleje tu carácter. No quiero amargarme — quiero crecer. Llévame a través de esto, no me quites lo que me está formando. Amén.'},
+  {id:'pedro2',name:'2 Pedro',emoji:'⚠️',testament:'nt',section:'cartas-generales',sectionLabel:'Cartas Generales',badgeClass:'badge-cartas-generales',subtema:'1–3 · Contra los Falsos Maestros',autor:'Pedro (apóstol)',fecha:'67 d.C.',capitulos:'3',audiencia:'Creyentes en Asia Menor',tema:'La última carta de Pedro antes de su martirio. Advierte sobre falsos maestros, sobre burladores del regreso de Cristo, y anima a crecer en la gracia y el conocimiento de Jesús.',jesus:'"El Señor no retarda su promesa... es paciente, no queriendo que ninguno perezca" (2 Pedro 3:9). La "tardanza" de Jesús es gracia — tiempo para que más personas puedan creer.',sabias:'2 Pedro 1:16-18 contiene el testimonio de primera mano de Pedro sobre la Transfiguración: "Fuimos testigos oculares de su majestad." Pedro estaba allí. Su carta no es teología abstracta — es el relato de alguien que lo vivió.',versiculo:'"Creced en la gracia y en el conocimiento de nuestro Señor y Salvador Jesucristo."',versiculoRef:'2 Pedro 3:18',reflexion:'Pedro anima a \'crecer en gracia y conocimiento\' — no como fin en sí mismos, sino como protección contra los errores que llevan a caer. El creyente que no crece se vuelve vulnerable. El crecimiento es protección.',pregunta:'¿En qué estás creciendo espiritualmente ahora mismo? ¿Hay una disciplina, una práctica, una comunidad que te está ayudando a avanzar?',oracion:'Señor, que nunca me estanque. Que la comodidad no reemplace el crecimiento. Guíame siempre hacia más profundidad contigo. Amén.'},
+  {id:'juan1',name:'1 Juan',emoji:'❤️',testament:'nt',section:'cartas-generales',sectionLabel:'Cartas Generales',badgeClass:'badge-cartas-generales',subtema:'1–5 · Conocer a Dios es Amar',autor:'Juan (apóstol)',fecha:'90 d.C.',capitulos:'5',audiencia:'Iglesias en Asia Menor',tema:'Juan escribe para asegurar a los creyentes que tienen vida eterna, y para combatir a quienes negaban que Jesús había venido en carne. El mensaje: Dios es luz, Dios es amor, y quienes conocen a Dios aman a sus hermanos.',jesus:'"En esto se manifestó el amor de Dios: en que Dios envió a su Hijo unigénito al mundo para que vivamos por él" (1 Juan 4:9). Juan vio morir a Jesús. Sesenta años después, sigue maravillado por ese mismo amor.',sabias:'Juan es el único apóstol de los doce que no murió mártir. Sobrevivió a todos — según la tradición fue hervido en aceite y salió ileso — y murió de anciano en Éfeso. Su larga vida lo convirtió en el último testigo ocular de Jesús.',versiculo:'"Dios es amor; y el que permanece en amor permanece en Dios, y Dios en él."',versiculoRef:'1 Juan 4:16',reflexion:'1 Juan nos da tres pruebas de que conocemos a Dios: guardar sus mandamientos, amar a los hermanos y creer que Jesús vino en carne. No son condiciones para ser amado — son evidencias de que el amor de Dios está obrando en nosotros.',pregunta:'¿Cuál de las tres pruebas — obediencia, amor a los hermanos, fe en Cristo — es más débil en tu vida ahora mismo?',oracion:'Señor, que conocerte no sea solo información sino transformación. Que sea evidente en cómo vivo, en cómo amo y en lo que creo. Amén.'},
+  {id:'juan2',name:'2 Juan',emoji:'📮',testament:'nt',section:'cartas-generales',sectionLabel:'Cartas Generales',badgeClass:'badge-cartas-generales',subtema:'1 capítulo · Camina en la Verdad',autor:'Juan (apóstol)',fecha:'90 d.C.',capitulos:'1',audiencia:'Una iglesia / "señora elegida"',tema:'13 versículos — la carta más corta del NT. Juan anima a caminar en el amor y la verdad, y advierte que no se debe recibir a quienes predican un evangelio diferente.',jesus:'El mandamiento central es el mismo que resume todo el NT: "Que os améis unos a otros" (2 Juan 5). Pero este amor no es ingenuo — va acompañado de discernimiento doctrinal.',sabias:'2 Juan era tan breve que cabía en una sola hoja de papiro — el tamaño estándar de una carta en el primer siglo. Es posible que haya sido literalmente entregada a mano por un mensajero.',versiculo:'"Este es el mandamiento: que andéis en amor, como también él nos amó."',versiculoRef:'2 Juan 1:6',reflexion:'La carta más corta del NT tiene un mensaje enorme: caminar en amor y en verdad, juntos, sin separar los dos. Un amor sin verdad es sentimentalismo; una verdad sin amor es brutalidad. Cristo es las dos cosas.',pregunta:'¿Hay alguna relación donde estás siendo verdadero pero sin amor, o amoroso pero sin la verdad que la persona necesita?',oracion:'Señor, enséñame a hablar la verdad en amor — sin elegir uno sobre el otro. Que en mis relaciones más cercanas haya las dos cosas juntas. Amén.'},
+  {id:'juan3',name:'3 Juan',emoji:'🚶',testament:'nt',section:'cartas-generales',sectionLabel:'Cartas Generales',badgeClass:'badge-cartas-generales',subtema:'1 capítulo · Hospitalidad y Fidelidad',autor:'Juan (apóstol)',fecha:'90 d.C.',capitulos:'1',audiencia:'Gayo',tema:'Carta personal a Gayo, un fiel creyente que hospedaba a los misioneros itinerantes. Contrasta con Diótrefes, líder orgulloso que los rechazaba. La hospitalidad con los siervos de Dios es colaborar con el evangelio.',jesus:'Juan elogia a Gayo porque camina en la verdad y su hospitalidad apoya el avance del evangelio. Hacer el bien a los siervos de Cristo es como hacérselo a Cristo mismo (Mateo 25:40).',sabias:'3 Juan es la carta más corta en palabras de toda la Biblia. Diótrefes — "al que le gusta ser el primero" — es una de las pocas descripciones negativas de un líder cristiano nominado en el NT.',versiculo:'"No hay mayor gozo que este: oír que mis hijos andan en la verdad."',versiculoRef:'3 Juan 1:4',reflexion:'Gayo es elogiado por algo sencillo: hospitalidad. Abrió su casa a personas que no conocía para hacer avanzar el evangelio. A veces el mayor acto de fe es la silla extra en tu mesa.',pregunta:'¿A quién podrías \'hospedar\' esta semana — físicamente, emocionalmente, espiritualmente — de una manera que le comunique que pertenece?',oracion:'Señor, haz de mi hogar y de mi vida un lugar donde otros encuentren calidez y encuentren a Cristo. Que la hospitalidad sea una forma de evangelio en mi entorno. Amén.'},
+  {id:'judas',name:'Judas',emoji:'🛡️',testament:'nt',section:'cartas-generales',sectionLabel:'Cartas Generales',badgeClass:'badge-cartas-generales',subtema:'1 capítulo · Contended por la Fe',autor:'Judas (hermano de Jesús)',fecha:'65 d.C.',capitulos:'1',audiencia:'Creyentes en general',tema:'Una carta urgente. Judas quería escribir sobre la salvación común, pero fue urgido a advertir sobre falsos maestros que convirtieron la gracia en libertinaje. Llama a los creyentes a defender ardientemente la fe.',jesus:'Judas termina con una doxología extraordinaria: "A aquel que es poderoso para guardaros sin caída... al único y sabio Dios nuestro Salvador, sea gloria." Jesús es quien nos guarda en pie.',sabias:'Judas cita dos libros no canónicos: el libro de Enoc y la Asunción de Moisés. Esto fue debatido durante siglos. Los Padres decidieron que citar un libro no significa que todo él sea inspirado.',versiculo:'"A aquel que es poderoso para guardaros sin caída y presentaros sin mancha ante su gloria."',versiculoRef:'Judas 1:24',reflexion:'Judas llama a \'contender ardientemente por la fe\' — no agresivamente contra las personas, sino fielmente por la verdad del evangelio. En una época de relativismo, la convicción es un acto de amor.',pregunta:'¿Estás dispuesto a defender lo que crees, con amor y firmeza, cuando se le contradice? ¿O tiendes a ceder para no generar conflicto?',oracion:'Señor, dame columna vertebral para sostener lo que creo, y corazón compasivo para defender la verdad sin destruir a las personas. Amén.'},
+
+  // PROFECÍA
+  {id:'apocalipsis',name:'Apocalipsis',emoji:'🌈',testament:'nt',section:'profecia',sectionLabel:'Profecía',badgeClass:'badge-profecia',subtema:'1–22 · El Triunfo Final',autor:'Juan (apóstol)',fecha:'95 d.C.',capitulos:'22',audiencia:'Las 7 iglesias de Asia',tema:'El último libro de la Biblia. Juan, exiliado en Patmos, recibe visiones del Cristo glorificado, cartas a 7 iglesias, el juicio de las naciones y el triunfo del Cordero. Termina con la Nueva Creación: un cielo nuevo y una tierra nueva donde Dios morará con su pueblo.',jesus:'"Yo soy el Alfa y la Omega, el primero y el último, el principio y el fin" (Ap 22:13). El mismo Jesús que nació en un pesebre es el Rey de Reyes que regresa. La Biblia termina donde empezó: Dios con Su pueblo.',sabias:'Apocalipsis contiene más de 500 alusiones al AT, especialmente a Daniel, Ezequiel, Isaías y Zacarías. Para entender Apocalipsis hay que conocer el AT. Es el gran final donde todas las promesas encuentran su cumplimiento.',versiculo:'"He aquí, yo vengo pronto. Yo soy el Alfa y la Omega, el principio y el fin."',versiculoRef:'Apocalipsis 22:12-13',reflexion:'Apocalipsis termina con una invitación, no con un juicio: \'El Espíritu y la Esposa dicen: Ven.\' La Biblia no cierra con condena — cierra con una puerta abierta. El último llamado de la Escritura es de misericordia.',pregunta:'Sabiendo que la historia termina con Cristo victorioso y con una nueva creación, ¿cómo cambia tu perspectiva de lo que estás viviendo ahora mismo?',oracion:'Señor Jesús, ven pronto. Y mientras espero, ayúdame a vivir como ciudadano de ese Reino que ya viene — con esperanza, con amor y sin miedo. Amén.'}
+];
+
+const SECTIONS = [
+  {id:'pentateuco',label:'Pentateuco',badge:'badge-pentateuco',banner:'card-banner-penta'},
+  {id:'historia',label:'Historia',badge:'badge-historia',banner:'card-banner-historia'},
+  {id:'sabiduria',label:'Sabiduría y Poesía',badge:'badge-sabiduria',banner:'card-banner-sabiduria'},
+  {id:'profetas-mayores',label:'Profetas Mayores',badge:'badge-profetas-mayores',banner:'card-banner-pm'},
+  {id:'profetas-menores',label:'Profetas Menores',badge:'badge-profetas-menores',banner:'card-banner-pmen'},
+  {id:'evangelios',label:'Evangelios',badge:'badge-evangelios',banner:'card-banner-evangelios'},
+  {id:'historia-nt',label:'Historia NT',badge:'badge-historia-nt',banner:'card-banner-hnt'},
+  {id:'cartas-pablo',label:'Cartas de Pablo',badge:'badge-cartas-pablo',banner:'card-banner-pablo'},
+  {id:'cartas-generales',label:'Cartas Generales',badge:'badge-cartas-generales',banner:'card-banner-generales'},
+  {id:'profecia',label:'Profecía',badge:'badge-profecia',banner:'card-banner-profecia'}
+];
+
+let readBooks = JSON.parse(localStorage.getItem('yeshua_read_books')||'[]');
+let currentFilter = 'todos';
+let currentSearch = '';
+let currentBookId = null;
+
+function render(){
+  const list = document.getElementById('bookList');
+  list.innerHTML = '';
+
+  const filtered = BOOKS.filter(b=>{
+    const q = currentSearch.toLowerCase();
+    if(q && !b.name.toLowerCase().includes(q) && !b.tema.toLowerCase().includes(q)) return false;
+    if(currentFilter==='at') return b.testament==='at';
+    if(currentFilter==='nt') return b.testament==='nt';
+    if(currentFilter==='leidos') return readBooks.includes(b.id);
+    return true;
+  });
+
+  if(!filtered.length){
+    list.innerHTML=`<div class="empty-state"><div class="emoji">📖</div><p>No se encontraron libros.<br>Intenta con otro término.</p></div>`;
+    return;
+  }
+
+  SECTIONS.forEach(sec=>{
+    const books = filtered.filter(b=>b.section===sec.id);
+    if(!books.length) return;
+
+    const hdr = document.createElement('div');
+    hdr.className = 'section-header';
+    hdr.innerHTML = `<span class="section-badge ${sec.badge}">${sec.label}</span><div class="section-line"></div><span class="section-count">${books.length}</span>`;
+    list.appendChild(hdr);
+
+    const grid = document.createElement('div');
+    grid.className = 'book-grid';
+    books.forEach(b=>{
+      const isRead = readBooks.includes(b.id);
+      const card = document.createElement('div');
+      card.className = `book-card${isRead?' read':''}`;
+      card.onclick = ()=>openModal(b.id);
+      card.innerHTML = `
+        <div class="card-banner ${sec.banner}">${b.emoji}</div>
+        <div class="card-body">
+          <div class="book-name">${b.name}</div>
+          <div class="book-theme">${b.subtema}</div>
+          <div class="book-meta">
+            <span class="meta-pill">📖 ${b.capitulos} cap.</span>
+            <span class="meta-pill">✍️ ${b.autor.split(' ')[0]}</span>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+    list.appendChild(grid);
+  });
+  updateProgress();
+}
+
+function updateProgress(){
+  const n = readBooks.length;
+  document.getElementById('progressText').textContent = `${n} de 66 libros explorados`;
+  document.getElementById('progressFill').style.width = `${(n/66)*100}%`;
+}
+
+function setFilter(f, el){
+  currentFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function filterBooks(){
+  currentSearch = document.getElementById('searchInput').value;
+  render();
+}
+
+function openModal(id){
+  const b = BOOKS.find(x=>x.id===id);
+  if(!b) return;
+  currentBookId = id;
+
+  // hero band color
+  const band = document.getElementById('mHeroBand');
+  band.style.background = HERO_GRAD[b.section] || '#4A7C59';
+
+  document.getElementById('mEmoji').textContent = b.emoji;
+  document.getElementById('mTitle').textContent = b.name;
+  document.getElementById('mSubtitle').textContent = b.subtema;
+  document.getElementById('mBadge').textContent = b.sectionLabel;
+
+  document.getElementById('mFacts').innerHTML = `
+    <div class="fact-item"><div class="fact-label">Autor</div><div class="fact-value">${b.autor}</div></div>
+    <div class="fact-item"><div class="fact-label">Fecha</div><div class="fact-value">${b.fecha}</div></div>
+    <div class="fact-item"><div class="fact-label">Capítulos</div><div class="fact-value">${b.capitulos}</div></div>
+    <div class="fact-item"><div class="fact-label">Escrito para</div><div class="fact-value">${b.audiencia}</div></div>`;
+
+  document.getElementById('mTheme').textContent    = b.tema;
+  document.getElementById('mJesus').textContent    = b.jesus;
+  document.getElementById('mSabias').textContent   = b.sabias;
+  document.getElementById('mVerse').textContent    = b.versiculo;
+  document.getElementById('mVerseRef').textContent = b.versiculoRef;
+
+  // Devocional
+  document.getElementById('mReflexion').textContent = b.reflexion || '';
+  document.getElementById('mPregunta').textContent  = b.pregunta  || '';
+  document.getElementById('mOracion').textContent   = b.oracion   || '';
+
+  const isRead = readBooks.includes(id);
+  const btn = document.getElementById('mBtn');
+  btn.textContent = isRead ? '✓ Marcado como explorado' : 'Marcar como explorado';
+  btn.className   = isRead ? 'read-btn done' : 'read-btn';
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('modal').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function toggleRead(){
+  if(!currentBookId) return;
+  const idx = readBooks.indexOf(currentBookId);
+  idx===-1 ? readBooks.push(currentBookId) : readBooks.splice(idx,1);
+  localStorage.setItem('yeshua_read_books', JSON.stringify(readBooks));
+  render();
+  const isRead = readBooks.includes(currentBookId);
+  const btn = document.getElementById('mBtn');
+  btn.textContent = isRead ? '✓ Marcado como explorado' : 'Marcar como explorado';
+  btn.className   = isRead ? 'read-btn done' : 'read-btn';
+}
+
+render();
+setTimeout(()=>{ document.getElementById('progressFill').style.width=`${(readBooks.length/66)*100}%`; },100);
+</script>
+</body>
+</html>
